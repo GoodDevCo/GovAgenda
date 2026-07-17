@@ -34,6 +34,7 @@
   .trow1{display:flex; align-items:center; gap:9px; flex-wrap:wrap;}
   .ttitle{font-weight:700; font-size:16px; margin:0;}
   .cat{font-size:11px; font-weight:700; color:var(--slate); background:var(--slate-soft); border-radius:5px; padding:2px 7px;}
+  .doctype{font-size:11px; font-weight:700; color:#6d3bd1; background:#efe8fc; border-radius:5px; padding:2px 8px; text-transform:uppercase; letter-spacing:.03em;}
   .status{font-size:11px; font-weight:700; border-radius:5px; padding:2px 8px; text-transform:uppercase; letter-spacing:.03em;}
   .s-teal{background:var(--teal-soft); color:var(--teal);}
   .s-amber{background:var(--amber-soft); color:var(--amber);}
@@ -191,7 +192,9 @@
     },
     {
       "id": "ord-26-03-lot-splits",
-      "title": "Ord. 26-03 — Subdivisions, Lot Splits & Flag Lots",
+      "title": "Subdivisions, Lot Splits & Flag Lots",
+      "docType": "Ordinance",
+      "docNum": "26-03",
       "category": "Land Use / Zoning",
       "status": "Pending 2nd reading",
       "statusClass": "s-amber",
@@ -221,7 +224,9 @@
     },
     {
       "id": "ord-26-05-fire-assessment",
-      "title": "Ord. 26-05 — Fire Rescue Assessment",
+      "title": "Fire Rescue Assessment",
+      "docType": "Ordinance",
+      "docNum": "26-05",
       "category": "Public Safety",
       "status": "First reading",
       "statusClass": "s-amber",
@@ -242,7 +247,9 @@
     },
     {
       "id": "res-26-06-purchasing",
-      "title": "Res. 26-06 — Updated Purchasing Policy",
+      "title": "Updated Purchasing Policy",
+      "docType": "Resolution",
+      "docNum": "26-06",
       "category": "Governance",
       "status": "On agenda",
       "statusClass": "s-amber",
@@ -263,7 +270,9 @@
     },
     {
       "id": "ord-26-02-water-supply",
-      "title": "Ord. 26-02 — Water Supply Facilities Work Plan",
+      "title": "Water Supply Facilities Work Plan",
+      "docType": "Ordinance",
+      "docNum": "26-02",
       "category": "Infrastructure",
       "status": "Adopted",
       "statusClass": "s-teal",
@@ -496,6 +505,7 @@
         + '<button class="pinbtn" data-role="pin" title="Pin to top">' + (pinned ? '★' : '☆') + '</button>'
         + '<div class="tmain">'
           + '<div class="trow1"><p class="ttitle">' + txt(t.title) + '</p>'
+            + (t.docType ? '<span class="doctype">' + txt(t.docType + (t.docNum ? ' ' + t.docNum : '')) + '</span>' : '')
             + '<span class="status ' + esc(t.statusClass) + '">' + txt(t.status) + '</span>'
             + '<span class="cat">' + txt(t.category) + '</span></div>'
           + '<p class="tsummary">' + txt(t.summary) + '</p>'
@@ -514,7 +524,7 @@
     var list = topics.filter(function(t){
       if(cat && t.category !== cat) return false;
       if(!q) return true;
-      var hay = (t.title + ' ' + t.summary + ' ' + t.category + ' ' + JSON.stringify(t.timeline)).toLowerCase();
+      var hay = (t.title + ' ' + (t.docType||'') + ' ' + (t.docNum||'') + ' ' + t.summary + ' ' + t.category + ' ' + JSON.stringify(t.timeline)).toLowerCase();
       return hay.indexOf(q) !== -1;
     });
     list = sortTopics(list);
