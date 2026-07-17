@@ -48,6 +48,9 @@ The schema is documented by example in the file itself:
 
 - `topics[]` — each has `id`, `title`, `category`, `status`, `statusClass`
   (`s-teal` / `s-amber` / `s-slate`), `summary`, `updated`, and a `timeline[]`.
+  - Optional `docType` (`Ordinance` / `Resolution`) and `docNum` (e.g. `26-05`) render as a
+    distinct badge next to the status/category badges. Put the plain subject in `title`
+    (e.g. `"Fire Rescue Assessment"`), not `"Ord. 26-05 — Fire Rescue Assessment"`.
 - `timeline[]` — each event has `date` (ISO, for sorting), `dateLabel`, `meeting`, `event`,
   `detail`, `remarks[]` (`{who, role, text}`), and `links[]` (`{label, url}`).
 - `weeks[]` — the weekly roll-up shown under the "This week" tab.
