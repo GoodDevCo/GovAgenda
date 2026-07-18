@@ -2,9 +2,10 @@
  * GovAgenda community backend — Cloudflare Worker + D1.
  *
  * Endpoints (all JSON):
- *   GET  /api/board            -> { votes: { <itemId>: <count>, ... } }
+ *   GET  /api/board            -> { votes: {id:count}, statuses: {id:status} }
  *   POST /api/vote   {id,voter} -> { id, votes, voted }   (toggles the voter's vote)
  *   POST /api/suggest {title,desc,voter} -> { ok: true }   (queues a new idea for review)
+ *   POST /api/admin/status {id,status,key} -> { ok, id, status }  (admin only; key === env.ADMIN_KEY)
  *
  * Votes are deduped per (item, voter); "voter" is an anonymous id the browser
  * generates and stores locally — no login required. Item titles/descriptions/statuses
@@ -41,7 +42,10 @@ export default {
         ).all();
         const votes = {};
         (rows.results || []).forEach((r) => { votes[r.item_id] = r.votes; });
-        return json({ votes }, headers);
+        const srows = await env.DB.prepare('SELECT item_id, status FROM item_statuses').all();
+        const statuses = {};
+        (srows.results || []).forEach((r) => { statuses[r.item_id] = r.status; });
+        return json({ votes, statuses }, headers);
       }
 
       if (url.pathname === '/api/vote' && req.method === 'POST') {
@@ -71,6 +75,21 @@ export default {
           'INSERT INTO suggestions(title,descr,voter,ts,status) VALUES(?,?,?,?,?)'
         ).bind(title, clean(body.desc, 1000), clean(body.voter, 64), Date.now(), 'pending').run();
         return json({ ok: true }, headers);
+      }
+
+      if (url.pathname === '/api/admin/status' && req.method === 'POST') {
+        const body = await req.json().catch(() => ({}));
+        if (!env.ADMIN_KEY || clean(body.key, 200) !== env.ADMIN_KEY) {
+          return json({ error: 'unauthorized' }, headers, 401);
+        }
+        const id = clean(body.id, 64);
+        const status = clean(body.status, 32);
+        const allowed = ['idea', 'investigating', 'developing', 'deploying', 'completed'];
+        if (!id || allowed.indexOf(status) === -1) return json({ error: 'bad request' }, headers, 400);
+        await env.DB.prepare(
+          'INSERT INTO item_statuses(item_id,status,updated) VALUES(?,?,?) ON CONFLICT(item_id) DO UPDATE SET status=excluded.status, updated=excluded.updated'
+        ).bind(id, status, Date.now()).run();
+        return json({ ok: true, id, status }, headers);
       }
 
       return json({ error: 'not found' }, headers, 404);

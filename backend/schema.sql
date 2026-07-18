@@ -16,3 +16,11 @@ CREATE TABLE IF NOT EXISTS suggestions (
   ts     INTEGER NOT NULL,
   status TEXT NOT NULL DEFAULT 'pending'
 );
+
+-- Admin-set status overrides for board items (idea/investigating/developing/deploying/completed).
+-- The site overlays these on top of data/community.json so status can change without a redeploy.
+CREATE TABLE IF NOT EXISTS item_statuses (
+  item_id TEXT PRIMARY KEY,
+  status  TEXT NOT NULL,
+  updated INTEGER NOT NULL
+);
