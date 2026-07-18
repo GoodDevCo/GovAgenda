@@ -34,9 +34,18 @@ if (!tpl.includes('__ARCHIVE_JSON__')) {
 // Inline the logo as a data URI so the page stays a single self-contained file.
 const logoUri = 'data:image/png;base64,' + readFileSync('assets/govagenda-logo.png').toString('base64');
 
+// Community feedback board data.
+const communityRaw = readFileSync('data/community.json', 'utf8');
+try { JSON.parse(communityRaw); } catch (e) {
+  console.error('ERROR: data/community.json is not valid JSON:', e.message);
+  process.exit(1);
+}
+const safeCommunity = communityRaw.replace(/<\/script>/gi, '<\\/script>');
+
 const html = tpl
   .replace('__ARCHIVE_JSON__', () => safeJson)
-  .replace('__LOGO_DATA_URI__', () => logoUri);
+  .replace('__LOGO_DATA_URI__', () => logoUri)
+  .replace('__COMMUNITY_JSON__', () => safeCommunity);
 
 mkdirSync(OUT_DIR, { recursive: true });
 writeFileSync(OUT_PATH, html);

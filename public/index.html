@@ -88,6 +88,35 @@
 
   footer.foot{margin-top:30px; padding-top:16px; border-top:1px solid var(--line); font-size:11.5px; color:var(--muted);}
   .pill-legend{display:inline-block;}
+
+  /* Community view */
+  .chelp{font-size:14px; color:#2c3a35; margin:2px 0 12px;}
+  .pipeline{display:flex; gap:6px; align-items:center; flex-wrap:wrap; margin:0 0 16px;}
+  .pipeline .status{font-size:10.5px;}
+  .pipeline .arw{color:var(--muted); font-size:12px;}
+  .c-idea{background:var(--slate-soft); color:var(--slate);}
+  .c-invest{background:var(--amber-soft); color:var(--amber);}
+  .c-dev{background:var(--navy-soft); color:var(--navy);}
+  .c-deploy{background:#e7f0fa; color:#1d6fb8;}
+  .c-done{background:var(--teal-soft); color:var(--teal);}
+  .suggest{display:inline-flex; align-items:center; gap:7px; background:var(--red); color:#fff; border:none; border-bottom:none; border-radius:10px; padding:10px 16px; font-size:14px; font-weight:700; cursor:pointer; text-decoration:none;}
+  .suggest:hover{background:#b3181f; border-bottom:none; color:#fff;}
+  .cfilters{display:flex; gap:6px; flex-wrap:wrap; margin:16px 0 12px;}
+  .cchip{border:1px solid var(--line); background:#fff; border-radius:20px; padding:5px 11px; font-size:12.5px; font-weight:650; color:var(--slate); cursor:pointer;}
+  .cchip.active{background:var(--navy); color:#fff; border-color:var(--navy);}
+  .idea{display:flex; gap:12px; align-items:flex-start; background:var(--card); border:1px solid var(--line); border-radius:13px; padding:13px 15px; margin-bottom:10px;}
+  .vote{flex:0 0 auto; display:flex; flex-direction:column; align-items:center; justify-content:center; min-width:50px; border:1px solid var(--line); border-radius:11px; padding:7px 4px; cursor:pointer; background:#fff; color:var(--slate); transition:border-color .12s, background .12s, color .12s;}
+  .vote:hover{border-color:var(--navy);}
+  .vote.voted{border-color:var(--red); background:var(--red-soft); color:var(--red);}
+  .vote .caret{font-size:12px; line-height:1;}
+  .vote .num{font-weight:800; font-size:16px; line-height:1.1;}
+  .vote .lbl{font-size:9px; text-transform:uppercase; letter-spacing:.05em; color:var(--muted);}
+  .vote.voted .lbl{color:var(--red);}
+  .idea .cbody{flex:1 1 auto; min-width:0;}
+  .idea .crow1{display:flex; gap:8px; align-items:center; flex-wrap:wrap;}
+  .idea .ctitle{font-weight:700; font-size:15px;}
+  .idea .cdesc{color:var(--muted); font-size:13px; margin:5px 0 0;}
+  .rmk{font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--teal); border:0.5px solid var(--teal); border-radius:20px; padding:1px 7px;}
 </style>
 </head>
 <body>
@@ -101,6 +130,7 @@
   <div class="tabs">
     <button class="tab active" id="tabTopics">Topics</button>
     <button class="tab" id="tabWeek">This week</button>
+    <button class="tab" id="tabCommunity">Community</button>
   </div>
 
   <!-- TOPICS VIEW -->
@@ -116,6 +146,22 @@
   <!-- WEEK VIEW -->
   <div id="viewWeek" style="display:none;">
     <div id="weekWrap"></div>
+  </div>
+
+  <!-- COMMUNITY VIEW -->
+  <div id="viewCommunity" style="display:none;">
+    <p class="chelp">Help shape GovAgenda. See what's planned, suggest a tool you want, and vote so the most-wanted ideas rise to the top. Every idea moves through these stages:</p>
+    <div class="pipeline">
+      <span class="status c-idea">Idea Submitted</span><span class="arw">&rarr;</span>
+      <span class="status c-invest">Investigating</span><span class="arw">&rarr;</span>
+      <span class="status c-dev">Developing</span><span class="arw">&rarr;</span>
+      <span class="status c-deploy">Deploying</span><span class="arw">&rarr;</span>
+      <span class="status c-done">Completed</span>
+    </div>
+    <a class="suggest" id="suggestBtn" href="https://github.com/GoodDevCo/GovAgenda/issues/new?labels=community-idea&amp;title=Idea:%20&amp;body=What%20would%20you%20like%20GovAgenda%20to%20add%3F%0A%0A(Describe%20the%20tool%20or%20change%20you%27d%20like%20to%20see.)" target="_blank" rel="noopener">&#128161; Suggest an idea</a>
+    <div class="cfilters" id="cFilters"></div>
+    <div id="cList"></div>
+    <p class="hint" id="cNote">Tap &#9650; to vote. Votes are saved on your device for now &mdash; site-wide tallies switch on when we connect the community backend.</p>
   </div>
 
   <footer class="foot">
@@ -437,6 +483,42 @@
   ]
 }
 </script>
+<script id="community-data" type="application/json">{
+  "meta": {
+    "repo": "https://github.com/GoodDevCo/GovAgenda",
+    "note": "Community feedback board. Items are roadmap features + community-submitted ideas. Vote counts show interest; top-voted un-started ideas get promoted onto the roadmap. Statuses: idea → investigating → developing → deploying → completed."
+  },
+  "statuses": [
+    { "key": "idea", "label": "Idea Submitted", "cls": "c-idea" },
+    { "key": "investigating", "label": "Investigating", "cls": "c-invest" },
+    { "key": "developing", "label": "Developing", "cls": "c-dev" },
+    { "key": "deploying", "label": "Deploying", "cls": "c-deploy" },
+    { "key": "completed", "label": "Completed", "cls": "c-done" }
+  ],
+  "items": [
+    { "id": "alerts", "title": "Follow topics → alerts (email, text, RSS)", "desc": "Subscribe to a topic and get notified when it moves.", "status": "idea", "votes": 47, "roadmap": true },
+    { "id": "multi", "title": "Cover more towns (multi-municipality)", "desc": "Bring GovAgenda to other cities from the same platform.", "status": "idea", "votes": 41, "roadmap": true },
+    { "id": "weekly-refresh", "title": "Automated weekly data refresh", "desc": "Keep the record current automatically every week.", "status": "investigating", "votes": 33, "roadmap": true },
+    { "id": "calendar", "title": "Meetings calendar + agenda preview", "desc": "Upcoming meetings and what's on them, with a subscribable calendar.", "status": "idea", "votes": 38, "roadmap": true },
+    { "id": "summaries", "title": "Plain-language “what this means” summaries", "desc": "A clear explainer on each item.", "status": "idea", "votes": 29, "roadmap": true },
+    { "id": "digest", "title": "Weekly digest email", "desc": "A Monday roundup of the topics you follow.", "status": "idea", "votes": 26, "roadmap": true },
+    { "id": "officials", "title": "Per-commissioner accountability pages", "desc": "A neutral record of each official's quotes, positions, and votes.", "status": "idea", "votes": 24, "roadmap": true },
+    { "id": "rights", "title": "Rights Watch — Bill of Rights lens", "desc": "Neutrally flag topics that touch constitutional rights and the dialog they raise.", "status": "idea", "votes": 25, "roadmap": true },
+    { "id": "trending", "title": "Trending topics & search trends", "desc": "Surface what the community is actually watching.", "status": "idea", "votes": 22, "roadmap": true },
+    { "id": "severity", "title": "National-significance / severity tag", "desc": "Flag when a local item ties to a bigger national issue, tuned to your interests.", "status": "idea", "votes": 20, "roadmap": true },
+    { "id": "idea-street", "title": "Alert me when my street is on an agenda", "desc": "Community idea — address-based alerts.", "status": "idea", "votes": 16, "roadmap": false },
+    { "id": "watchlist", "title": "Sticky & shareable watchlist", "desc": "Pins that persist and share as a link.", "status": "idea", "votes": 14, "roadmap": true },
+    { "id": "sharelinks", "title": "Shareable / embeddable topic links", "desc": "Deep-link and embed any topic.", "status": "idea", "votes": 11, "roadmap": true },
+    { "id": "votes-track", "title": "Vote / position tracking", "desc": "Who voted how, where the record shows it.", "status": "idea", "votes": 9, "roadmap": true },
+    { "id": "idea-spanish", "title": "Spanish-language version", "desc": "Community idea — a Spanish translation of the site.", "status": "idea", "votes": 8, "roadmap": false },
+    { "id": "search", "title": "Full-text search of source documents", "desc": "Search inside agendas/minutes and jump to the page.", "status": "idea", "votes": 7, "roadmap": true },
+    { "id": "opendata", "title": "Open data / API + downloads", "desc": "Publish the dataset for others to build on.", "status": "idea", "votes": 6, "roadmap": true },
+    { "id": "logo-theme", "title": "Logo + brand theme", "desc": "GovAgenda logo and navy/red theme.", "status": "completed", "votes": 18, "roadmap": true },
+    { "id": "custom-domain", "title": "Custom domain (govagenda.org)", "desc": "Live on our own domain over HTTPS.", "status": "completed", "votes": 15, "roadmap": true },
+    { "id": "badges", "title": "Ordinance / resolution badges", "desc": "Cleaner, clearer topic labels.", "status": "completed", "votes": 12, "roadmap": true }
+  ]
+}
+</script>
 
 <script>
 (function(){
@@ -446,6 +528,11 @@
   var pins = {}; // in-memory pin state, keyed by topic id
   var open = {}; // open/expanded topics
   var TODAY = "2026-07-16";
+
+  // Community board data + per-device vote state
+  var CD = JSON.parse(document.getElementById('community-data').textContent);
+  var cStatuses = CD.statuses, cItems = (CD.items || []).slice(), cFilter = 'all', cVoted = {};
+  try { cVoted = JSON.parse(localStorage.getItem('ga_votes') || '{}'); } catch(e) { cVoted = {}; }
 
   var $ = function(id){ return document.getElementById(id); };
   function esc(s){ s = String(s==null?'':s); return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -577,15 +664,52 @@
     });
   }
 
+  // Community board
+  function cStatusMeta(k){ var m = cStatuses.filter(function(s){ return s.key===k; })[0]; return m || {label:k, cls:'c-idea'}; }
+  function cVotes(it){ return (it.votes||0) + (cVoted[it.id] ? 1 : 0); }
+  function renderCommunity(){
+    var chips = $('cFilters');
+    if(!chips.getAttribute('data-built')){
+      var mk = function(k,label){ var b=document.createElement('button'); b.className='cchip'+(k===cFilter?' active':''); b.setAttribute('data-k',k); b.textContent=label; return b; };
+      chips.appendChild(mk('all','All (' + cItems.length + ')'));
+      cStatuses.forEach(function(s){ var n=cItems.filter(function(x){return x.status===s.key;}).length; chips.appendChild(mk(s.key, s.label+' ('+n+')')); });
+      chips.setAttribute('data-built','1');
+      chips.addEventListener('click', function(e){ var b=e.target.closest('.cchip'); if(!b) return; cFilter=b.getAttribute('data-k'); chips.querySelectorAll('.cchip').forEach(function(c){ c.classList.toggle('active', c===b); }); renderCommunity(); });
+    }
+    var list = cItems.filter(function(x){ return cFilter==='all' || x.status===cFilter; })
+                     .sort(function(a,b){ return cVotes(b)-cVotes(a); });
+    $('cList').innerHTML = list.map(function(it){
+      var sm=cStatusMeta(it.status), on=!!cVoted[it.id];
+      return '<div class="idea">'
+        + '<button class="vote'+(on?' voted':'')+'" data-id="'+esc(it.id)+'" aria-pressed="'+(on?'true':'false')+'" title="Vote for this">'
+          + '<span class="caret">▲</span><span class="num">'+cVotes(it)+'</span><span class="lbl">votes</span></button>'
+        + '<div class="cbody"><div class="crow1"><span class="ctitle">'+txt(it.title)+'</span>'
+          + '<span class="status '+esc(sm.cls)+'">'+txt(sm.label)+'</span>'
+          + (it.roadmap ? '<span class="rmk">On roadmap</span>' : '')
+        + '</div><p class="cdesc">'+txt(it.desc)+'</p></div></div>';
+    }).join('');
+    $('cList').querySelectorAll('.vote').forEach(function(btn){
+      btn.addEventListener('click', function(){
+        var id=btn.getAttribute('data-id');
+        cVoted[id] = !cVoted[id];
+        try { localStorage.setItem('ga_votes', JSON.stringify(cVoted)); } catch(e){}
+        renderCommunity();
+      });
+    });
+  }
+
   function showTab(which){
-    var t1 = which==='topics';
-    $('viewTopics').style.display = t1 ? 'block':'none';
-    $('viewWeek').style.display = t1 ? 'none':'block';
-    $('tabTopics').classList.toggle('active', t1);
-    $('tabWeek').classList.toggle('active', !t1);
+    var views = { topics:'viewTopics', week:'viewWeek', community:'viewCommunity' };
+    var tabs = { topics:'tabTopics', week:'tabWeek', community:'tabCommunity' };
+    Object.keys(views).forEach(function(k){
+      $(views[k]).style.display = (k===which) ? 'block' : 'none';
+      $(tabs[k]).classList.toggle('active', k===which);
+    });
+    if(which==='community') renderCommunity();
   }
   $('tabTopics').addEventListener('click', function(){ showTab('topics'); });
   $('tabWeek').addEventListener('click', function(){ showTab('week'); });
+  $('tabCommunity').addEventListener('click', function(){ showTab('community'); });
   $('search').addEventListener('input', renderTopics);
   $('catFilter').addEventListener('change', renderTopics);
 
