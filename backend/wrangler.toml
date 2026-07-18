@@ -1,0 +1,9 @@
+name = "govagenda-community"
+main = "worker.js"
+compatibility_date = "2024-11-01"
+
+# Created during deploy: `wrangler d1 create govagenda_community` prints the id to paste here.
+[[d1_databases]]
+binding = "DB"
+database_name = "govagenda_community"
+database_id = "REPLACE_WITH_D1_DATABASE_ID"
