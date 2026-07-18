@@ -129,11 +129,10 @@
   .idea .cdesc{color:var(--muted); font-size:13px; margin:5px 0 0;}
   .rmk{font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--teal); border:0.5px solid var(--teal); border-radius:20px; padding:1px 7px;}
   .csub{font-size:11px; font-weight:650; color:var(--muted); letter-spacing:.02em;}
-  #adminPanel{background:#fff; border:1px solid var(--gold); border-radius:13px; padding:15px; margin:12px 0 4px;}
-  #adminPanel > strong{display:block; color:var(--navy); font-size:15px;}
-  .ahint{font-size:12px; color:var(--muted); margin:4px 0 12px;}
+  .ahint{font-size:13px; color:var(--muted); margin:4px 0 14px;}
   .ahint code{background:var(--gold-soft); border-radius:4px; padding:1px 5px; font-size:11.5px;}
-  #adminPanel .arow{display:flex; gap:9px; align-items:center; flex-wrap:wrap; margin-bottom:12px;}
+  .ahint a{font-size:13px;}
+  #viewAdmin .arow{display:flex; gap:9px; align-items:center; flex-wrap:wrap; margin-bottom:8px; max-width:520px;}
   #adminKey{font-size:14px; border:1px solid var(--line); border-radius:9px; padding:9px 11px; min-width:220px; flex:1 1 220px;}
   #adminKey:focus{outline:none; border-color:var(--navy);}
   .arow2{display:flex; gap:10px; align-items:center; padding:8px 0; border-top:1px solid var(--line);}
@@ -205,16 +204,6 @@
       </div>
       <p class="shint">Ideas are reviewed before they appear on the board. No account or sign-in needed.</p>
     </div>
-    <div id="adminPanel" style="display:none;">
-      <strong>Admin &middot; change item status</strong>
-      <p class="ahint">Only you can use this. Changes require your admin key and are applied for everyone. Bookmark <code>govagenda.org/#admin</code>.</p>
-      <div class="arow">
-        <input id="adminKey" type="password" placeholder="Admin key" autocomplete="off" spellcheck="false">
-        <button class="sbtn" id="adminSave" type="button">Save key</button>
-        <span class="smsg" id="adminMsg"></span>
-      </div>
-      <div id="adminList"></div>
-    </div>
     <div class="cfilters" id="cFilters"></div>
     <div id="cList"></div>
     <p class="hint" id="cNote">Tap &#9650; to vote.</p>
@@ -229,6 +218,23 @@
     <p class="aboutp">Have an idea to make GovAgenda better? Head to the <a href="#" data-nav="community">Community</a> board and suggest it &mdash; no account needed.</p>
   </div>
 
+  <!-- ADMIN VIEW (password-gated) -->
+  <div id="viewAdmin" style="display:none;">
+    <h2 class="abouth">Admin</h2>
+    <div id="adminLogin">
+      <p class="ahint">Enter the admin password to manage item statuses.</p>
+      <div class="arow">
+        <input id="adminKey" type="password" placeholder="Admin password" autocomplete="off" spellcheck="false">
+        <button class="sbtn" id="adminUnlock" type="button">Unlock</button>
+        <span class="smsg" id="adminMsg"></span>
+      </div>
+    </div>
+    <div id="adminControls" style="display:none;">
+      <p class="ahint">Change an item's status &mdash; it applies live for everyone. <a href="#" id="adminLock">Lock</a></p>
+      <div id="adminList"></div>
+    </div>
+  </div>
+
   <footer class="foot">
     <span id="footdate"></span> Commissioner remarks are summarized or quoted from official City of Belle Isle meeting minutes &mdash; open the linked source for exact wording and context. "→" links open the source PDF at the relevant page in Chrome/Edge. Ordinances require two readings; only items marked "Adopted" are law. Questions: City Clerk, cityclerk@belleislefl.gov, 407-851-7730.
   </footer>
@@ -239,6 +245,7 @@
       <a href="#" data-nav="about">About</a>
       <a href="https://github.com/GoodDevCo/GovAgenda/blob/main/ROADMAP.md" target="_blank" rel="noopener">Road Map</a>
       <a href="#" data-nav="support">Support</a>
+      <a href="#" data-nav="admin">Admin</a>
     </nav>
     <p class="footbrand">GovAgenda.org &middot; Find, Follow, Stay Informed</p>
   </footer>
@@ -844,11 +851,21 @@
     });
   }
 
-  // Admin: change item statuses. Revealed only at #admin; every change is verified server-side
-  // against the admin key (the key never leaves the request). No key = no writes.
-  var ADMIN = (location.hash === '#admin');
+  // Admin: reached via the footer "Admin" link (or #admin). Password-gated — the controls stay
+  // hidden until the password verifies against the backend, and every status write is verified
+  // server-side against ADMIN_KEY, so the client can never bypass the lock.
+  function adminKeySaved(){ try { return localStorage.getItem('ga_admin_key') || ''; } catch(e){ return ''; } }
+  function setAdminMsg(t, cls){ var m=$('adminMsg'); if(m){ m.textContent=t||''; m.className='smsg'+(cls?' '+cls:''); } }
+  // Verify a key WITHOUT changing anything: a valid key + a deliberately-invalid status returns 400
+  // (auth passed, validation failed, no DB write); a wrong key returns 401.
+  function verifyAdminKey(key){
+    if(!cAPI) return Promise.resolve(false);
+    return fetch(cAPI + '/api/admin/status', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({id:'__verify__', status:'__check__', key:key})})
+      .then(function(r){ return r.status === 400; })
+      .catch(function(){ return false; });
+  }
   function buildAdminList(){
-    if(!ADMIN || !$('adminList')) return;
+    if(!$('adminList')) return;
     $('adminList').innerHTML = cItems.map(function(it){
       return '<div class="arow2"><span class="aname">'+txt(it.title)+'</span>'
         + '<select class="asel" data-id="'+esc(it.id)+'">'
@@ -856,41 +873,65 @@
         + '</select><span class="astat" data-for="'+esc(it.id)+'"></span></div>';
     }).join('');
   }
+  function adminShowLogin(){ if($('adminLogin')) $('adminLogin').style.display='block'; if($('adminControls')) $('adminControls').style.display='none'; if($('adminKey')) $('adminKey').value=''; setAdminMsg(''); }
+  function adminEnter(){ if($('adminLogin')) $('adminLogin').style.display='none'; if($('adminControls')) $('adminControls').style.display='block'; loadBoard(); buildAdminList(); }
+  function adminGate(){
+    var saved = adminKeySaved();
+    if(saved){
+      setAdminMsg('Checking…');
+      verifyAdminKey(saved).then(function(ok){
+        if(ok){ setAdminMsg(''); adminEnter(); }
+        else { try{ localStorage.removeItem('ga_admin_key'); }catch(e){} adminShowLogin(); }
+      });
+    } else { adminShowLogin(); }
+  }
   function initAdmin(){
-    if(!ADMIN) return;
-    $('adminPanel').style.display = 'block';
-    try { $('adminKey').value = localStorage.getItem('ga_admin_key') || ''; } catch(e){}
-    $('adminSave').addEventListener('click', function(){
-      var k = (($('adminKey').value)||'').trim();
-      try { localStorage.setItem('ga_admin_key', k); } catch(e){}
-      $('adminMsg').textContent = 'Key saved on this device.'; $('adminMsg').className = 'smsg ok';
-    });
-    $('adminList').addEventListener('change', function(e){
-      var sel = e.target.closest('.asel'); if(!sel) return;
-      var id = sel.getAttribute('data-id'), status = sel.value;
-      var k = (($('adminKey').value)||'').trim();
-      var stat = $('adminList').querySelector('.astat[data-for="'+id+'"]');
-      if(!cAPI){ if(stat){ stat.textContent='no backend'; stat.className='astat err'; } return; }
-      if(!k){ if(stat){ stat.textContent='enter key'; stat.className='astat err'; } return; }
-      if(stat){ stat.textContent='saving…'; stat.className='astat'; }
-      fetch(cAPI + '/api/admin/status', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({id:id, status:status, key:k})})
-        .then(function(r){ return r.json().catch(function(){return {};}).then(function(j){ return {ok:r.ok, j:j}; }); })
-        .then(function(res){
-          if(res.ok && res.j && res.j.ok){
-            var it = cItems.filter(function(x){ return x.id===id; })[0]; if(it) it.status = status;
-            if(stat){ stat.textContent='✓ saved'; stat.className='astat ok'; }
-            renderCommunity();
-          } else {
-            if(stat){ stat.textContent = (res.j && res.j.error) || 'failed'; stat.className='astat err'; }
-          }
-        })
-        .catch(function(){ if(stat){ stat.textContent='network error'; stat.className='astat err'; } });
-    });
-    buildAdminList();
+    var unlock=$('adminUnlock'), keyIn=$('adminKey'), lock=$('adminLock'), list=$('adminList');
+    if(unlock){
+      var doUnlock = function(){
+        var k=((keyIn.value)||'').trim();
+        if(!k){ setAdminMsg('Enter the password.', 'err'); return; }
+        if(!cAPI){ setAdminMsg('Backend unavailable.', 'err'); return; }
+        setAdminMsg('Checking…');
+        verifyAdminKey(k).then(function(ok){
+          if(ok){ try{ localStorage.setItem('ga_admin_key', k); }catch(e){} setAdminMsg(''); adminEnter(); }
+          else { setAdminMsg('Incorrect password.', 'err'); }
+        }).catch(function(){ setAdminMsg('Couldn’t reach the server.', 'err'); });
+      };
+      unlock.addEventListener('click', doUnlock);
+      if(keyIn) keyIn.addEventListener('keydown', function(e){ if(e.key==='Enter'){ e.preventDefault(); doUnlock(); } });
+    }
+    if(lock){ lock.addEventListener('click', function(e){ e.preventDefault(); try{ localStorage.removeItem('ga_admin_key'); }catch(e){} adminShowLogin(); }); }
+    if(list){
+      list.addEventListener('change', function(e){
+        var sel = e.target.closest('.asel'); if(!sel) return;
+        var id = sel.getAttribute('data-id'), status = sel.value;
+        var k = adminKeySaved();
+        var stat = $('adminList').querySelector('.astat[data-for="'+id+'"]');
+        if(!cAPI){ if(stat){ stat.textContent='no backend'; stat.className='astat err'; } return; }
+        if(!k){ if(stat){ stat.textContent='locked'; stat.className='astat err'; } adminShowLogin(); return; }
+        if(stat){ stat.textContent='saving…'; stat.className='astat'; }
+        fetch(cAPI + '/api/admin/status', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({id:id, status:status, key:k})})
+          .then(function(r){ return r.json().catch(function(){return {};}).then(function(j){ return {ok:r.ok, j:j, http:r.status}; }); })
+          .then(function(res){
+            if(res.ok && res.j && res.j.ok){
+              var it = cItems.filter(function(x){ return x.id===id; })[0]; if(it) it.status = status;
+              if(stat){ stat.textContent='✓ saved'; stat.className='astat ok'; }
+              renderCommunity();
+            } else if(res.http === 401){
+              if(stat){ stat.textContent='locked'; stat.className='astat err'; }
+              try{ localStorage.removeItem('ga_admin_key'); }catch(e){} adminShowLogin();
+            } else {
+              if(stat){ stat.textContent = (res.j && res.j.error) || 'failed'; stat.className='astat err'; }
+            }
+          })
+          .catch(function(){ if(stat){ stat.textContent='network error'; stat.className='astat err'; } });
+      });
+    }
   }
 
   function showTab(which){
-    var views = { topics:'viewTopics', week:'viewWeek', community:'viewCommunity', about:'viewAbout' };
+    var views = { topics:'viewTopics', week:'viewWeek', community:'viewCommunity', about:'viewAbout', admin:'viewAdmin' };
     var tabs = { topics:'tabTopics', week:'tabWeek' };   // only the two top tabs
     Object.keys(views).forEach(function(k){
       var v = $(views[k]); if(v) v.style.display = (k===which) ? 'block' : 'none';
@@ -899,6 +940,7 @@
       var t = $(tabs[k]); if(t) t.classList.toggle('active', k===which);
     });
     if(which==='community'){ loadBoard(); renderCommunity(); }
+    if(which==='admin'){ adminGate(); }
   }
   $('tabTopics').addEventListener('click', function(){ showTab('topics'); });
   $('tabWeek').addEventListener('click', function(){ showTab('week'); });
@@ -951,7 +993,7 @@
   renderTopics();
   renderWeek();
   initAdmin();
-  if(ADMIN) showTab('community');   // land straight on the board when managing statuses
+  if(location.hash === '#admin') showTab('admin');   // bookmarkable admin entry
 })();
 </script>
 </body>
