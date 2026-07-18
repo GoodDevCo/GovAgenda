@@ -6,21 +6,23 @@
 <title>GovAgenda</title>
 <style>
   :root{
-    --ink:#12241f; --muted:#5c6b66; --line:#e2e8e4; --bg:#f6f8f6; --card:#ffffff;
-    --teal:#0f6e5c; --teal-soft:#e4f1ee; --amber:#b06a12; --amber-soft:#fbeede;
+    --ink:#16233d; --muted:#5b6675; --line:#e4e8ee; --bg:#f5f7fa; --card:#ffffff;
+    --navy:#14213d; --navy-soft:#e7ebf3; --red:#d21f28; --red-soft:#fbe6e7;
+    --teal:#1a7d4f; --teal-soft:#e7f4ec; --amber:#b0690f; --amber-soft:#fbeede;
     --slate:#3b5568; --slate-soft:#e7eef3; --gold:#d99b1c; --gold-soft:#fffaf0;
   }
   *{box-sizing:border-box;}
   body{margin:0; background:var(--bg); color:var(--ink); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif; line-height:1.55; -webkit-font-smoothing:antialiased;}
   .wrap{max-width:780px; margin:0 auto; padding:32px 20px 60px;}
-  header.top{border-bottom:2px solid var(--teal); padding-bottom:16px;}
-  .eyebrow{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--teal); font-weight:700;}
-  h1{font-size:28px; line-height:1.15; margin:6px 0 4px;}
+  header.top{border-bottom:2px solid var(--navy); padding-bottom:16px;}
+  .eyebrow{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--red); font-weight:700;}
+  h1{font-size:28px; line-height:1.15; margin:6px 0 4px; color:var(--navy);}
+  h1 .accent{color:var(--red);}
   .sub{color:var(--muted); font-size:14px; margin:0;}
 
   .tabs{display:flex; gap:6px; margin:18px 0 8px;}
   .tab{border:1px solid var(--line); background:#fff; border-radius:9px; padding:8px 15px; font-size:14px; font-weight:650; color:var(--slate); cursor:pointer;}
-  .tab.active{background:var(--teal); color:#fff; border-color:var(--teal);}
+  .tab.active{background:var(--navy); color:#fff; border-color:var(--navy);}
   .toolbar{display:flex; gap:10px; align-items:center; flex-wrap:wrap; margin:10px 0 4px;}
   .toolbar input, .toolbar select{font-size:14px; border:1px solid var(--line); border-radius:8px; padding:8px 11px; background:#fff; color:var(--ink);}
   .toolbar input{flex:1 1 200px;}
@@ -34,7 +36,7 @@
   .trow1{display:flex; align-items:center; gap:9px; flex-wrap:wrap;}
   .ttitle{font-weight:700; font-size:16px; margin:0;}
   .cat{font-size:11px; font-weight:700; color:var(--slate); background:var(--slate-soft); border-radius:5px; padding:2px 7px;}
-  .doctype{font-size:11px; font-weight:700; color:#6d3bd1; background:#efe8fc; border-radius:5px; padding:2px 8px; text-transform:uppercase; letter-spacing:.03em;}
+  .doctype{font-size:11px; font-weight:700; color:var(--navy); background:var(--navy-soft); border-radius:5px; padding:2px 8px; text-transform:uppercase; letter-spacing:.03em;}
   .status{font-size:11px; font-weight:700; border-radius:5px; padding:2px 8px; text-transform:uppercase; letter-spacing:.03em;}
   .s-teal{background:var(--teal-soft); color:var(--teal);}
   .s-amber{background:var(--amber-soft); color:var(--amber);}
@@ -53,21 +55,21 @@
   .tl{position:relative; margin:14px 0 6px; padding-left:20px;}
   .tl:before{content:""; position:absolute; left:5px; top:4px; bottom:4px; width:2px; background:var(--line);}
   .ev{position:relative; padding:0 0 16px;}
-  .ev:before{content:""; position:absolute; left:-18px; top:4px; width:10px; height:10px; border-radius:50%; background:#fff; border:2px solid var(--teal);}
+  .ev:before{content:""; position:absolute; left:-18px; top:4px; width:10px; height:10px; border-radius:50%; background:#fff; border:2px solid var(--navy);}
   .ev.future:before{border-color:var(--muted); background:var(--bg);}
-  .evdate{font-size:12px; font-weight:700; color:var(--teal); text-transform:uppercase; letter-spacing:.04em;}
+  .evdate{font-size:12px; font-weight:700; color:var(--navy); text-transform:uppercase; letter-spacing:.04em;}
   .ev.future .evdate{color:var(--muted);}
   .evhead{font-weight:650; font-size:14.5px; margin:1px 0 2px;}
   .evmeeting{font-size:12px; color:var(--muted); font-weight:600;}
   .evdetail{font-size:13.5px; color:#2c3a35; margin:5px 0 0;}
-  .remarks{margin:9px 0 0; border-left:2px solid var(--teal-soft); padding-left:11px;}
+  .remarks{margin:9px 0 0; border-left:2px solid var(--navy-soft); padding-left:11px;}
   .remark{font-size:13px; margin:0 0 7px;}
-  .remark .who{font-weight:700; color:var(--teal);}
+  .remark .who{font-weight:700; color:var(--navy);}
   .remark .role{font-size:11px; color:var(--muted); font-weight:600;}
   .remark .text{color:#2c3a35;}
   .evlinks{margin-top:7px; display:flex; gap:13px; flex-wrap:wrap;}
-  a{color:var(--teal); text-decoration:none; border-bottom:1px solid rgba(15,110,92,.3); font-size:13px; font-weight:600;}
-  a:hover{border-bottom-color:var(--teal);}
+  a{color:var(--red); text-decoration:none; border-bottom:1px solid rgba(210,31,40,.3); font-size:13px; font-weight:600;}
+  a:hover{border-bottom-color:var(--red);}
 
   .emptynote{font-size:13px; color:var(--muted); padding:16px; text-align:center; background:#fff; border:1px dashed var(--line); border-radius:12px;}
 
@@ -78,7 +80,7 @@
   .weekintro{font-size:14px; color:#2c3a35; margin:11px 0 14px;}
   .hl{display:flex; gap:10px; padding:10px 0; border-top:1px solid var(--line); cursor:pointer;}
   .hl:hover{background:#fbfdfc;}
-  .hl .arrow{color:var(--teal); font-weight:700;}
+  .hl .arrow{color:var(--red); font-weight:700;}
   .hl .txt{font-size:13.5px;}
   .hl .txt small{display:block; color:var(--muted); font-size:11.5px; margin-top:1px;}
 
@@ -91,7 +93,7 @@
 
   <header class="top">
     <div class="eyebrow">Local Government &middot; Agendas &amp; Meeting Records</div>
-    <h1>GovAgenda</h1>
+    <h1>Gov<span class="accent">Agenda</span></h1>
     <p class="sub" id="sub"></p>
   </header>
 
