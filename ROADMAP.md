@@ -2,7 +2,7 @@
 
 A public record of what's planned and what's shipped for GovAgenda — local government agendas
 and meeting records, in plain view. **First city: Belle Isle, FL.**
-**Live site:** https://gooddevco.github.io/GovAgenda/
+**Live site:** https://govagenda.org/
 
 ## Planned
 
@@ -13,10 +13,10 @@ and meeting records, in plain view. **First city: Belle Isle, FL.**
   same codebase: a per-municipality data layer, a simple intake for where each place publishes
   its agendas/minutes and its access points, per-city pages, and a directory landing page.
 - **Update tooling** — streamline the process of creating and publishing updates.
-- **Custom domain (GovAgenda.org)** — point the owned domain at the site.
 
 ## Recently shipped
 
+- **2026-07-18** — Live on the custom domain **[govagenda.org](https://govagenda.org/)** over HTTPS.
 - **2026-07-17** — Ordinance/resolution numbers now render as a distinct badge (e.g.
   `Ordinance 26-05`) beside the status and category badges; topic titles cleaned up.
 - **2026-07-17** — Initial launch: single-source JSON archive → build step → GitHub Pages,
