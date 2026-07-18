@@ -117,6 +117,19 @@
   .idea .ctitle{font-weight:700; font-size:15px;}
   .idea .cdesc{color:var(--muted); font-size:13px; margin:5px 0 0;}
   .rmk{font-size:10px; font-weight:700; text-transform:uppercase; letter-spacing:.04em; color:var(--teal); border:0.5px solid var(--teal); border-radius:20px; padding:1px 7px;}
+  .suggestform{background:var(--card); border:1px solid var(--line); border-radius:13px; padding:15px; margin:12px 0 4px;}
+  .suggestform input, .suggestform textarea{width:100%; font-size:14px; font-family:inherit; border:1px solid var(--line); border-radius:9px; padding:9px 11px; background:#fff; color:var(--ink); margin-bottom:9px;}
+  .suggestform textarea{resize:vertical;}
+  .suggestform input:focus, .suggestform textarea:focus{outline:none; border-color:var(--navy);}
+  .srow{display:flex; gap:9px; align-items:center; flex-wrap:wrap;}
+  .sbtn{background:var(--navy); color:#fff; border:none; border-radius:9px; padding:9px 16px; font-size:14px; font-weight:700; cursor:pointer;}
+  .sbtn:hover{background:#0e1830;}
+  .sbtn:disabled{opacity:.55; cursor:default;}
+  .scancel{background:#fff; color:var(--slate); border:1px solid var(--line); border-radius:9px; padding:9px 14px; font-size:14px; font-weight:650; cursor:pointer;}
+  .scancel:hover{border-color:var(--slate);}
+  .smsg{font-size:13px; font-weight:650;}
+  .smsg.ok{color:var(--teal);} .smsg.err{color:var(--red);}
+  .shint{font-size:12px; color:var(--muted); margin:10px 2px 0;}
 </style>
 </head>
 <body>
@@ -158,10 +171,20 @@
       <span class="status c-deploy">Deploying</span><span class="arw">&rarr;</span>
       <span class="status c-done">Completed</span>
     </div>
-    <a class="suggest" id="suggestBtn" href="https://github.com/GoodDevCo/GovAgenda/issues/new?labels=community-idea&amp;title=Idea:%20&amp;body=What%20would%20you%20like%20GovAgenda%20to%20add%3F%0A%0A(Describe%20the%20tool%20or%20change%20you%27d%20like%20to%20see.)" target="_blank" rel="noopener">&#128161; Suggest an idea</a>
+    <button class="suggest" id="suggestBtn" type="button">&#128161; Suggest an idea</button>
+    <div class="suggestform" id="suggestForm" style="display:none;">
+      <input id="sTitle" type="text" maxlength="140" placeholder="Your idea in one line — e.g. &quot;Add a public records request tracker&quot;">
+      <textarea id="sDesc" maxlength="1000" rows="3" placeholder="Optional: a little more detail on what you'd like and why."></textarea>
+      <div class="srow">
+        <button class="sbtn" id="sSend" type="button">Submit idea</button>
+        <button class="scancel" id="sCancel" type="button">Cancel</button>
+        <span class="smsg" id="sMsg"></span>
+      </div>
+      <p class="shint">Ideas are reviewed before they appear on the board. No account or sign-in needed.</p>
+    </div>
     <div class="cfilters" id="cFilters"></div>
     <div id="cList"></div>
-    <p class="hint" id="cNote">Tap &#9650; to vote. Votes are saved on your device for now &mdash; site-wide tallies switch on when we connect the community backend.</p>
+    <p class="hint" id="cNote">Tap &#9650; to vote.</p>
   </div>
 
   <footer class="foot">
@@ -182,10 +205,20 @@
   var open = {}; // open/expanded topics
   var TODAY = "2026-07-16";
 
-  // Community board data + per-device vote state
+  // Community board data + vote state
   var CD = JSON.parse(document.getElementById('community-data').textContent);
   var cStatuses = CD.statuses, cItems = (CD.items || []).slice(), cFilter = 'all', cVoted = {};
   try { cVoted = JSON.parse(localStorage.getItem('ga_votes') || '{}'); } catch(e) { cVoted = {}; }
+  var cAPI = (CD.meta && CD.meta.apiBase) ? String(CD.meta.apiBase).replace(/\/+$/,'') : '';
+  var cLive = {};          // live site-wide vote counts from backend, keyed by item id
+  var cLiveOn = false;     // true once live tallies are loaded
+  var cBoardTried = false; // fetch the board only once per page load
+  // anonymous, per-device voter id (no login) — used only to dedupe votes server-side
+  var cVoter = '';
+  try {
+    cVoter = localStorage.getItem('ga_voter') || '';
+    if(!cVoter){ cVoter = 'v-' + Math.random().toString(36).slice(2) + Date.now().toString(36); localStorage.setItem('ga_voter', cVoter); }
+  } catch(e) { cVoter = 'v-' + Math.random().toString(36).slice(2); }
 
   var $ = function(id){ return document.getElementById(id); };
   function esc(s){ s = String(s==null?'':s); return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
@@ -319,7 +352,25 @@
 
   // Community board
   function cStatusMeta(k){ var m = cStatuses.filter(function(s){ return s.key===k; })[0]; return m || {label:k, cls:'c-idea'}; }
-  function cVotes(it){ return (it.votes||0) + (cVoted[it.id] ? 1 : 0); }
+  // Displayed count = seed baseline + live community votes (or, in offline fallback, this device's vote).
+  function cVotes(it){
+    if(cLiveOn) return (it.votes||0) + (cLive[it.id]||0);
+    return (it.votes||0) + (cVoted[it.id] ? 1 : 0);
+  }
+  function updateCNote(){
+    var n = $('cNote'); if(!n) return;
+    n.textContent = cLiveOn
+      ? 'Tap ▲ to vote — tallies are site-wide. One vote per person per idea; tap again to remove it.'
+      : 'Tap ▲ to vote.';
+  }
+  function loadBoard(){
+    if(cBoardTried || !cAPI) return;
+    cBoardTried = true;
+    fetch(cAPI + '/api/board', {cache:'no-store'})
+      .then(function(r){ return r.ok ? r.json() : null; })
+      .then(function(d){ if(d && d.votes){ cLive = d.votes; cLiveOn = true; updateCNote(); renderCommunity(); } })
+      .catch(function(){ /* unreachable: stay in offline fallback with seeded counts */ });
+  }
   function renderCommunity(){
     var chips = $('cFilters');
     if(!chips.getAttribute('data-built')){
@@ -344,9 +395,28 @@
     $('cList').querySelectorAll('.vote').forEach(function(btn){
       btn.addEventListener('click', function(){
         var id=btn.getAttribute('data-id');
-        cVoted[id] = !cVoted[id];
-        try { localStorage.setItem('ga_votes', JSON.stringify(cVoted)); } catch(e){}
-        renderCommunity();
+        if(cLiveOn){
+          var want = !cVoted[id];                       // target state after this tap
+          cVoted[id] = want;                            // optimistic UI
+          cLive[id] = Math.max(0, (cLive[id]||0) + (want ? 1 : -1));
+          try { localStorage.setItem('ga_votes', JSON.stringify(cVoted)); } catch(e){}
+          renderCommunity();
+          fetch(cAPI + '/api/vote', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({id:id, voter:cVoter})})
+            .then(function(r){ return r.ok ? r.json() : null; })
+            .then(function(res){
+              if(res && typeof res.votes === 'number'){   // reconcile with server truth
+                cLive[id] = res.votes;
+                cVoted[id] = !!res.voted;
+                try { localStorage.setItem('ga_votes', JSON.stringify(cVoted)); } catch(e){}
+                renderCommunity();
+              }
+            })
+            .catch(function(){ /* keep optimistic state if the request failed */ });
+        } else {
+          cVoted[id] = !cVoted[id];
+          try { localStorage.setItem('ga_votes', JSON.stringify(cVoted)); } catch(e){}
+          renderCommunity();
+        }
       });
     });
   }
@@ -358,13 +428,40 @@
       $(views[k]).style.display = (k===which) ? 'block' : 'none';
       $(tabs[k]).classList.toggle('active', k===which);
     });
-    if(which==='community') renderCommunity();
+    if(which==='community'){ loadBoard(); renderCommunity(); }
   }
   $('tabTopics').addEventListener('click', function(){ showTab('topics'); });
   $('tabWeek').addEventListener('click', function(){ showTab('week'); });
   $('tabCommunity').addEventListener('click', function(){ showTab('community'); });
   $('search').addEventListener('input', renderTopics);
   $('catFilter').addEventListener('change', renderTopics);
+
+  // Suggest-an-idea form (posts to the community backend; falls back gracefully)
+  (function(){
+    var openBtn=$('suggestBtn'), form=$('suggestForm'), t=$('sTitle'), d=$('sDesc'), send=$('sSend'), cancel=$('sCancel'), msg=$('sMsg');
+    if(!openBtn || !form) return;
+    function setMsg(text, cls){ msg.textContent=text||''; msg.className='smsg'+(cls?' '+cls:''); }
+    openBtn.addEventListener('click', function(){
+      var showing = form.style.display!=='none';
+      form.style.display = showing ? 'none' : 'block';
+      if(!showing){ setMsg(''); t.focus(); }
+    });
+    cancel.addEventListener('click', function(){ form.style.display='none'; t.value=''; d.value=''; setMsg(''); });
+    send.addEventListener('click', function(){
+      var title=(t.value||'').trim();
+      if(!title){ setMsg('Please add a one-line idea first.', 'err'); t.focus(); return; }
+      if(!cAPI){ setMsg('Submissions aren’t connected yet — please try again later.', 'err'); return; }
+      send.disabled=true; setMsg('Sending…');
+      fetch(cAPI + '/api/suggest', {method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({title:title, desc:(d.value||'').trim(), voter:cVoter})})
+        .then(function(r){ return r.ok ? r.json() : null; })
+        .then(function(res){
+          if(res && res.ok){ setMsg('Thanks! Your idea was submitted for review.', 'ok'); t.value=''; d.value=''; }
+          else { setMsg('Something went wrong — please try again.', 'err'); }
+        })
+        .catch(function(){ setMsg('Couldn’t reach the server — please try again.', 'err'); })
+        .then(function(){ send.disabled=false; });
+    });
+  })();
 
   renderTopics();
   renderWeek();

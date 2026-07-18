@@ -1,6 +1,7 @@
 {
   "meta": {
     "repo": "https://github.com/GoodDevCo/GovAgenda",
+    "apiBase": "https://govagenda-community.gooddevco.workers.dev",
     "note": "Community feedback board. Items are roadmap features + community-submitted ideas. Vote counts show interest; top-voted un-started ideas get promoted onto the roadmap. Statuses: idea → investigating → developing → deploying → completed."
   },
   "statuses": [
