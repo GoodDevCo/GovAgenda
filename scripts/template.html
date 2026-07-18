@@ -18,7 +18,9 @@
   .eyebrow{font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--red); font-weight:700;}
   h1{font-size:28px; line-height:1.15; margin:6px 0 4px; color:var(--navy);}
   h1 .accent{color:var(--red);}
-  .sub{color:var(--muted); font-size:14px; margin:0;}
+  .sub{color:var(--muted); font-size:14px; margin:12px 0 0;}
+  .brand{margin:0; line-height:0;}
+  .logo{display:block; width:100%; max-width:360px; height:auto;}
 
   .tabs{display:flex; gap:6px; margin:18px 0 8px;}
   .tab{border:1px solid var(--line); background:#fff; border-radius:9px; padding:8px 15px; font-size:14px; font-weight:650; color:var(--slate); cursor:pointer;}
@@ -92,8 +94,7 @@
 <div class="wrap">
 
   <header class="top">
-    <div class="eyebrow">Local Government &middot; Agendas &amp; Meeting Records</div>
-    <h1>Gov<span class="accent">Agenda</span></h1>
+    <h1 class="brand"><img class="logo" src="__LOGO_DATA_URI__" alt="GovAgenda.org — Find, Follow, Stay Informed"></h1>
     <p class="sub" id="sub"></p>
   </header>
 

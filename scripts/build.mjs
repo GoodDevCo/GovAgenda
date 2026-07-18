@@ -31,7 +31,12 @@ if (!tpl.includes('__ARCHIVE_JSON__')) {
 
 // Use a replacer FUNCTION so `$` sequences in the data (e.g. "$300,000") are inserted
 // literally and not interpreted as replacement patterns.
-const html = tpl.replace('__ARCHIVE_JSON__', () => safeJson);
+// Inline the logo as a data URI so the page stays a single self-contained file.
+const logoUri = 'data:image/png;base64,' + readFileSync('assets/govagenda-logo.png').toString('base64');
+
+const html = tpl
+  .replace('__ARCHIVE_JSON__', () => safeJson)
+  .replace('__LOGO_DATA_URI__', () => logoUri);
 
 mkdirSync(OUT_DIR, { recursive: true });
 writeFileSync(OUT_PATH, html);
