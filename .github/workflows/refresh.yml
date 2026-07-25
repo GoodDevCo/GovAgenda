@@ -16,6 +16,11 @@ on:
         description: 'watch or weekly'
         required: false
         default: 'watch'
+      dry_run:
+        description: 'Research + report only, do not commit/publish'
+        type: boolean
+        required: false
+        default: false
 
 permissions:
   contents: write     # commit new entries
@@ -52,7 +57,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           REFRESH_MODEL: ${{ vars.REFRESH_MODEL }}
           REFRESH_MODE: ${{ steps.mode.outputs.mode }}
-        run: node scripts/refresh.mjs
+        run: node scripts/refresh.mjs ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
 
       - name: Commit if the archive changed
         id: commit
