@@ -85,6 +85,9 @@
   .hl .arrow{color:var(--red); font-weight:700;}
   .hl .txt{font-size:13.5px;}
   .hl .txt small{display:block; color:var(--muted); font-size:11.5px; margin-top:1px;}
+  .wknotice{display:flex; gap:10px; padding:8px 0; border-top:1px dashed var(--line);}
+  .wknotice .arrow{color:var(--muted); font-weight:700;}
+  .wknotice .txt{font-size:13px; color:var(--muted);}
 
   footer.foot{margin-top:30px; padding-top:16px; border-top:1px solid var(--line); font-size:11.5px; color:var(--muted);}
   .pill-legend{display:inline-block;}
@@ -393,9 +396,13 @@
         var sub = t ? (t.title + ' · ' + t.status) : '';
         return '<div class="hl" data-topic="' + esc(h.topicId) + '"><span class="arrow">→</span><div class="txt">' + txt(h.line) + (sub ? '<small>' + txt(sub) + '</small>' : '') + '</div></div>';
       }).join('');
+      var notices = (w.notices||[]).map(function(n){
+        return '<div class="wknotice"><span class="arrow">•</span><div class="txt">' + txt(n) + '</div></div>';
+      }).join('');
       return '<div class="weekcard"><p class="weeklabel">' + txt(w.label) + '</p>'
         + '<span class="weekcompiled">compiled ' + txt(w.compiled) + '</span>'
-        + '<p class="weekintro">' + txt(w.intro) + '</p>' + hls + '</div>';
+        + '<p class="weekintro">' + txt(w.intro) + '</p>' + hls + notices
+        + linksHtml(w.links) + '</div>';
     }).join('');
     host.querySelectorAll('.hl').forEach(function(el){
       el.addEventListener('click', function(){

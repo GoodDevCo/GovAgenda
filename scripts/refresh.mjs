@@ -23,6 +23,8 @@ const MODEL = process.env.REFRESH_MODEL || 'claude-sonnet-4-5';
 const MODE = (process.env.REFRESH_MODE || 'watch').toLowerCase();
 const MAX_SEARCHES = parseInt(process.env.REFRESH_MAX_SEARCHES || '8', 10);
 const API_KEY = process.env.ANTHROPIC_API_KEY;
+// --dry-run (or REFRESH_DRY_RUN=1): research + report the merge, but never write the file.
+const DRY_RUN = process.argv.includes('--dry-run') || process.env.REFRESH_DRY_RUN === '1';
 
 if (!API_KEY) {
   console.error('ERROR: ANTHROPIC_API_KEY is not set. Nothing to do.');
@@ -124,7 +126,7 @@ const schemaSpec = `Return ONLY a single JSON object (no prose, no markdown fenc
     { "topicId": "existing-topic-id", "status": "Adopted", "statusClass": "s-teal", "updated": "YYYY-MM-DD" }
   ],
   "weekEntry": ${MODE === 'weekly'
-    ? `{ "weekOf":"YYYY-MM-DD (Monday of the week just ended)","label":"Week of Mon D–D, YYYY","compiled":"${today}","intro":"1-2 sentence neutral overview","highlights":[{"topicId":"...","line":"one plain sentence"}] }`
+    ? `{ "weekOf":"YYYY-MM-DD (Monday of the week just ended)","label":"Week of Mon D–D, YYYY","compiled":"${today}","intro":"1-2 sentence neutral overview","highlights":[{"topicId":"...","line":"one plain sentence"}],"notices":["optional plain-text lines for upcoming meeting dates, reschedules, deadlines"],"links":[{"label":"Jul 21 agenda →","url":"https://official..."}] }`
     : 'null'}
 }
 Every newTopic and every newTimelineEntry.entry MUST contain at least one links[] item whose url is an
@@ -144,6 +146,8 @@ ${schemaSpec}`;
 
 // ---- Call the API (server-side web search) ---------------------------------
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
+
 async function callClaude() {
   const body = {
     model: MODEL,
@@ -152,18 +156,41 @@ async function callClaude() {
     tools: [{ type: 'web_search_20250305', name: 'web_search', max_uses: MAX_SEARCHES }],
     messages: [{ role: 'user', content: userMsg }],
   };
-  const res = await fetch('https://api.anthropic.com/v1/messages', {
-    method: 'POST',
-    headers: {
-      'x-api-key': API_KEY,
-      'anthropic-version': '2023-06-01',
-      'content-type': 'application/json',
-    },
-    body: JSON.stringify(body),
-  });
-  if (!res.ok) {
-    const t = await res.text();
-    throw new Error(`Anthropic API ${res.status}: ${t.slice(0, 500)}`);
+  // Retry on transient errors (429 rate limit, 5xx) with exponential backoff + jitter,
+  // so a single hiccup self-heals instead of failing the day's run.
+  const MAX_ATTEMPTS = 4;
+  let res, lastErr;
+  for (let attempt = 1; attempt <= MAX_ATTEMPTS; attempt++) {
+    try {
+      res = await fetch('https://api.anthropic.com/v1/messages', {
+        method: 'POST',
+        headers: {
+          'x-api-key': API_KEY,
+          'anthropic-version': '2023-06-01',
+          'content-type': 'application/json',
+        },
+        body: JSON.stringify(body),
+      });
+    } catch (e) {
+      lastErr = e; // network error — treat as retryable
+      res = null;
+    }
+    if (res && res.ok) break;
+    const status = res ? res.status : 0;
+    const retryable = !res || status === 429 || status >= 500;
+    if (!retryable) {
+      const t = await res.text();
+      throw new Error(`Anthropic API ${status}: ${t.slice(0, 500)}`);
+    }
+    if (attempt === MAX_ATTEMPTS) {
+      const detail = res ? `${status}: ${(await res.text()).slice(0, 300)}` : (lastErr && lastErr.message);
+      throw new Error(`Anthropic API failed after ${MAX_ATTEMPTS} attempts — ${detail}`);
+    }
+    // Honor Retry-After when present, else exponential backoff (2s, 4s, 8s) + up to 1s jitter.
+    const ra = res && parseInt(res.headers.get('retry-after') || '', 10);
+    const wait = (ra > 0 ? ra * 1000 : 2000 * Math.pow(2, attempt - 1)) + Math.floor(Math.random() * 1000);
+    console.log(`API ${status || 'network error'} — retry ${attempt}/${MAX_ATTEMPTS - 1} in ${wait}ms`);
+    await sleep(wait);
   }
   const json = await res.json();
   // Concatenate all final text blocks (web_search results are handled server-side).
@@ -285,7 +312,12 @@ async function main() {
         label: w.label || `Week of ${w.weekOf}`,
         compiled: w.compiled || today,
         intro: (w.intro || '').trim(),
-        highlights: Array.isArray(w.highlights) ? w.highlights.filter((h) => h && h.topicId && h.line) : [],
+        highlights: Array.isArray(w.highlights)
+          ? w.highlights.filter((h) => h && h.topicId && h.line && topicById.has(h.topicId))
+          : [],
+        // Optional plain-text notices (upcoming dates/reschedules) and official-source links.
+        notices: Array.isArray(w.notices) ? w.notices.filter((n) => typeof n === 'string' && n.trim()).map((n) => n.trim()) : [],
+        links: Array.isArray(w.links) ? w.links.filter((l) => l && l.label && l.url && isOfficial(l.url)) : [],
       });
       added++; log.push(`+ week ${w.weekOf}`);
     }
@@ -300,6 +332,11 @@ async function main() {
 
   // Keep topics sorted by most-recent activity (pinned first), matching how the site reads.
   data.meta.lastUpdated = today;
+  if (DRY_RUN) {
+    console.log(`[DRY RUN] Would add ${added}, skip ${skipped}. Mode=${MODE}. No file written.`);
+    console.log(log.join('\n'));
+    process.exit(0);
+  }
   writeFileSync(DATA_PATH, JSON.stringify(data, null, 2) + '\n');
   console.log(`Refresh complete: ${added} added, ${skipped} skipped. Mode=${MODE}.`);
   console.log(log.join('\n'));
