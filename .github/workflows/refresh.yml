@@ -1,0 +1,87 @@
+name: Auto-refresh tracker
+
+# The engine that keeps GovAgenda current. Runs daily, researches Belle Isle from
+# official sources via scripts/refresh.mjs, and — only if something new is found —
+# commits the data change and deploys the site. Monday runs also write a weekly roll-up.
+#
+# Requires repo secret: ANTHROPIC_API_KEY
+# Optional repo variable: REFRESH_MODEL (defaults to a Sonnet-class model in the script)
+
+on:
+  schedule:
+    - cron: '15 11 * * *'   # ~07:15 America/New_York (daily watch; Mondays also do the weekly roll-up)
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: 'watch or weekly'
+        required: false
+        default: 'watch'
+
+permissions:
+  contents: write     # commit new entries
+  pages: write        # deploy
+  id-token: write
+
+concurrency:
+  group: pages        # shared with deploy.yml so Pages deploys never overlap
+  cancel-in-progress: false
+
+jobs:
+  refresh-and-deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Decide mode (Monday = weekly)
+        id: mode
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "mode=${{ github.event.inputs.mode }}" >> "$GITHUB_OUTPUT"
+          elif [ "$(TZ=America/New_York date +%u)" = "1" ]; then
+            echo "mode=weekly" >> "$GITHUB_OUTPUT"
+          else
+            echo "mode=watch" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Research + merge (append-only)
+        env:
+          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
+          REFRESH_MODEL: ${{ vars.REFRESH_MODEL }}
+          REFRESH_MODE: ${{ steps.mode.outputs.mode }}
+        run: node scripts/refresh.mjs
+
+      - name: Commit if the archive changed
+        id: commit
+        run: |
+          if git diff --quiet -- data/topic-archive.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+            echo "No archive change — skipping deploy."
+          else
+            git config user.name  "GoodDevCo"
+            git config user.email "298780910+GoodDevCo@users.noreply.github.com"
+            git add data/topic-archive.json
+            git commit -m "Auto-refresh: append new Belle Isle records ($(TZ=America/New_York date +%Y-%m-%d))"
+            git push
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      # Build + deploy in-workflow (the default token won't trigger deploy.yml on its own push).
+      - name: Build site
+        if: steps.commit.outputs.changed == 'true'
+        run: node scripts/build.mjs
+
+      - uses: actions/configure-pages@v5
+        if: steps.commit.outputs.changed == 'true'
+
+      - uses: actions/upload-pages-artifact@v3
+        if: steps.commit.outputs.changed == 'true'
+        with:
+          path: ./public
+
+      - id: deployment
+        if: steps.commit.outputs.changed == 'true'
+        uses: actions/deploy-pages@v4
