@@ -3,7 +3,7 @@
     "title": "Belle Isle Local Government — Topic Archive",
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 2,
-    "lastUpdated": "2026-07-16",
+    "lastUpdated": "2026-07-27",
     "note": "Topic-centric historical record. Each topic is a thread with a chronological timeline of meeting events and recorded commissioner remarks. The Monday refresh appends new timeline entries to existing topics (matching by id) and creates new topics as they arise; it also appends a weekly-summary entry to 'weeks'. Prior entries are never edited. Commissioner remarks are summarized/quoted from official meeting minutes; verify against the linked source before relying on exact wording."
   },
   "topics": [
@@ -24,10 +24,23 @@
           "event": "FY27 process kicks off — cost pressure, no millage yet",
           "detail": "First draft budgets expected in June. The approved compensation study is the dominant cost pressure; no millage rate discussed yet. Pending reimbursements noted: Sol Avenue stormwater (~$196K anticipated), Hurricane Ian FEMA (pending, no timeline), Hurricane Irma closeout (~$140K).",
           "remarks": [
-            { "who": "City Manager Rudometkin", "role": "City Manager", "text": "There will be no cost savings; implementation will increase costs — initial estimates exceeded $300,000, with the largest impact in the Police Department." },
-            { "who": "Vice Chair Evertsen", "role": "Budget Committee", "text": "Requested a historical comparison of prior interim pay adjustments to evaluate gaps between past adjustments, current recommendations, and job descriptions." }
+            {
+              "who": "City Manager Rudometkin",
+              "role": "City Manager",
+              "text": "There will be no cost savings; implementation will increase costs — initial estimates exceeded $300,000, with the largest impact in the Police Department."
+            },
+            {
+              "who": "Vice Chair Evertsen",
+              "role": "Budget Committee",
+              "text": "Requested a historical comparison of prior interim pay adjustments to evaluate gaps between past adjustments, current recommendations, and job descriptions."
+            }
           ],
-          "links": [ { "label": "Mar 9 minutes →", "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Minutes-e0de53098cbf49e680185ae5289de65b.pdf" } ]
+          "links": [
+            {
+              "label": "Mar 9 minutes →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Minutes-e0de53098cbf49e680185ae5289de65b.pdf"
+            }
+          ]
         },
         {
           "date": "2026-05-11",
@@ -36,7 +49,12 @@
           "event": "Planning FY27 budget meetings",
           "detail": "Annual financial report, planning for FY26-27 budget meetings, a revenue update (reimbursements and fees), and a property-tax reform update. No proposed millage or spending figures finalized yet.",
           "remarks": [],
-          "links": [ { "label": "May 11 packet →", "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-2e289cf0534a42d8983ebfb43ff842a7.pdf" } ]
+          "links": [
+            {
+              "label": "May 11 packet →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-2e289cf0534a42d8983ebfb43ff842a7.pdf"
+            }
+          ]
         },
         {
           "date": "2026-07-13",
@@ -45,7 +63,12 @@
           "event": "Draft budget with proposed millage increase",
           "detail": "Draft proposes millage of 5.0000 mills (up from 4.7845) — an ~8% increase in ad valorem revenue to ~$5.76M; General Fund $10.88M (+2%); ending fund balance $2.55M (23.4%, near the 25% target). Police +6% ($69,400 equipment, $57K capital); Public Works -27% (vehicle leasing vs. ownership); solid waste +7% (landfill +26%); $250K to Jade Pump Station; 4% COLA; medical insurance +8%. Five-year capital plan totals $11.03M.",
           "remarks": [],
-          "links": [ { "label": "Jul 13 packet →", "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-4a303a1798024691825a560fc40c1097.pdf#page=2" } ]
+          "links": [
+            {
+              "label": "Jul 13 packet →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-4a303a1798024691825a560fc40c1097.pdf#page=2"
+            }
+          ]
         },
         {
           "date": "2026-07-21",
@@ -54,7 +77,12 @@
           "event": "Council sets the maximum millage",
           "detail": "Council takes up the proposed maximum millage for FY26/27 — the ceiling printed on TRIM notices. The final rate can be lowered at the September hearings but not raised. Agenda also includes discussion of statutory limitations on property-tax ballot questions.",
           "remarks": [],
-          "links": [ { "label": "Jul 21 agenda →", "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Agenda-bbe2b928258446cf8db312222e9c76e7.pdf#page=1" } ]
+          "links": [
+            {
+              "label": "Jul 21 agenda →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Agenda-bbe2b928258446cf8db312222e9c76e7.pdf#page=1"
+            }
+          ]
         },
         {
           "date": "2026-09-01",
@@ -86,7 +114,16 @@
           "event": "First reading — continued to Aug 4",
           "detail": "Introduced for first reading and continued to the August 4 meeting. Not yet law (Belle Isle ordinances require two readings).",
           "remarks": [],
-          "links": [ { "label": "Jul 7 packet →", "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-bd311dfeaf65464e9d2686eea4dd422c.pdf" }, { "label": "Current code →", "url": "https://library.municode.com/fl/belle_isle/codes/code_of_ordinances#:~:text=Zoning" } ]
+          "links": [
+            {
+              "label": "Jul 7 packet →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-bd311dfeaf65464e9d2686eea4dd422c.pdf"
+            },
+            {
+              "label": "Current code →",
+              "url": "https://library.municode.com/fl/belle_isle/codes/code_of_ordinances#:~:text=Zoning"
+            }
+          ]
         },
         {
           "date": "2026-08-04",
@@ -118,7 +155,12 @@
           "event": "First reading",
           "detail": "Introduced for first reading. Establishes special-assessment authority and procedures for fire-rescue funding. Not yet law.",
           "remarks": [],
-          "links": [ { "label": "Jul 21 agenda →", "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Agenda-bbe2b928258446cf8db312222e9c76e7.pdf#page=2" } ]
+          "links": [
+            {
+              "label": "Jul 21 agenda →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Agenda-bbe2b928258446cf8db312222e9c76e7.pdf#page=2"
+            }
+          ]
         }
       ]
     },
@@ -141,7 +183,12 @@
           "event": "On the agenda",
           "detail": "Resolution to adopt an updated purchasing policy, repealing Res. 20-08 and 25-02. Resolutions pass in a single vote.",
           "remarks": [],
-          "links": [ { "label": "Jul 21 agenda →", "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Agenda-bbe2b928258446cf8db312222e9c76e7.pdf#page=2" } ]
+          "links": [
+            {
+              "label": "Jul 21 agenda →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Agenda-bbe2b928258446cf8db312222e9c76e7.pdf#page=2"
+            }
+          ]
         }
       ]
     },
@@ -164,9 +211,18 @@
           "event": "Adopted on final reading, 6-0",
           "detail": "Advanced to second reading and adopted. Motion by Comm. Shuck, seconded by Comm. Oller; unanimous 6-0.",
           "remarks": [
-            { "who": "City Manager Rudometkin", "role": "City Manager", "text": "This is the same water supply plan amendment previously reviewed by the Planning & Zoning Board; it requires state review before final adoption." }
+            {
+              "who": "City Manager Rudometkin",
+              "role": "City Manager",
+              "text": "This is the same water supply plan amendment previously reviewed by the Planning & Zoning Board; it requires state review before final adoption."
+            }
           ],
-          "links": [ { "label": "Jul 7 packet (Jun 16 minutes) →", "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-bd311dfeaf65464e9d2686eea4dd422c.pdf#page=3" } ]
+          "links": [
+            {
+              "label": "Jul 7 packet (Jun 16 minutes) →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-bd311dfeaf65464e9d2686eea4dd422c.pdf#page=3"
+            }
+          ]
         }
       ]
     },
@@ -187,11 +243,32 @@
           "event": "Approved 6-0, with a 90-day evaluation",
           "detail": "Flock Safety agreement for 13 Condor PTZ cameras at $52,000 annually. Motion by Comm. Lowell, seconded by Comm. Lance; unanimous 6-0. Includes a 90-day evaluation period.",
           "remarks": [
-            { "who": "Comm. Gold", "role": "Commissioner", "text": "Raised concern about cameras in parks — 'one resident said they are not a fan of their kid being on camera at all times' — and requested a public meeting where residents could see demonstrations and ask questions." },
-            { "who": "Comm. Bobrowski", "role": "Commissioner", "text": "Asked whether the cameras record continuously." },
-            { "who": "Chief Grimm", "role": "Police Chief", "text": "Yes, they are always recording. We do not have a dedicated staff reviewing the live footage." }
+            {
+              "who": "Comm. Gold",
+              "role": "Commissioner",
+              "text": "Raised concern about cameras in parks — 'one resident said they are not a fan of their kid being on camera at all times' — and requested a public meeting where residents could see demonstrations and ask questions."
+            },
+            {
+              "who": "Comm. Bobrowski",
+              "role": "Commissioner",
+              "text": "Asked whether the cameras record continuously."
+            },
+            {
+              "who": "Chief Grimm",
+              "role": "Police Chief",
+              "text": "Yes, they are always recording. We do not have a dedicated staff reviewing the live footage."
+            }
           ],
-          "links": [ { "label": "Jun 16 minutes →", "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-bd311dfeaf65464e9d2686eea4dd422c.pdf#page=3" }, { "label": "Flock transparency portal →", "url": "https://transparency.flocksafety.com/belle-isle-fl-pd" } ]
+          "links": [
+            {
+              "label": "Jun 16 minutes →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-bd311dfeaf65464e9d2686eea4dd422c.pdf#page=3"
+            },
+            {
+              "label": "Flock transparency portal →",
+              "url": "https://transparency.flocksafety.com/belle-isle-fl-pd"
+            }
+          ]
         }
       ]
     },
@@ -212,9 +289,18 @@
           "event": "Approved 6-0",
           "detail": "SRO agreement with Cornerstone Charter Academy for 2026-2027; mayor authorized to execute. Motion by Comm. Lowell, seconded by Comm. Lance; unanimous 6-0.",
           "remarks": [
-            { "who": "Chief Grimm", "role": "Police Chief", "text": "Salary and benefits rose from ~$70,000 to ~$76,000. Total annual cost for two SRO positions is ~$250,000, with the school reimbursing ~$187,000 (about 75%)." }
+            {
+              "who": "Chief Grimm",
+              "role": "Police Chief",
+              "text": "Salary and benefits rose from ~$70,000 to ~$76,000. Total annual cost for two SRO positions is ~$250,000, with the school reimbursing ~$187,000 (about 75%)."
+            }
           ],
-          "links": [ { "label": "Jun 16 minutes →", "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-bd311dfeaf65464e9d2686eea4dd422c.pdf#page=3" } ]
+          "links": [
+            {
+              "label": "Jun 16 minutes →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-bd311dfeaf65464e9d2686eea4dd422c.pdf#page=3"
+            }
+          ]
         }
       ]
     },
@@ -235,11 +321,28 @@
           "event": "Awarded 6-0",
           "detail": "RFP 2026-04 awarded to EOLA Technology; city manager and attorney authorized to negotiate a three-year agreement with two possible one-year renewals. Motion by Comm. Lance, seconded by Comm. Oller; unanimous 6-0.",
           "remarks": [
-            { "who": "City Clerk", "role": "City Clerk", "text": "Recommended requiring the vendor to resolve issues under contract rather than staff resolving problems internally." },
-            { "who": "Public Works Director Price", "role": "Public Works Director", "text": "Response time had been a concern in the past, but service and responsiveness have improved significantly over the last six to eight months." },
-            { "who": "Mayor Carson", "role": "Mayor", "text": "The City must hold the provider accountable to the terms of the contract." }
+            {
+              "who": "City Clerk",
+              "role": "City Clerk",
+              "text": "Recommended requiring the vendor to resolve issues under contract rather than staff resolving problems internally."
+            },
+            {
+              "who": "Public Works Director Price",
+              "role": "Public Works Director",
+              "text": "Response time had been a concern in the past, but service and responsiveness have improved significantly over the last six to eight months."
+            },
+            {
+              "who": "Mayor Carson",
+              "role": "Mayor",
+              "text": "The City must hold the provider accountable to the terms of the contract."
+            }
           ],
-          "links": [ { "label": "Jun 16 minutes →", "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-bd311dfeaf65464e9d2686eea4dd422c.pdf#page=3" } ]
+          "links": [
+            {
+              "label": "Jun 16 minutes →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-bd311dfeaf65464e9d2686eea4dd422c.pdf#page=3"
+            }
+          ]
         }
       ]
     },
@@ -260,7 +363,12 @@
           "event": "Staff recommends an RFP",
           "detail": "City Manager's cover memo recommends preparing an RFP for a Citywide Annexation Strategy, Feasibility & Fiscal Impact Study of contiguous unincorporated areas. Discussion item; no vote.",
           "remarks": [],
-          "links": [ { "label": "Jul 7 packet →", "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-bd311dfeaf65464e9d2686eea4dd422c.pdf#page=33" } ]
+          "links": [
+            {
+              "label": "Jul 7 packet →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-bd311dfeaf65464e9d2686eea4dd422c.pdf#page=33"
+            }
+          ]
         }
       ]
     },
@@ -281,7 +389,12 @@
           "event": "Sol Avenue reimbursement pending",
           "detail": "Committee noted an anticipated ~$196,000 reimbursement tied to the Sol Avenue stormwater project among pending revenues.",
           "remarks": [],
-          "links": [ { "label": "Mar 9 minutes →", "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Minutes-e0de53098cbf49e680185ae5289de65b.pdf" } ]
+          "links": [
+            {
+              "label": "Mar 9 minutes →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Minutes-e0de53098cbf49e680185ae5289de65b.pdf"
+            }
+          ]
         },
         {
           "date": "2026-07-13",
@@ -290,7 +403,12 @@
           "event": "$250K for Jade Pump Station in draft budget",
           "detail": "The FY27 draft dedicates $250,000 from the Stormwater Fund to rehabilitate the Jade Pump Station, part of an $11.03M five-year capital plan that also includes swale and drainage work.",
           "remarks": [],
-          "links": [ { "label": "Jul 13 packet →", "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-4a303a1798024691825a560fc40c1097.pdf#page=17" } ]
+          "links": [
+            {
+              "label": "Jul 13 packet →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-4a303a1798024691825a560fc40c1097.pdf#page=17"
+            }
+          ]
         }
       ]
     }
@@ -302,10 +420,57 @@
       "compiled": "2026-07-16",
       "intro": "A budget-heavy stretch: the Budget Committee wrapped its review of a proposed millage increase, and next Tuesday's council meeting sets the maximum tax rate for the year and takes up a new fire-rescue assessment.",
       "highlights": [
-        { "topicId": "fy27-budget-millage", "line": "Draft budget proposes raising millage to 5.0000 (from 4.7845); Council sets the maximum rate July 21." },
-        { "topicId": "ord-26-05-fire-assessment", "line": "New Fire Rescue Assessment ordinance (26-05) gets its first reading July 21." },
-        { "topicId": "ord-26-03-lot-splits", "line": "Lot-split / flag-lot ordinance (26-03) continued to Aug 4 after its July 7 first reading." },
-        { "topicId": "res-26-06-purchasing", "line": "Updated purchasing policy (Res. 26-06) on the July 21 agenda." }
+        {
+          "topicId": "fy27-budget-millage",
+          "line": "Draft budget proposes raising millage to 5.0000 (from 4.7845); Council sets the maximum rate July 21."
+        },
+        {
+          "topicId": "ord-26-05-fire-assessment",
+          "line": "New Fire Rescue Assessment ordinance (26-05) gets its first reading July 21."
+        },
+        {
+          "topicId": "ord-26-03-lot-splits",
+          "line": "Lot-split / flag-lot ordinance (26-03) continued to Aug 4 after its July 7 first reading."
+        },
+        {
+          "topicId": "res-26-06-purchasing",
+          "line": "Updated purchasing policy (Res. 26-06) on the July 21 agenda."
+        }
+      ]
+    },
+    {
+      "weekOf": "2026-07-20",
+      "label": "Week of July 20–26, 2026",
+      "compiled": "2026-07-27",
+      "intro": "The City Council held its budget workshop and regular meeting on July 21. Minutes and outcomes are not yet posted to official sources.",
+      "highlights": [
+        {
+          "topicId": "fy27-budget-millage",
+          "line": "Council set the maximum millage rate at the July 21 budget workshop (minutes pending)."
+        },
+        {
+          "topicId": "ord-26-05-fire-assessment",
+          "line": "Fire Rescue Assessment ordinance was on first reading July 21 (outcome pending minutes)."
+        },
+        {
+          "topicId": "res-26-06-purchasing",
+          "line": "Updated Purchasing Policy was on the July 21 agenda (outcome pending minutes)."
+        },
+        {
+          "topicId": "ord-26-03-lot-splits",
+          "line": "Subdivisions ordinance continues to August 4 for second reading consideration."
+        }
+      ],
+      "notices": [
+        "Planning & Zoning Board Meeting: July 28, 2026 at 6:30 PM",
+        "City Council Budget Workshop and Meeting: August 4, 2026 at 6:00 PM",
+        "Final TRIM hearing for FY27 millage and budget adoption: September 1, 2026"
+      ],
+      "links": [
+        {
+          "label": "City calendar →",
+          "url": "https://www.belleislefl.gov/citycouncil"
+        }
       ]
     }
   ]
