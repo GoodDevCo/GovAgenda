@@ -33,6 +33,7 @@ if (!tpl.includes('__ARCHIVE_JSON__')) {
 // literally and not interpreted as replacement patterns.
 // Inline the logo as a data URI so the page stays a single self-contained file.
 const logoUri = 'data:image/png;base64,' + readFileSync('assets/govagenda-logo.png').toString('base64');
+const logoDarkUri = 'data:image/png;base64,' + readFileSync('assets/govagenda-logo-dark.png').toString('base64');
 
 // Community feedback board data.
 const communityRaw = readFileSync('data/community.json', 'utf8');
@@ -45,6 +46,7 @@ const safeCommunity = communityRaw.replace(/<\/script>/gi, '<\\/script>');
 const html = tpl
   .replace('__ARCHIVE_JSON__', () => safeJson)
   .replace('__LOGO_DATA_URI__', () => logoUri)
+  .replace('__LOGO_DARK_DATA_URI__', () => logoDarkUri)
   .replace('__COMMUNITY_JSON__', () => safeCommunity);
 
 mkdirSync(OUT_DIR, { recursive: true });
