@@ -26,11 +26,16 @@ commissioner remarks)._
 
 ## Recently shipped
 
+- **2026-07-28** — "Ask ChatGPT / Ask Claude" buttons on every topic — jump into your own AI assistant with the full sourced context pre-loaded, no extra typing.
+- **2026-07-28** — Visual refresh: new color palette with light/dark mode, refreshed Follow / Add-to-Calendar / source-link UI.
+- **2026-07-25** — Automated weekly refresh is live: the tracker now updates itself from official sources on a schedule (daily watch + Monday roll-up), append-only and source-verified — no manual data entry.
+- **2026-07-18** — Community board: propose ideas and vote on what GovAgenda builds next.
 - **2026-07-18** — Live on the custom domain **[govagenda.org](https://govagenda.org/)** over HTTPS.
-- **2026-07-17** — Ordinance/resolution numbers now render as a distinct badge (e.g.
-  `Ordinance 26-05`) beside the status and category badges; topic titles cleaned up.
+- **2026-07-18** — New look: logo added, site retheme.
+- **2026-07-17** — Rebrand to **GovAgenda**. Ordinance/resolution numbers now render as a distinct badge (e.g.
+`Ordinance 26-05`) beside the status and category badges; topic titles cleaned up.
 - **2026-07-17** — Initial launch: single-source JSON archive → build step → GitHub Pages,
-  auto-deployed on every change via GitHub Actions.
+auto-deployed on every change via GitHub Actions.
 
 ---
 
