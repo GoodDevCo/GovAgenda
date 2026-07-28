@@ -17,8 +17,10 @@
 //   REFRESH_MAX_SEARCHES (optional)— cap on web searches per run (cost guardrail). Default 8.
 
 import { readFileSync, writeFileSync } from 'node:fs';
+import { execFileSync } from 'node:child_process';
 
 const DATA_PATH = 'data/topic-archive.json';
+const MEETINGS_PATH = 'data/meetings.json';
 const MODEL = process.env.REFRESH_MODEL || 'claude-sonnet-4-5';
 const MODE = (process.env.REFRESH_MODE || 'watch').toLowerCase();
 const MAX_SEARCHES = parseInt(process.env.REFRESH_MAX_SEARCHES || '8', 10);
@@ -83,6 +85,22 @@ const snapshot = data.topics.map((t) => ({
 
 const today = new Date().toISOString().slice(0, 10);
 
+// Meetings registry — the canonical calendar. Loaded here so the model can be told exactly which
+// meetings are already on file (and so it only has to return what changed).
+let meetingsReg;
+try { meetingsReg = JSON.parse(readFileSync(MEETINGS_PATH, 'utf8')); }
+catch (e) { console.error('ERROR: meetings registry is not valid JSON:', e.message); process.exit(1); }
+meetingsReg.meetings ||= [];
+meetingsReg.meta ||= {};
+
+// Only confirmed records matter for dedupe — projections are regenerated every sync and must not
+// stop a real, city-posted meeting from landing.
+const confirmedMeetings = meetingsReg.meetings.filter((m) => m.confirmed !== false);
+const meetingSnapshot = confirmedMeetings
+  .filter((m) => m.date >= '2026-01-01')
+  .map((m) => ({ date: m.date, time: m.time || null, body: m.body, kind: m.kind, status: m.status,
+                 hasAgenda: !!m.agendaUrl, hasMinutes: !!m.minutesUrl }));
+
 // ---- Build the research instruction ---------------------------------------
 
 const SYSTEM = `You are the automated research engine for GovAgenda, a neutral, bipartisan civic
@@ -116,7 +134,21 @@ the neutral "summary" field):
   scheduled, not decided or done. Same spirit as the two-reading rule above.
 - Mention practical impact on residents only when the documents actually support it — never invent
   an impact.
-- Same neutrality rule as everything else: state the question raised, never take a side.`;
+- Same neutrality rule as everything else: state the question raised, never take a side.
+
+Meeting calendar — you also maintain GovAgenda's public meetings calendar. Read the city's official
+meeting calendar at https://www.belleislefl.gov/meetings and return every meeting listed there that
+is not already in the meetings snapshot, plus any change to one that is:
+- Capture the START TIME exactly as the city lists it, in 24-hour "HH:MM" form. Never guess a time.
+  If the city lists no time, return null — an absent time is fine, an invented one is not.
+- Capture cancellations and reschedules. A title like "City Council Meeting-Rescheduled to August 20"
+  means status "rescheduled" with a note naming the new date; "- Canceled" means status "canceled".
+- Include the agenda / agenda packet / minutes / video URLs the city publishes for that meeting.
+- This is the ONE place a non-topic item is allowed: a meeting belongs on the calendar even if no
+  tracked topic touches it. The official-source rule still applies — the city calendar or the
+  meeting's own agenda/minutes PDF is the source.
+- Never return a projected or assumed future meeting. GovAgenda generates those itself from each
+  body's published cadence and labels them "Expected"; your job is only what the city has posted.`;
 
 const schemaSpec = `Return ONLY a single JSON object (no prose, no markdown fences) with this shape:
 {
@@ -141,6 +173,15 @@ const schemaSpec = `Return ONLY a single JSON object (no prose, no markdown fenc
   "topicSummaryUpdates": [
     { "topicId": "existing-topic-id", "whatThisMeans": "refreshed plain-language paragraph reflecting the new entry" }
   ],
+  "meetings": [
+    { "date":"YYYY-MM-DD", "time":"HH:MM" (24-hour, or null if the city lists none),
+      "body":"City Council|Budget Committee|Planning & Zoning Board|Code Enforcement|Tree Advisory Board|Special Events Committee|Police Advisory Board|City Notices",
+      "kind":"Regular|Workshop|Special|Hearing|Public hearing|Public meeting|Event|Closure",
+      "title":"exactly as the city lists it",
+      "status":"scheduled|held|canceled|rescheduled",
+      "note":"only when the city's listing says something extra, e.g. 'Rescheduled to August 20.'",
+      "agendaUrl":null, "packetUrl":null, "minutesUrl":null, "videoUrl":null }
+  ],
   "weekEntry": ${MODE === 'weekly'
     ? `{ "weekOf":"YYYY-MM-DD (Monday of the week just ended)","label":"Week of Mon D–D, YYYY","compiled":"${today}","intro":"1-2 sentence neutral overview","highlights":[{"topicId":"...","line":"one plain sentence"}],"notices":["optional plain-text lines for upcoming meeting dates, reschedules, deadlines"],"links":[{"label":"Jul 21 agenda →","url":"https://official..."}] }`
     : 'null'}
@@ -156,9 +197,15 @@ Here is the snapshot of what GovAgenda already has on file (do not repeat any of
 
 ${JSON.stringify(snapshot, null, 0)}
 
+And here is the meetings calendar already on file (return only meetings NOT in this list, plus any
+whose time, status, or published documents have changed):
+
+${JSON.stringify(meetingSnapshot, null, 0)}
+
 Research the City of Belle Isle, FL for anything new since these records — newly posted agendas,
 minutes, packets, adopted ordinances/resolutions, budget/millage actions, public notices, and
-upcoming meetings. Start from the city's official meeting portal and site. Then return the JSON.
+upcoming meetings. Start from the city's official meeting calendar (https://www.belleislefl.gov/meetings)
+and site. Then return the JSON.
 
 ${schemaSpec}`;
 
@@ -230,8 +277,17 @@ function extractJson(text) {
 
 // ---- Validate + merge (append-only) ----------------------------------------
 
+// A shape check is not enough: "2026-09-99" and "2026-02-31" both match /\d{4}-\d{2}-\d{2}/ and
+// would land a phantom date on the calendar. Round-trip it through Date to prove it exists.
+const isRealDate = (s) => {
+  if (typeof s !== 'string' || !/^\d{4}-\d{2}-\d{2}$/.test(s)) return false;
+  const d = new Date(s + 'T00:00:00Z');
+  // An out-of-range date parses to NaN, and .toISOString() on that THROWS — check first.
+  return !Number.isNaN(d.getTime()) && d.toISOString().slice(0, 10) === s;
+};
+
 const validEntry = (en) =>
-  en && typeof en.date === 'string' && /^\d{4}-\d{2}-\d{2}$/.test(en.date) &&
+  en && isRealDate(en.date) &&
   typeof en.event === 'string' && en.event.trim() &&
   typeof en.detail === 'string' && en.detail.trim() &&
   hasOfficialLink(en.links);
@@ -354,22 +410,103 @@ async function main() {
     }
   }
 
-  // ---- Commit to disk only if something changed ----------------------------
-  if (added === 0) {
-    console.log(`No new material (skipped ${skipped}). Archive unchanged. Mode=${MODE}.`);
+  // 5) Meetings calendar. Merged into data/meetings.json, NOT the topic archive — the calendar is
+  //    its own record and legitimately carries meetings no tracked topic touches.
+  //    Confirmed records are append-only: an existing one is only ever enriched (a time the city
+  //    finally published, a status change, newly posted minutes/video), never rewritten wholesale.
+  const VALID_MEETING_STATUS = new Set(['scheduled', 'held', 'canceled', 'rescheduled']);
+  const bodyNames = new Set((meetingsReg.meta.bodies || []).map((b) => b.name));
+  const mKey = (date, body) => `${date}::${String(body || '').toLowerCase()}`;
+  const confirmedIndex = new Map();
+  for (const m of confirmedMeetings) {
+    const k = mKey(m.date, m.body);
+    if (!confirmedIndex.has(k)) confirmedIndex.set(k, []);
+    confirmedIndex.get(k).push(m);
+  }
+  const KIND_SUFFIX = { Regular: '', Hearing: '', Workshop: '-workshop', Special: '-special',
+                        'Public hearing': '-hearing', 'Public meeting': '-public', Event: '-event', Closure: '-closure' };
+  const bodySlugOf = (name) => {
+    const b = (meetingsReg.meta.bodies || []).find((x) => x.name === name);
+    return b ? b.id : String(name || '').toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
+  };
+  let meetingsChanged = 0;
+
+  for (const mm of out.meetings || []) {
+    if (!mm || !isRealDate(mm.date) || !mm.body) { skipped++; log.push(`skip meeting: bad date "${mm && mm.date}"`); continue; }
+    if (!bodyNames.has(mm.body)) { skipped++; log.push(`skip meeting ${mm.date}: unknown body "${mm.body}"`); continue; }
+    if (mm.time != null && !/^\d{2}:\d{2}$/.test(mm.time)) { skipped++; log.push(`skip meeting ${mm.date}: bad time "${mm.time}"`); continue; }
+    const kind = mm.kind || 'Regular';
+    const status = VALID_MEETING_STATUS.has(mm.status) ? mm.status : (mm.date < today ? 'held' : 'scheduled');
+    const docs = ['agendaUrl', 'packetUrl', 'minutesUrl', 'videoUrl']
+      .reduce((acc, k) => { if (mm[k] && isOfficial(mm[k])) acc[k] = mm[k]; return acc; }, {});
+
+    const existing = (confirmedIndex.get(mKey(mm.date, mm.body)) || []).find((x) => x.kind === kind)
+      || (confirmedIndex.get(mKey(mm.date, mm.body)) || [])[0];
+
+    if (existing) {
+      let touched = false;
+      // Fill a blank time, or accept a time the city has now confirmed.
+      if (mm.time && (!existing.time || existing.timeConfirmed === false)) {
+        if (existing.time !== mm.time || existing.timeConfirmed !== true) touched = true;
+        existing.time = mm.time; existing.timeConfirmed = true;
+      }
+      if (status !== existing.status) { existing.status = status; touched = true; }
+      if (mm.note && mm.note.trim() && mm.note.trim() !== existing.note) { existing.note = mm.note.trim(); touched = true; }
+      for (const [k, v] of Object.entries(docs)) if (!existing[k]) { existing[k] = v; touched = true; }
+      if (touched) { meetingsChanged++; log.push(`~ meeting ${existing.id} updated`); }
+      continue;
+    }
+
+    const id = `${mm.date}-${bodySlugOf(mm.body)}${KIND_SUFFIX[kind] || ''}`;
+    if (meetingsReg.meetings.some((x) => x.id === id)) { skipped++; continue; }
+    const rec = {
+      id, date: mm.date, time: mm.time || null, timeConfirmed: !!mm.time,
+      body: mm.body, kind, title: (mm.title || `${mm.body} Meeting`).trim(),
+      status, confirmed: true, source: 'official-calendar',
+      location: meetingsReg.meta.defaultLocation || null,
+      agendaUrl: docs.agendaUrl || null, packetUrl: docs.packetUrl || null,
+      minutesUrl: docs.minutesUrl || null, videoUrl: docs.videoUrl || null,
+      topicIds: [], note: (mm.note || '').trim(), calendarUrl: meetingsReg.meta.calendarUrl || null,
+    };
+    meetingsReg.meetings.push(rec);
+    confirmedMeetings.push(rec);
+    const k = mKey(rec.date, rec.body);
+    if (!confirmedIndex.has(k)) confirmedIndex.set(k, []);
+    confirmedIndex.get(k).push(rec);
+    meetingsChanged++; log.push(`+ meeting ${id}`);
+  }
+
+  // ---- Commit to disk -------------------------------------------------------
+  if (DRY_RUN) {
+    console.log(`[DRY RUN] Would add ${added} archive item(s), change ${meetingsChanged} meeting(s), skip ${skipped}. Mode=${MODE}. No file written.`);
     console.log(log.join('\n'));
     process.exit(0);
   }
 
-  // Keep topics sorted by most-recent activity (pinned first), matching how the site reads.
-  data.meta.lastUpdated = today;
-  if (DRY_RUN) {
-    console.log(`[DRY RUN] Would add ${added}, skip ${skipped}. Mode=${MODE}. No file written.`);
-    console.log(log.join('\n'));
-    process.exit(0);
+  if (meetingsChanged) {
+    meetingsReg.meta.lastUpdated = today;
+    writeFileSync(MEETINGS_PATH, JSON.stringify(meetingsReg, null, 2) + '\n');
   }
-  writeFileSync(DATA_PATH, JSON.stringify(data, null, 2) + '\n');
-  console.log(`Refresh complete: ${added} added, ${skipped} skipped. Mode=${MODE}.`);
+  if (added > 0) {
+    data.meta.lastUpdated = today;
+    writeFileSync(DATA_PATH, JSON.stringify(data, null, 2) + '\n');
+  }
+
+  // Always re-sync the registry, even on a quiet day: past meetings roll from "scheduled" to
+  // "held", the projected-meeting window advances, and topic↔meeting links are re-derived from
+  // whatever just landed in the archive. Without this the calendar would silently age.
+  // sync-meetings.mjs is idempotent and runs AFTER the archive write so it sees this run's data.
+  try {
+    console.log(execFileSync(process.execPath, ['scripts/sync-meetings.mjs'], { encoding: 'utf8' }).trim());
+  } catch (e) {
+    console.error('WARN: meetings sync failed —', e.message);
+  }
+
+  if (added === 0 && meetingsChanged === 0) {
+    console.log(`No new material (skipped ${skipped}). Mode=${MODE}.`);
+  } else {
+    console.log(`Refresh complete: ${added} archive item(s) added, ${meetingsChanged} meeting(s) changed, ${skipped} skipped. Mode=${MODE}.`);
+  }
   console.log(log.join('\n'));
 }
 
