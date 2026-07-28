@@ -46,6 +46,9 @@
   .tsummary{color:var(--muted); font-size:13.5px; margin:6px 0 0;}
   .tmeta{font-size:12px; color:var(--muted); margin-top:7px; display:flex; gap:12px; flex-wrap:wrap; align-items:center;}
   .tmeta .count{font-weight:600; color:var(--slate);}
+  .aibtns{display:inline-flex; gap:6px; margin-left:auto;}
+  .aibtn{font-size:11px; font-weight:650; text-decoration:none; border:1px solid var(--line); border-radius:7px; padding:3px 8px; color:var(--slate); background:#fff; white-space:nowrap;}
+  .aibtn:hover{border-color:var(--navy); color:var(--navy);}
   .pinbtn{flex:0 0 auto; border:1px solid var(--line); background:#fff; border-radius:8px; cursor:pointer; font-size:14px; color:var(--muted); padding:6px 9px; display:inline-flex; align-items:center; gap:5px;}
   .pinbtn:hover{border-color:var(--gold); color:var(--ink);}
   .topic.pinned .pinbtn{background:var(--gold-soft); border-color:var(--gold); color:var(--amber);}
@@ -335,10 +338,53 @@
     }).join('') + '</div>';
   }
 
+  // Collect this topic's source links (newest event first), deduped by URL, capped so the
+  // prefilled AI prompt stays a sane length. Each link is labeled with its event date so the
+  // AI knows what it's looking at, not just a bare URL.
+  function topicSourceLinks(t, max){
+    max = max || 5;
+    var seen = {}, out = [];
+    var evs = (t.timeline || []).slice().sort(function(a,b){ return a.date < b.date ? 1 : -1; });
+    evs.forEach(function(e){
+      (e.links || []).forEach(function(l){
+        if(!l.url || seen[l.url] || out.length >= max) return;
+        seen[l.url] = true;
+        out.push({ label: (e.dateLabel ? e.dateLabel + ' — ' : '') + (l.label || 'Source'), url: l.url });
+      });
+    });
+    return out;
+  }
+
+  // Build the plain-text prompt handed to the user's own ChatGPT/Claude. It names the specific
+  // municipality and links the primary-source documents so the AI grounds its answer in this
+  // topic's actual record instead of giving a generic, jurisdiction-less answer.
+  function aiContextText(t){
+    var jurisdiction = (DATA.meta && DATA.meta.jurisdiction) || 'this municipality';
+    var links = topicSourceLinks(t, 5);
+    var lines = [];
+    lines.push('I\'m following a local government topic in ' + jurisdiction + ' via GovAgenda.');
+    lines.push('Topic: ' + t.title + ' (' + t.category + ', status: ' + t.status + ')');
+    lines.push('Summary: ' + t.summary);
+    if(links.length){
+      lines.push('');
+      lines.push('Please read these primary sources first so your answer is specific to ' + jurisdiction + ' and not generic:');
+      links.forEach(function(l){ lines.push('- ' + l.label + ': ' + l.url); });
+    }
+    lines.push('');
+    lines.push('My question: ');
+    return lines.join('\n');
+  }
+
+  function aiLinks(t){
+    var enc = encodeURIComponent(aiContextText(t));
+    return { chatgpt: 'https://chatgpt.com/?q=' + enc, claude: 'https://claude.ai/new?q=' + enc };
+  }
+
   function topicCard(t){
     var pinned = isPinned(t);
     var isOpen = !!open[t.id];
     var n = t.timeline ? t.timeline.length : 0;
+    var ai = aiLinks(t);
     return '<div class="topic' + (pinned?' pinned':'') + (isOpen?' open':'') + '" data-id="' + esc(t.id) + '">'
       + '<div class="thead" data-role="head">'
         + '<button class="pinbtn" data-role="pin" title="Pin to top">' + (pinned ? '★' : '☆') + '</button>'
@@ -349,7 +395,12 @@
             + '<span class="cat">' + txt(t.category) + '</span></div>'
           + '<p class="tsummary">' + txt(t.summary) + '</p>'
           + '<div class="tmeta"><span class="count">' + n + ' update' + (n===1?'':'s') + '</span>'
-            + '<span>last activity ' + txt(t.updated) + '</span></div>'
+            + '<span>last activity ' + txt(t.updated) + '</span>'
+            + '<span class="aibtns">'
+              + '<a class="aibtn" data-role="ai" href="' + esc(ai.chatgpt) + '" target="_blank" rel="noopener" title="Opens a prefilled question in your own ChatGPT account">Ask ChatGPT ↗</a>'
+              + '<a class="aibtn" data-role="ai" href="' + esc(ai.claude) + '" target="_blank" rel="noopener" title="Opens a prefilled question in your own Claude account">Ask Claude ↗</a>'
+            + '</span>'
+          + '</div>'
         + '</div>'
         + '<span class="chev">▶</span>'
       + '</div>'
@@ -377,6 +428,18 @@
         ev.stopPropagation();
         pins[id] = !isPinnedById(id);
         renderTopics();
+      });
+      el.querySelectorAll('[data-role="ai"]').forEach(function(a){
+        a.addEventListener('click', function(ev){
+          ev.stopPropagation(); // don't also toggle the card open/closed
+          // Belt-and-suspenders: also copy the same context to the clipboard, since the
+          // ?q= prefill param on chatgpt.com/claude.ai is an unofficial, undocumented
+          // behavior that could change or get blocked without notice.
+          var t = topics.filter(function(x){ return x.id === id; })[0];
+          if(t && navigator.clipboard && navigator.clipboard.writeText){
+            navigator.clipboard.writeText(aiContextText(t)).catch(function(){});
+          }
+        });
       });
       el.querySelector('[data-role="head"]').addEventListener('click', function(){
         open[id] = !open[id];
