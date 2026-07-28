@@ -96,6 +96,14 @@
 
   .emptynote{font-size:13px; color:var(--muted); padding:18px; text-align:center; background:var(--card); border:1px dashed var(--line); border-radius:4px;}
 
+  /* "What this means" plain-language tip — collapsible, re-expandable, not a one-time dismiss */
+  .wtm{background:var(--blue-soft); border:1px solid var(--line); border-radius:4px; margin:16px 0 6px; overflow:hidden;}
+  .wtm-head{display:flex; align-items:center; justify-content:space-between; gap:8px; padding:10px 14px; cursor:pointer;}
+  .wtm-head:hover{filter:brightness(0.97);}
+  .wtm-label{font-size:12px; font-weight:700; color:var(--blue); text-transform:uppercase; letter-spacing:.04em;}
+  .wtm-chev{font-size:11px; color:var(--blue);}
+  .wtm-body{font-size:13.5px; color:var(--ink); margin:0; padding:0 14px 14px;}
+
   /* Week view */
   .weekcard{background:var(--card); border:1px solid var(--line); border-radius:4px; padding:22px; margin-bottom:18px;}
   .weeklabel{font-weight:700; font-size:17px; margin:0 0 3px;}
@@ -291,6 +299,31 @@
   var open = {}; // open/expanded topics
   var TODAY = "2026-07-16";
 
+  // "What this means" plain-language tip: shown expanded the first time a topic is opened in
+  // this browser, then collapses by default on later visits (but stays reachable via toggle —
+  // not a one-time dismiss). wtmSeen persists across visits; wtmOpen is an explicit per-session
+  // override once the user has toggled it.
+  var wtmOpen = {};
+  var wtmSeen = {};
+  try { wtmSeen = JSON.parse(localStorage.getItem('ga_wtm_seen') || '{}'); } catch(e) { wtmSeen = {}; }
+  function markWtmSeen(id){
+    if(wtmSeen[id]) return;
+    wtmSeen[id] = true;
+    try { localStorage.setItem('ga_wtm_seen', JSON.stringify(wtmSeen)); } catch(e) {}
+  }
+  function whatMeansIsOpen(id){ return wtmOpen[id] != null ? wtmOpen[id] : !wtmSeen[id]; }
+  function whatMeansHtml(t){
+    if(!t.whatThisMeans) return '';
+    var id = t.id, isOpenTip = whatMeansIsOpen(id);
+    if(isOpenTip) markWtmSeen(id); // shown expanded now → collapsed by default next time
+    // data-open records what THIS render actually shows, so the click handler can toggle off
+    // the visible state even in the same tick that markWtmSeen just flipped the future default.
+    return '<div class="wtm' + (isOpenTip?' open':'') + '" data-role="wtm" data-open="' + (isOpenTip?'1':'0') + '">'
+      + '<div class="wtm-head" data-role="wtm-head"><span class="wtm-label">What this means</span><span class="wtm-chev">' + (isOpenTip?'▾':'▸') + '</span></div>'
+      + (isOpenTip ? '<p class="wtm-body">' + txt(t.whatThisMeans) + '</p>' : '')
+    + '</div>';
+  }
+
   // Community board data + vote state
   var CD = JSON.parse(document.getElementById('community-data').textContent);
   var cStatuses = CD.statuses, cItems = (CD.items || []).slice(), cFilter = 'all', cVoted = {};
@@ -409,6 +442,7 @@
     lines.push('I\'m following a local government topic in ' + jurisdiction + ' via GovAgenda.');
     lines.push('Topic: ' + t.title + ' (' + t.category + ', status: ' + t.status + ')');
     lines.push('Summary: ' + t.summary);
+    if(t.whatThisMeans) lines.push('What this means for residents: ' + t.whatThisMeans);
     if(links.length){
       lines.push('');
       lines.push('Please read these primary sources first so your answer is specific to ' + jurisdiction + ' and not generic:');
@@ -448,7 +482,7 @@
         + '</div>'
         + '<span class="chev">▶</span>'
       + '</div>'
-      + '<div class="tbody">' + (isOpen ? timelineHtml(t) : '') + '</div>'
+      + '<div class="tbody">' + (isOpen ? (whatMeansHtml(t) + timelineHtml(t)) : '') + '</div>'
     + '</div>';
   }
 
@@ -458,7 +492,7 @@
     var list = topics.filter(function(t){
       if(cat && t.category !== cat) return false;
       if(!q) return true;
-      var hay = (t.title + ' ' + (t.docType||'') + ' ' + (t.docNum||'') + ' ' + t.summary + ' ' + t.category + ' ' + JSON.stringify(t.timeline)).toLowerCase();
+      var hay = (t.title + ' ' + (t.docType||'') + ' ' + (t.docNum||'') + ' ' + t.summary + ' ' + (t.whatThisMeans||'') + ' ' + t.category + ' ' + JSON.stringify(t.timeline)).toLowerCase();
       return hay.indexOf(q) !== -1;
     });
     list = sortTopics(list);
@@ -489,6 +523,17 @@
         open[id] = !open[id];
         renderTopics();
       });
+      var wtmHead = el.querySelector('[data-role="wtm-head"]');
+      if(wtmHead){
+        wtmHead.addEventListener('click', function(ev){
+          ev.stopPropagation(); // don't also collapse the whole topic card
+          var wtmEl = el.querySelector('[data-role="wtm"]');
+          var currentlyOpen = wtmEl && wtmEl.getAttribute('data-open') === '1';
+          wtmOpen[id] = !currentlyOpen;
+          markWtmSeen(id);
+          renderTopics();
+        });
+      }
     });
   }
   function isPinnedById(id){ var t = topics.filter(function(x){return x.id===id;})[0]; return t ? isPinned(t) : false; }
