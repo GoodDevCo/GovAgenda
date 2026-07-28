@@ -104,7 +104,19 @@ Rules that are non-negotiable (this publishes automatically with no human review
   not yet law. Only mark "Adopted" when minutes show a passing second-reading vote. Resolutions pass
   in a single vote.
 - "the board"/"council" = Belle Isle FL City Council. Never Belle Isle Park in Michigan — discard it.
-- When in doubt, omit. A small accurate update beats a padded or speculative one.`;
+- When in doubt, omit. A small accurate update beats a padded or speculative one.
+
+Plain-language "what this means" field — every new topic, and every existing topic that receives a
+new sourced entry this run, must also get a "whatThisMeans" paragraph for residents (separate from
+the neutral "summary" field):
+- One short paragraph, plain English, no government jargon or unnecessary background.
+- Clearly separate what the official documents confirm from what is still unknown or undecided.
+- Never state that proposed funding is approved, a project has started, or money has been received
+  unless the documents explicitly confirm it — an agenda item proves something was proposed or
+  scheduled, not decided or done. Same spirit as the two-reading rule above.
+- Mention practical impact on residents only when the documents actually support it — never invent
+  an impact.
+- Same neutrality rule as everything else: state the question raised, never take a side.`;
 
 const schemaSpec = `Return ONLY a single JSON object (no prose, no markdown fences) with this shape:
 {
@@ -116,6 +128,7 @@ const schemaSpec = `Return ONLY a single JSON object (no prose, no markdown fenc
       "status": "First reading|Pending 2nd reading|On agenda|Adopted|Approved|Awarded|Exploratory|Budgeted|In progress",
       "statusClass": "s-amber (in progress/pending) | s-teal (done/adopted/approved) | s-slate (early/exploratory)",
       "pinned": false, "updated": "YYYY-MM-DD", "summary": "1-3 neutral sentences.",
+      "whatThisMeans": "1 plain-language paragraph for residents — see the rules above.",
       "timeline": [ { "date":"YYYY-MM-DD","dateLabel":"Mon D, YYYY","meeting":"City Council|Budget Committee|...","event":"short headline","detail":"1-4 factual sentences","remarks":[{"who":"Comm. X","role":"Commissioner","text":"faithful quote/summary"}],"links":[{"label":"Jul 21 agenda →","url":"https://official..."}] } ]
     }
   ],
@@ -125,13 +138,18 @@ const schemaSpec = `Return ONLY a single JSON object (no prose, no markdown fenc
   "statusUpdates": [
     { "topicId": "existing-topic-id", "status": "Adopted", "statusClass": "s-teal", "updated": "YYYY-MM-DD" }
   ],
+  "topicSummaryUpdates": [
+    { "topicId": "existing-topic-id", "whatThisMeans": "refreshed plain-language paragraph reflecting the new entry" }
+  ],
   "weekEntry": ${MODE === 'weekly'
     ? `{ "weekOf":"YYYY-MM-DD (Monday of the week just ended)","label":"Week of Mon D–D, YYYY","compiled":"${today}","intro":"1-2 sentence neutral overview","highlights":[{"topicId":"...","line":"one plain sentence"}],"notices":["optional plain-text lines for upcoming meeting dates, reschedules, deadlines"],"links":[{"label":"Jul 21 agenda →","url":"https://official..."}] }`
     : 'null'}
 }
 Every newTopic and every newTimelineEntry.entry MUST contain at least one links[] item whose url is an
-official source. statusUpdates must correspond to a change documented by a source you also add as a
-newTimelineEntry for that same topic. If there is nothing new, return empty arrays and weekEntry ${MODE === 'weekly' ? 'as your best roll-up of the snapshot' : 'null'}.`;
+official source. Every newTopic MUST also include a "whatThisMeans" paragraph per the rules above.
+statusUpdates and topicSummaryUpdates must each correspond to a topic that also received a sourced
+newTimelineEntry (or is itself a newTopic) in this same run — never update either for a topic with no
+accompanying sourced material. If there is nothing new, return empty arrays and weekEntry ${MODE === 'weekly' ? 'as your best roll-up of the snapshot' : 'null'}.`;
 
 const userMsg = `Today is ${today}. Mode: ${MODE}.
 Here is the snapshot of what GovAgenda already has on file (do not repeat any of it):
@@ -267,6 +285,7 @@ async function main() {
       pinned: false,
       updated: t.updated || today,
       summary: (t.summary || '').trim(),
+      whatThisMeans: (t.whatThisMeans || '').trim(),
       timeline: entries,
     };
     data.topics.push(topic);
@@ -301,6 +320,18 @@ async function main() {
     if (VALID_STATUS_CLASS.has(su.statusClass)) t.statusClass = su.statusClass;
     t.updated = su.updated || today;
     log.push(`~ status ${t.id} → ${su.status}`);
+  }
+
+  // 3b) Plain-language "what this means" refresh — same sourced-material guard as statusUpdates,
+  //     so a topic's resident-facing summary can never drift away from the sourced record.
+  for (const su of out.topicSummaryUpdates || []) {
+    const t = su && topicById.get(su.topicId);
+    if (!t || !su.whatThisMeans || !su.whatThisMeans.trim()) { skipped++; continue; }
+    const gotSourcedEntry = (out.newTimelineEntries || []).some((i) => i.topicId === su.topicId && validEntry(i.entry))
+      || (out.newTopics || []).some((nt) => nt.id === su.topicId);
+    if (!gotSourcedEntry) { skipped++; log.push(`skip whatThisMeans ${su.topicId}: no accompanying sourced entry`); continue; }
+    t.whatThisMeans = su.whatThisMeans.trim();
+    log.push(`~ whatThisMeans ${t.id} updated`);
   }
 
   // 4) Weekly roll-up (weekly mode only), append-only by weekOf.
