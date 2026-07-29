@@ -125,18 +125,29 @@
   .aboutp{font-size:14.5px; color:var(--ink); margin:0 0 16px; max-width:640px;}
 
   /* ---- Meetings view ---- */
+  /* The Meetings view is the one screen that earns extra width — a 7-column calendar and a
+     two-up meeting list. Every other view keeps the 780px reading measure. */
+  body.wide .wrap{max-width:1280px;}
   .mtghead{display:flex; align-items:baseline; justify-content:space-between; gap:14px; flex-wrap:wrap;}
-  .mtgswitch{display:flex; gap:16px; flex-wrap:wrap;}
+  .mtghead .abouth{margin:6px 0 4px;}
   .mtglink{font-size:13px; font-weight:700; color:var(--navy); border-bottom:none; white-space:nowrap; cursor:pointer;}
   .mtglink:hover{color:var(--red); border-bottom:none;}
-  .mtgchips{display:flex; flex-wrap:wrap; gap:7px; margin:12px 0 16px;}
+  .mtgchips{display:flex; flex-wrap:wrap; gap:7px; margin:10px 0 0;}
   .mchip{font-size:12px; font-weight:650; padding:5px 12px; border-radius:999px; border:1px solid var(--line);
          background:var(--card); color:var(--muted); cursor:pointer;}
   .mchip:hover{border-color:var(--navy);}
   .mchip.on{background:var(--navy-solid); color:#fff; border-color:var(--navy-solid);}
-  .mtgsub{font-size:15px; color:var(--navy); margin:26px 0 10px; letter-spacing:.01em;}
+  .mtgsub{font-size:15px; color:var(--navy); margin:18px 0 10px; letter-spacing:.01em;}
 
-  .calbar{display:flex; align-items:center; gap:10px; margin:6px 0 10px;}
+  /* collapse toggle (left) + Past meetings (right), sitting directly above the calendar */
+  .calrow{display:flex; align-items:center; justify-content:space-between; gap:14px; margin:14px 0 0;}
+  .caltoggle{display:inline-flex; align-items:center; gap:7px; background:none; border:none; cursor:pointer;
+             font-size:13px; font-weight:700; color:var(--navy); padding:4px 0;}
+  .caltoggle:hover{color:var(--red);}
+  .calcaret{display:inline-block; font-size:10px; transition:transform .15s;}
+  .caltoggle[aria-expanded="true"] .calcaret{transform:rotate(90deg);}
+
+  .calbar{display:flex; align-items:center; gap:10px; margin:12px 0 10px;}
   .calmonth{font-size:15px; font-weight:800; color:var(--navy); min-width:150px; text-align:center;}
   .calnav{background:var(--card); border:1px solid var(--line); color:var(--ink); border-radius:4px;
           width:30px; height:30px; font-size:16px; line-height:1; cursor:pointer;}
@@ -146,14 +157,16 @@
        border:1px solid var(--line); border-radius:5px; overflow:hidden;}
   .cdow{background:var(--card); text-align:center; font-size:10.5px; font-weight:800; letter-spacing:.07em;
         text-transform:uppercase; color:var(--muted); padding:7px 2px;}
-  .cday{background:var(--card); min-height:82px; padding:5px 5px 6px; position:relative;}
+  .cday{background:var(--card); min-height:104px; padding:6px 6px 7px; position:relative;}
   .cday.out{background:var(--bg); opacity:.55;}
   .cday.today{box-shadow:inset 0 0 0 2px var(--red);}
   .cnum{font-size:12px; font-weight:700; color:var(--muted);}
   .cday.today .cnum{color:var(--red);}
-  .cev{display:block; width:100%; text-align:left; margin-top:3px; padding:3px 5px; border-radius:3px;
-       font-size:10.5px; font-weight:650; line-height:1.25; cursor:pointer; border:1px solid transparent;
-       background:var(--navy-soft); color:var(--navy); overflow:hidden;}
+  /* Event labels carry the SAME full meeting name as the list below — no abbreviations, so the
+     calendar and the agenda list always read as the same thing. */
+  .cev{display:block; width:100%; text-align:left; margin-top:4px; padding:4px 6px; border-radius:3px;
+       font-size:11px; font-weight:650; line-height:1.3; cursor:pointer; border:1px solid transparent;
+       background:var(--navy-soft); color:var(--navy); overflow-wrap:anywhere;}
   .cev:hover{border-color:var(--navy);}
   .cev .cevt{display:block; font-weight:800; font-size:10px; opacity:.85;}
   .cev.expected{background:transparent; border:1px dashed var(--line); color:var(--muted);}
@@ -166,7 +179,10 @@
   .cdot.expected{background:transparent; border:1px dashed var(--muted);}
   .cdot.changed{background:transparent; border:1px solid var(--red);}
 
-  .mtg{border:1px solid var(--line); border-radius:5px; background:var(--card); padding:14px 16px; margin:0 0 10px;}
+  /* Two-up (or more) on a wide screen so the list fills the space instead of running down a
+     narrow column. Falls back to one column automatically below ~700px of content width. */
+  #mtgList{display:grid; grid-template-columns:repeat(auto-fill, minmax(330px, 1fr)); gap:10px; align-items:stretch;}
+  .mtg{border:1px solid var(--line); border-radius:5px; background:var(--card); padding:13px 15px; margin:0;}
   .mtg.expected{border-style:dashed; background:transparent;}
   .mtg.changed{border-color:var(--red);}
   .mtg.hit{box-shadow:0 0 0 2px var(--navy);}
@@ -184,12 +200,13 @@
           color:var(--blue); border:1px solid transparent; cursor:pointer;}
   .mtopic:hover{border-color:var(--blue);}
   .mtgacts{display:flex; flex-wrap:wrap; gap:7px; margin:11px 0 0;}
-  .mtgempty{font-size:13.5px; color:var(--muted); padding:16px 0;}
+  .mtgempty{font-size:13.5px; color:var(--muted); padding:16px 0; grid-column:1/-1;}
   @media (max-width:700px){
-    .cday{min-height:56px; padding:3px;}
-    .cev{font-size:9px; padding:2px 3px;}
+    .cday{min-height:62px; padding:3px;}
+    .cev{font-size:9.5px; padding:2px 3px; line-height:1.2;}
     .cev .cevt{display:none;}
     .calmonth{min-width:110px; font-size:13.5px;}
+    #mtgList{grid-template-columns:1fr;}
   }
 
   /* Site footer nav */
@@ -493,15 +510,20 @@
   <div id="viewMeetings" style="display:none;">
     <div class="mtghead">
       <h2 class="abouth" id="mtgTitle">Meetings</h2>
-      <div class="mtgswitch">
-        <a href="#" class="mtglink" id="mtgToggle">Past meetings &rarr;</a>
-        <a href="#" class="mtglink" id="mtgIcsAll">&#8681; Add upcoming to my calendar</a>
-      </div>
+      <a class="mtglink" id="mtgIcsAll" href="webcal://govagenda.org/calendar.ics"
+         title="Adds a live feed to Apple Calendar, Outlook or Google Calendar — new and changed meetings appear automatically.">&#8853; Subscribe to calendar</a>
     </div>
     <p class="hint" id="mtgIntro"></p>
     <div class="mtgchips" id="mtgChips"></div>
 
-    <div id="mtgCalWrap">
+    <div class="calrow">
+      <button class="caltoggle" id="calToggle" type="button" aria-expanded="false" aria-controls="mtgCalWrap">
+        <span class="calcaret">&#9656;</span><span id="calToggleLabel">Show calendar</span>
+      </button>
+      <a href="#" class="mtglink" id="mtgToggle">Past meetings &rarr;</a>
+    </div>
+
+    <div id="mtgCalWrap" style="display:none;">
       <div class="calbar">
         <button class="calnav" id="calPrev" type="button" aria-label="Previous month">&#8249;</button>
         <span class="calmonth" id="calMonth"></span>
@@ -1050,6 +1072,7 @@
   var mtgFilter = 'all';        // body id, or 'all'
   var mtgFocus = null;          // meeting id highlighted from a calendar click
   var calCursor = TODAY.slice(0,7);   // YYYY-MM the calendar is showing
+  var calOpen = false;          // calendar starts collapsed — the list is the primary read
 
   var DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
   function bodySlug(name){
@@ -1067,18 +1090,9 @@
     if(m.status === 'canceled' || m.status === 'rescheduled') return 'changed';
     return m.confirmed === false ? 'expected' : 'confirmed';
   }
-  function mtgShortLabel(m){
-    // Compact label for a calendar cell.
-    var b = String(m.body || '');
-    if(b === 'Planning & Zoning Board') b = 'P&Z Board';
-    if(b === 'Special Events Committee') b = 'Special Events';
-    if(b === 'Police Advisory Board') b = 'Police Advisory';
-    if(b === 'Tree Advisory Board') b = 'Tree Board';
-    if(m.kind === 'Workshop') b += ' (workshop)';
-    if(m.kind === 'Public hearing') b += ' (hearing)';
-    if(m.kind === 'Special') b += ' (special)';
-    return b;
-  }
+  // A calendar cell shows the meeting's real name — the exact same string as the card in the list
+  // below. No abbreviations: two labels for one meeting is how a reader loses trust in the page.
+  function mtgLabel(m){ return m.title || m.body; }
   function visibleMeetings(){
     return allMeetings.filter(function(m){
       return mtgFilter === 'all' || bodySlug(m.body) === mtgFilter;
@@ -1225,9 +1239,9 @@
       return '<div class="cday' + (out?' out':'') + (iso===TODAY?' today':'') + '">'
         + '<div class="cnum">' + num + '</div>'
         + evs.map(function(m){
-            return '<button class="cev ' + mtgClass(m) + (mtgFocus===m.id?' sel':'') + '" type="button" data-mtg="' + esc(m.id) + '" title="' + esc(m.title + (m.time ? ' — ' + fmtTime(m.time) : '')) + '">'
+            return '<button class="cev ' + mtgClass(m) + (mtgFocus===m.id?' sel':'') + '" type="button" data-mtg="' + esc(m.id) + '" title="' + esc(mtgLabel(m) + (m.time ? ' — ' + fmtTime(m.time) : '')) + '">'
               + (m.time ? '<span class="cevt">' + txt(fmtTime(m.time)) + '</span>' : '')
-              + txt(mtgShortLabel(m)) + '</button>';
+              + txt(mtgLabel(m)) + '</button>';
           }).join('')
         + '</div>';
     }
@@ -1302,7 +1316,6 @@
     var jur = (MEET.meta && MEET.meta.jurisdiction) || (DATA.meta && DATA.meta.jurisdiction) || '';
     $('mtgTitle').textContent = past ? 'Past meetings' : 'Meetings';
     $('mtgToggle').innerHTML = past ? '&larr; Upcoming meetings' : 'Past meetings &rarr;';
-    $('mtgIcsAll').style.display = past ? 'none' : '';
 
     renderMtgChips();
 
@@ -1314,11 +1327,11 @@
 
     var confirmedN = list.filter(function(m){ return m.confirmed !== false; }).length;
     $('mtgIntro').textContent = past
-      ? 'Every public meeting on record for ' + jur + ' — with the agenda, packet, minutes and video the city published for each. ' + list.length + ' on file.'
-      : 'What is coming up in ' + jur + '. Confirmed meetings come straight from the city\u2019s published calendar; the rest are projected from each body\u2019s regular schedule and are marked Expected — always confirm one of those before you go.';
+      ? 'Every public meeting on record for ' + jur + ', with the agenda, packet, minutes and video the city published for each.'
+      : 'What is coming up in ' + jur + '. Confirmed meetings come from the city\u2019s published calendar; the rest are projected from each body\u2019s regular schedule and marked Expected — confirm those before you go.';
     $('mtgListHead').textContent = past ? list.length + ' past meeting' + (list.length===1?'':'s')
       : list.length + ' upcoming (' + confirmedN + ' confirmed)';
-    $('mtgCalWrap').style.display = '';
+    setCalOpen(calOpen);
 
     $('mtgList').innerHTML = list.length
       ? list.map(mtgCard).join('')
@@ -1349,10 +1362,21 @@
       });
     });
 
-    renderCalendar();
+    if(calOpen) renderCalendar();
+  }
+
+  // The calendar is the secondary view — the list answers "what's next" faster — so it starts
+  // collapsed and the reader opens it when they want the whole month at a glance.
+  function setCalOpen(open){
+    calOpen = !!open;
+    $('mtgCalWrap').style.display = calOpen ? '' : 'none';
+    $('calToggle').setAttribute('aria-expanded', calOpen ? 'true' : 'false');
+    $('calToggleLabel').textContent = calOpen ? 'Hide calendar' : 'Show calendar';
+    if(calOpen) renderCalendar();
   }
 
   (function wireMeetings(){
+    $('calToggle').addEventListener('click', function(){ setCalOpen(!calOpen); });
     $('mtgToggle').addEventListener('click', function(e){
       e.preventDefault();
       mtgMode = (mtgMode === 'past') ? 'upcoming' : 'past';
@@ -1364,13 +1388,8 @@
       renderMeetings();
       window.scrollTo({ top:0, behavior:'smooth' });
     });
-    $('mtgIcsAll').addEventListener('click', function(e){
-      e.preventDefault();
-      var up = visibleMeetings().filter(function(m){
-        return m.date >= TODAY && m.status !== 'canceled' && m.status !== 'rescheduled';
-      });
-      if(up.length) downloadIcs(up, 'govagenda-upcoming-meetings.ics');
-    });
+    // "Subscribe to calendar" is a real webcal:// feed (public/calendar.ics, rebuilt on every
+    // deploy) — not a one-time download — so it is a plain link and needs no click handler.
     function shiftMonth(n){
       var d = new Date(calCursor + '-01T00:00:00Z');
       d.setUTCMonth(d.getUTCMonth() + n);
@@ -1393,6 +1412,9 @@
     if(which==='community'){ loadBoard(); renderCommunity(); }
     if(which==='admin'){ adminGate(); }
     if(which==='meetings'){ renderMeetings(); }
+    // Meetings is the one view that wants the full width of the pane; everything else keeps the
+    // narrower reading measure that prose and topic cards are set for.
+    document.body.classList.toggle('wide', which === 'meetings');
   }
   $('search').addEventListener('input', renderTopics);
   $('catFilter').addEventListener('change', renderTopics);
