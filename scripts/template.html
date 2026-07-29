@@ -210,13 +210,26 @@
   .mtgflag.exp{background:var(--bg); color:var(--muted); border:1px dashed var(--line);}
   .mtgflag.chg{background:var(--red); color:#fff;}
   .mtgname{font-size:17px; font-weight:700; color:var(--ink); margin:5px 0 2px;}
-  .mtgmeta{font-size:13.5px; color:var(--muted);}
+  .mtgmeta{font-size:13.5px; color:var(--muted); display:flex; align-items:baseline; gap:8px; flex-wrap:wrap;}
+  /* The street address is noise on a card — the venue name is what a reader recognises.
+     The full address lives in the map link, which surfaces on hover, focus or touch. */
+  .mtgmap{font-size:12.5px; font-weight:700; color:var(--blue); border-bottom:none; white-space:nowrap;
+          opacity:0; transition:opacity .12s ease;}
+  .mtgmap:hover{color:var(--red); border-bottom:none;}
+  .mtg:hover .mtgmap, .mtg:focus-within .mtgmap, .mtgmap:focus{opacity:1;}
+  @media (hover:none){ .mtgmap{opacity:1;} }
   .mtgnote{font-size:14px; color:var(--muted); margin:7px 0 0; font-style:italic;}
   .mtgtopics{margin:10px 0 0; display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
   .mtgtopics .lab{font-size:12.5px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--muted);}
   .mtopic{font-size:13.5px; font-weight:650; padding:3px 9px; border-radius:3px; background:var(--blue-soft);
           color:var(--blue); border:1px solid transparent; cursor:pointer;}
   .mtopic:hover{border-color:var(--blue);}
+  /* A topic you follow, on a meeting that will take it up — the one thing on this page
+     you most need to see, so it gets the gold outline the rest of the site reserves for follows. */
+  .mtopic.followed{background:var(--gold-soft); color:var(--ink); border-color:var(--gold);
+                   box-shadow:0 0 0 1px var(--gold); font-weight:750;}
+  .mtopic.followed:hover{border-color:var(--gold);}
+  .mtopic .fstar{color:var(--gold); font-weight:800; margin-right:4px;}
   .mtgacts{display:flex; flex-wrap:wrap; gap:7px; margin:11px 0 0;}
   .mtgempty{font-size:15px; color:var(--muted); padding:16px 0; grid-column:1/-1;}
   @media (max-width:700px){
@@ -535,19 +548,19 @@
     <div class="mpicker" id="mBodyPicker">
       <button class="pickbtn" id="mBodyBtn" type="button">
         <svg viewBox="0 0 24 24"><path d="M4 5h16M4 10h16M4 15h11M4 20h11"/></svg>
-        <span class="pklabel" id="mBodyLabel">All bodies</span>
+        <span class="pklabel" id="mBodyLabel">All meeting types</span>
         <span class="pkcount" id="mBodyCount"></span>
         <svg class="cscaret" viewBox="0 0 24 24"><path d="M6 9l6 6 6-6"/></svg>
       </button>
       <div class="pkmenu" id="mBodyMenu">
-        <p class="pkhint">Select any number of bodies to view together.</p>
+        <p class="pkhint">Select any number of meeting types to view together.</p>
         <div id="mBodyList"></div>
       </div>
     </div>
 
     <div class="calrow">
       <button class="caltoggle" id="calToggle" type="button" aria-expanded="false" aria-controls="mtgCalWrap">
-        <span class="calcaret">&#9656;</span><span id="calToggleLabel">Show calendar</span>
+        <span class="calcaret">&#9656;</span><span id="calToggleLabel">Show calendar view</span>
       </button>
       <a href="#" class="mtglink" id="mtgToggle">Past meetings &rarr;</a>
     </div>
@@ -1304,9 +1317,9 @@
     }).join('');
 
     var sel1 = opts.filter(function(b){ return b.id === mtgBodies_sel[0]; })[0];
-    $('mBodyLabel').textContent = !mtgBodies_sel.length ? 'All bodies'
-      : (mtgBodies_sel.length === 1 ? (sel1 ? sel1.name : 'All bodies')
-                                    : mtgBodies_sel.length + ' bodies selected');
+    $('mBodyLabel').textContent = !mtgBodies_sel.length ? 'All meeting types'
+      : (mtgBodies_sel.length === 1 ? (sel1 ? sel1.name : 'All meeting types')
+                                    : mtgBodies_sel.length + ' meeting types selected');
     $('mBodyCount').textContent = mtgBodies_sel.length
       ? mtgBodies_sel.reduce(function(n, id){ return n + counts[id]; }, 0)
       : pool.length;
@@ -1375,6 +1388,22 @@
     });
   }
 
+  // Venue name only on the card; the street address is folded into a map link that appears
+  // on hover/focus (and is always visible on touch, where there is no hover).
+  function venueLine(m){
+    var loc = m.location || '';
+    if(!loc) return m.body ? '<p class="mtgmeta"><span>' + txt(m.body) + '</span></p>' : '';
+    var name = loc.split(',')[0].trim() || loc;
+    var hasAddr = name !== loc.trim();
+    return '<p class="mtgmeta"><span>' + txt(name) + '</span>'
+      + (hasAddr
+          ? '<a class="mtgmap" href="https://www.google.com/maps/search/?api=1&amp;query='
+            + encodeURIComponent(loc) + '" target="_blank" rel="noopener" title="' + esc(loc) + '">'
+            + LINK_ICON + ' Map</a>'
+          : '')
+      + '</p>';
+  }
+
   function mtgCard(m){
     var cls = mtgClass(m);
     var acts = [];
@@ -1390,7 +1419,12 @@
 
     var tps = (m.topicIds || []).map(function(id){
       var t = topics.filter(function(x){ return x.id === id; })[0];
-      return t ? '<button class="mtopic" type="button" data-topic="' + esc(t.id) + '">' + txt(t.title) + '</button>' : '';
+      if(!t) return '';
+      var fol = isPinnedById(t.id);
+      return '<button class="mtopic' + (fol ? ' followed' : '') + '" type="button" data-topic="' + esc(t.id) + '"'
+        + (fol ? ' title="You follow this topic"' : '') + '>'
+        + (fol ? '<span class="fstar" aria-hidden="true">★</span>' : '')
+        + txt(t.title) + '</button>';
     }).join('');
 
     var when = txt(DOW[new Date(m.date + 'T00:00:00Z').getUTCDay()] + ', ' + fmtDate(m.date))
@@ -1405,7 +1439,7 @@
     return '<div class="mtg ' + cls + (mtgFocus===m.id?' hit':'') + '" data-id="' + esc(m.id) + '">'
       + '<div class="mtgtop"><span class="mtgwhen">' + when + '</span>' + flag + '</div>'
       + '<p class="mtgname">' + txt(m.title || m.body) + '</p>'
-      + ((m.location || m.body) ? '<p class="mtgmeta">' + txt(m.location || m.body) + '</p>' : '')
+      + venueLine(m)
       + (m.note ? '<p class="mtgnote">' + txt(m.note) + '</p>' : '')
       + (tps ? '<div class="mtgtopics"><span class="lab">Tracked topics</span>' + tps + '</div>' : '')
       + (acts.length ? '<div class="mtgacts">' + acts.join('') + '</div>' : '')
@@ -1430,8 +1464,10 @@
     $('mtgIntro').textContent = past
       ? 'Every public meeting on record for ' + jur + ', with the agenda, packet, minutes and video the city published for each.'
       : 'What is coming up in ' + jur + '. Confirmed meetings come from the city\u2019s published calendar; the rest are projected from each body\u2019s regular schedule and marked Expected — confirm those before you go.';
-    $('mtgListHead').textContent = past ? list.length + ' past meeting' + (list.length===1?'':'s')
-      : list.length + ' upcoming (' + confirmedN + ' confirmed)';
+    // "Agenda view" names the card list, so it and the calendar view can be talked about by name.
+    $('mtgListHead').textContent = 'Agenda view · '
+      + (past ? list.length + ' past meeting' + (list.length===1?'':'s')
+              : list.length + ' upcoming (' + confirmedN + ' confirmed)');
     setCalOpen(calOpen);
 
     $('mtgList').innerHTML = list.length
@@ -1469,7 +1505,7 @@
     calOpen = !!open;
     $('mtgCalWrap').style.display = calOpen ? '' : 'none';
     $('calToggle').setAttribute('aria-expanded', calOpen ? 'true' : 'false');
-    $('calToggleLabel').textContent = calOpen ? 'Hide calendar' : 'Show calendar';
+    $('calToggleLabel').textContent = calOpen ? 'Hide calendar view' : 'Show calendar view';
     if(calOpen) renderCalendar();
   }
 
@@ -1658,6 +1694,12 @@
     el.textContent = n ? n : '';
   }
   window.addEventListener('govagenda:pins', updateFollowCount);
+  // Following a topic changes which meeting cards carry the gold outline, so keep the
+  // agenda view in step — but only when it is actually on screen.
+  window.addEventListener('govagenda:pins', function(){
+    var v = $('viewMeetings');
+    if(v && v.style.display !== 'none') renderMeetings();
+  });
 
   // rail collapse
   $('railToggle').addEventListener('click', function(){ $('side').classList.toggle('collapsed'); });
