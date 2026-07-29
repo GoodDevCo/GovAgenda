@@ -1,3 +1,8 @@
 node_modules/
 .DS_Store
 *.log
+
+# Generated output. scripts/build.mjs writes public/index.html + public/CNAME, and the
+# deploy workflow rebuilds and uploads public/ on every deploy, so a committed copy is
+# never served and only drifts out of date.
+public/
