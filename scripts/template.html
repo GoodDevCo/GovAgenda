@@ -124,6 +124,74 @@
   .abouth{font-size:22px; color:var(--navy); margin:6px 0 12px;}
   .aboutp{font-size:14.5px; color:var(--ink); margin:0 0 16px; max-width:640px;}
 
+  /* ---- Meetings view ---- */
+  .mtghead{display:flex; align-items:baseline; justify-content:space-between; gap:14px; flex-wrap:wrap;}
+  .mtgswitch{display:flex; gap:16px; flex-wrap:wrap;}
+  .mtglink{font-size:13px; font-weight:700; color:var(--navy); border-bottom:none; white-space:nowrap; cursor:pointer;}
+  .mtglink:hover{color:var(--red); border-bottom:none;}
+  .mtgchips{display:flex; flex-wrap:wrap; gap:7px; margin:12px 0 16px;}
+  .mchip{font-size:12px; font-weight:650; padding:5px 12px; border-radius:999px; border:1px solid var(--line);
+         background:var(--card); color:var(--muted); cursor:pointer;}
+  .mchip:hover{border-color:var(--navy);}
+  .mchip.on{background:var(--navy-solid); color:#fff; border-color:var(--navy-solid);}
+  .mtgsub{font-size:15px; color:var(--navy); margin:26px 0 10px; letter-spacing:.01em;}
+
+  .calbar{display:flex; align-items:center; gap:10px; margin:6px 0 10px;}
+  .calmonth{font-size:15px; font-weight:800; color:var(--navy); min-width:150px; text-align:center;}
+  .calnav{background:var(--card); border:1px solid var(--line); color:var(--ink); border-radius:4px;
+          width:30px; height:30px; font-size:16px; line-height:1; cursor:pointer;}
+  .calnav:hover{border-color:var(--navy); color:var(--navy);}
+  .caltoday{width:auto; padding:0 11px; font-size:12px; font-weight:700;}
+  .cal{display:grid; grid-template-columns:repeat(7,1fr); gap:1px; background:var(--line);
+       border:1px solid var(--line); border-radius:5px; overflow:hidden;}
+  .cdow{background:var(--card); text-align:center; font-size:10.5px; font-weight:800; letter-spacing:.07em;
+        text-transform:uppercase; color:var(--muted); padding:7px 2px;}
+  .cday{background:var(--card); min-height:82px; padding:5px 5px 6px; position:relative;}
+  .cday.out{background:var(--bg); opacity:.55;}
+  .cday.today{box-shadow:inset 0 0 0 2px var(--red);}
+  .cnum{font-size:12px; font-weight:700; color:var(--muted);}
+  .cday.today .cnum{color:var(--red);}
+  .cev{display:block; width:100%; text-align:left; margin-top:3px; padding:3px 5px; border-radius:3px;
+       font-size:10.5px; font-weight:650; line-height:1.25; cursor:pointer; border:1px solid transparent;
+       background:var(--navy-soft); color:var(--navy); overflow:hidden;}
+  .cev:hover{border-color:var(--navy);}
+  .cev .cevt{display:block; font-weight:800; font-size:10px; opacity:.85;}
+  .cev.expected{background:transparent; border:1px dashed var(--line); color:var(--muted);}
+  .cev.changed{background:transparent; border:1px solid var(--red); color:var(--red); text-decoration:line-through;}
+  .cev.sel{outline:2px solid var(--navy); outline-offset:1px;}
+  .callegend{display:flex; flex-wrap:wrap; gap:6px 18px; font-size:11.5px; color:var(--muted); margin:10px 0 0;}
+  .lgd{display:inline-flex; align-items:center; gap:6px;}
+  .cdot{width:10px; height:10px; border-radius:2px; display:inline-block;}
+  .cdot.confirmed{background:var(--navy-soft); border:1px solid var(--navy);}
+  .cdot.expected{background:transparent; border:1px dashed var(--muted);}
+  .cdot.changed{background:transparent; border:1px solid var(--red);}
+
+  .mtg{border:1px solid var(--line); border-radius:5px; background:var(--card); padding:14px 16px; margin:0 0 10px;}
+  .mtg.expected{border-style:dashed; background:transparent;}
+  .mtg.changed{border-color:var(--red);}
+  .mtg.hit{box-shadow:0 0 0 2px var(--navy);}
+  .mtgtop{display:flex; align-items:baseline; gap:10px; flex-wrap:wrap;}
+  .mtgwhen{font-size:12px; font-weight:800; color:var(--navy); text-transform:uppercase; letter-spacing:.04em;}
+  .mtgflag{font-size:10px; font-weight:800; letter-spacing:.05em; text-transform:uppercase; padding:2px 7px; border-radius:3px;}
+  .mtgflag.exp{background:var(--bg); color:var(--muted); border:1px dashed var(--line);}
+  .mtgflag.chg{background:var(--red); color:#fff;}
+  .mtgname{font-size:15px; font-weight:700; color:var(--ink); margin:5px 0 2px;}
+  .mtgmeta{font-size:12px; color:var(--muted);}
+  .mtgnote{font-size:12.5px; color:var(--muted); margin:7px 0 0; font-style:italic;}
+  .mtgtopics{margin:10px 0 0; display:flex; flex-wrap:wrap; gap:6px; align-items:center;}
+  .mtgtopics .lab{font-size:11px; font-weight:800; text-transform:uppercase; letter-spacing:.05em; color:var(--muted);}
+  .mtopic{font-size:12px; font-weight:650; padding:3px 9px; border-radius:3px; background:var(--blue-soft);
+          color:var(--blue); border:1px solid transparent; cursor:pointer;}
+  .mtopic:hover{border-color:var(--blue);}
+  .mtgacts{display:flex; flex-wrap:wrap; gap:7px; margin:11px 0 0;}
+  .mtgempty{font-size:13.5px; color:var(--muted); padding:16px 0;}
+  @media (max-width:700px){
+    .cday{min-height:56px; padding:3px;}
+    .cev{font-size:9px; padding:2px 3px;}
+    .cev .cevt{display:none;}
+    .calmonth{min-width:110px; font-size:13.5px;}
+  }
+
   /* Site footer nav */
   footer.sitefoot{margin-top:32px; padding-top:22px; border-top:2px solid var(--navy); text-align:center;}
   .footnav{display:flex; gap:8px 22px; justify-content:center; flex-wrap:wrap;}
@@ -421,11 +489,39 @@
   </div>
 
 
-  <!-- SECTIONS NOT BUILT YET -->
+  <!-- MEETINGS VIEW -->
   <div id="viewMeetings" style="display:none;">
-    <h2 class="abouth">Meetings</h2>
-    <p class="hint">Upcoming meetings, agenda previews and a subscribable calendar are on the roadmap. Until then, meeting dates appear inside each topic's timeline.</p>
+    <div class="mtghead">
+      <h2 class="abouth" id="mtgTitle">Meetings</h2>
+      <div class="mtgswitch">
+        <a href="#" class="mtglink" id="mtgToggle">Past meetings &rarr;</a>
+        <a href="#" class="mtglink" id="mtgIcsAll">&#8681; Add upcoming to my calendar</a>
+      </div>
+    </div>
+    <p class="hint" id="mtgIntro"></p>
+    <div class="mtgchips" id="mtgChips"></div>
+
+    <div id="mtgCalWrap">
+      <div class="calbar">
+        <button class="calnav" id="calPrev" type="button" aria-label="Previous month">&#8249;</button>
+        <span class="calmonth" id="calMonth"></span>
+        <button class="calnav" id="calNext" type="button" aria-label="Next month">&#8250;</button>
+        <button class="calnav caltoday" id="calToday" type="button">Today</button>
+      </div>
+      <div class="cal" id="cal"></div>
+      <p class="callegend">
+        <span class="lgd"><i class="cdot confirmed"></i>Confirmed &mdash; posted by the city</span>
+        <span class="lgd"><i class="cdot expected"></i>Expected &mdash; regular schedule</span>
+        <span class="lgd"><i class="cdot changed"></i>Canceled / rescheduled</span>
+      </p>
+    </div>
+
+    <h3 class="mtgsub" id="mtgListHead"></h3>
+    <div id="mtgList"></div>
+    <p class="hint" id="mtgFoot"></p>
   </div>
+
+  <!-- SECTIONS NOT BUILT YET -->
   <div id="viewTrending" style="display:none;">
     <h2 class="abouth">Trending</h2>
     <p class="hint">What the community is watching most — coming once view and follow counts are being recorded.</p>
@@ -473,6 +569,7 @@
 
 <script id="archive-data" type="application/json">__ARCHIVE_JSON__</script>
 <script id="community-data" type="application/json">__COMMUNITY_JSON__</script>
+<script id="meetings-data" type="application/json">__MEETINGS_JSON__</script>
 
 <script>
 (function(){
@@ -481,7 +578,13 @@
   var weeks = (DATA.weeks || []).slice().sort(function(a,b){ return a.weekOf < b.weekOf ? 1 : -1; });
   var pins = {}; // in-memory pin state, keyed by topic id
   var open = {}; // open/expanded topics
-  var TODAY = "2026-07-16";
+  // Today, in the reader's own local time (YYYY-MM-DD). Derived at page load — never hard-coded,
+  // or "upcoming" badges silently go stale the moment real time passes the baked-in value.
+  var TODAY = (function(){
+    var d = new Date();
+    function p(n){ return (n<10?'0':'') + n; }
+    return d.getFullYear() + '-' + p(d.getMonth()+1) + '-' + p(d.getDate());
+  })();
 
   // Dates are written out everywhere: "July 21, 2026"
   var MONTHS = ['January','February','March','April','May','June','July','August','September','October','November','December'];
@@ -932,6 +1035,353 @@
     }
   }
 
+  /* ---------------- Meetings: calendar + past-meeting record ----------------
+     Data comes from data/meetings.json — the canonical registry of every public meeting
+     GovAgenda has a record of, kept current by scripts/sync-meetings.mjs. Two kinds of
+     record live there and they are never conflated in the UI:
+       confirmed:true  — the city posted it, or it is cited by a sourced agenda/minutes doc.
+       confirmed:false — PROJECTED from the body's published regular cadence. Always labelled
+                         "Expected", always tells the reader to confirm before attending. */
+  var MEET = {};
+  try { MEET = JSON.parse(document.getElementById('meetings-data').textContent); } catch(e) { MEET = {}; }
+  var allMeetings = (MEET.meetings || []).slice();
+  var mtgBodies = (MEET.meta && MEET.meta.bodies) || [];
+  var mtgMode = 'upcoming';     // 'upcoming' | 'past'
+  var mtgFilter = 'all';        // body id, or 'all'
+  var mtgFocus = null;          // meeting id highlighted from a calendar click
+  var calCursor = TODAY.slice(0,7);   // YYYY-MM the calendar is showing
+
+  var DOW = ['Sun','Mon','Tue','Wed','Thu','Fri','Sat'];
+  function bodySlug(name){
+    var b = mtgBodies.filter(function(x){ return x.name === name; })[0];
+    return b ? b.id : String(name||'').toLowerCase().replace(/[^a-z0-9]+/g,'-');
+  }
+  function bodyMeta(name){ return mtgBodies.filter(function(x){ return x.name === name; })[0] || null; }
+  function fmtTime(t){
+    if(!t) return '';
+    var p = String(t).split(':'), h = parseInt(p[0],10), m = p[1] || '00';
+    var ap = h >= 12 ? 'PM' : 'AM', hh = h % 12; if(hh === 0) hh = 12;
+    return hh + ':' + m + ' ' + ap;
+  }
+  function mtgClass(m){
+    if(m.status === 'canceled' || m.status === 'rescheduled') return 'changed';
+    return m.confirmed === false ? 'expected' : 'confirmed';
+  }
+  function mtgShortLabel(m){
+    // Compact label for a calendar cell.
+    var b = String(m.body || '');
+    if(b === 'Planning & Zoning Board') b = 'P&Z Board';
+    if(b === 'Special Events Committee') b = 'Special Events';
+    if(b === 'Police Advisory Board') b = 'Police Advisory';
+    if(b === 'Tree Advisory Board') b = 'Tree Board';
+    if(m.kind === 'Workshop') b += ' (workshop)';
+    if(m.kind === 'Public hearing') b += ' (hearing)';
+    if(m.kind === 'Special') b += ' (special)';
+    return b;
+  }
+  function visibleMeetings(){
+    return allMeetings.filter(function(m){
+      return mtgFilter === 'all' || bodySlug(m.body) === mtgFilter;
+    });
+  }
+
+  /* ---- calendar export -------------------------------------------------- */
+  // Belle Isle sits in America/New_York. Times are exported with an explicit TZID (plus the
+  // matching VTIMEZONE block) so an .ics lands at the right hour for any reader, anywhere —
+  // rather than being reinterpreted as the reader's own local time.
+  var TZ = 'America/New_York';
+  var VTIMEZONE = [
+    'BEGIN:VTIMEZONE','TZID:America/New_York',
+    'BEGIN:DAYLIGHT','TZOFFSETFROM:-0500','TZOFFSETTO:-0400','TZNAME:EDT',
+    'DTSTART:19700308T020000','RRULE:FREQ=YEARLY;BYMONTH=3;BYDAY=2SU','END:DAYLIGHT',
+    'BEGIN:STANDARD','TZOFFSETFROM:-0400','TZOFFSETTO:-0500','TZNAME:EST',
+    'DTSTART:19701101T020000','RRULE:FREQ=YEARLY;BYMONTH=11;BYDAY=1SU','END:STANDARD',
+    'END:VTIMEZONE'
+  ];
+  function plusHours(dateStr, timeStr, hrs){
+    var p = String(timeStr).split(':');
+    var d = new Date(Date.UTC(+dateStr.slice(0,4), +dateStr.slice(5,7)-1, +dateStr.slice(8,10), +p[0], +(p[1]||0)));
+    d = new Date(d.getTime() + hrs*3600000);
+    function z(n){ return (n<10?'0':'')+n; }
+    return d.getUTCFullYear() + z(d.getUTCMonth()+1) + z(d.getUTCDate()) + 'T' + z(d.getUTCHours()) + z(d.getUTCMinutes()) + '00';
+  }
+  function ymd(dateStr){ return dateStr.replace(/-/g,''); }
+  function nextDay(dateStr){
+    var d = new Date(dateStr + 'T00:00:00Z'); d.setUTCDate(d.getUTCDate()+1);
+    return d.toISOString().slice(0,10).replace(/-/g,'');
+  }
+  function mtgTitleFull(m){
+    var j = (MEET.meta && MEET.meta.jurisdiction) || (DATA.meta && DATA.meta.jurisdiction) || '';
+    var city = j.replace(/^City of\s*/,'').replace(/,.*$/,'');
+    return (city ? city + ' — ' : '') + (m.title || m.body);
+  }
+  function mtgDescription(m){
+    var lines = [];
+    if(m.confirmed === false){
+      lines.push('EXPECTED MEETING — projected from the regular schedule (' + ((bodyMeta(m.body)||{}).cadenceLabel || '') + ').');
+      lines.push('This meeting has NOT yet been posted on the city calendar. Confirm before attending.');
+    } else if(!m.timeConfirmed && m.time){
+      lines.push('Start time shown is this body\u2019s usual start time — confirm on the official agenda.');
+    } else if(!m.time){
+      lines.push('Start time not yet published — added as an all-day entry. Confirm on the official agenda.');
+    }
+    if(m.note) lines.push(m.note);
+    var tps = (m.topicIds || []).map(function(id){
+      var t = topics.filter(function(x){ return x.id === id; })[0]; return t ? t.title : null;
+    }).filter(Boolean);
+    if(tps.length) lines.push('Tracked topics on this agenda: ' + tps.join('; ') + '.');
+    if(m.agendaUrl) lines.push('Agenda: ' + m.agendaUrl);
+    if(m.packetUrl) lines.push('Agenda packet: ' + m.packetUrl);
+    if(m.minutesUrl) lines.push('Minutes: ' + m.minutesUrl);
+    if(m.calendarUrl) lines.push('City meeting calendar: ' + m.calendarUrl);
+    lines.push('Tracked on GovAgenda — https://govagenda.org/');
+    return lines.join('\n');
+  }
+  function googleUrl(m){
+    var dates = m.time
+      ? (ymd(m.date) + 'T' + String(m.time).replace(':','') + '00/' + plusHours(m.date, m.time, 2))
+      : (ymd(m.date) + '/' + nextDay(m.date));
+    return 'https://calendar.google.com/calendar/render?action=TEMPLATE'
+      + '&text=' + encodeURIComponent(mtgTitleFull(m))
+      + '&dates=' + dates
+      + (m.time ? '&ctz=' + encodeURIComponent(TZ) : '')
+      + (m.location ? '&location=' + encodeURIComponent(m.location) : '')
+      + '&details=' + encodeURIComponent(mtgDescription(m));
+  }
+  function icsFold(s){ return String(s).replace(/\\/g,'\\\\').replace(/;/g,'\\;').replace(/,/g,'\\,').replace(/\r?\n/g,'\\n'); }
+  function icsEvent(m){
+    var out = ['BEGIN:VEVENT', 'UID:' + m.id + '@govagenda.org'];
+    if(m.time){
+      var start = ymd(m.date) + 'T' + String(m.time).replace(':','') + '00';
+      out.push('DTSTART;TZID=' + TZ + ':' + start);
+      out.push('DTEND;TZID=' + TZ + ':' + plusHours(m.date, m.time, 2));
+    } else {
+      out.push('DTSTART;VALUE=DATE:' + ymd(m.date));
+      out.push('DTEND;VALUE=DATE:' + nextDay(m.date));
+    }
+    out.push('SUMMARY:' + icsFold(mtgTitleFull(m) + (m.confirmed === false ? ' (expected)' : '')));
+    if(m.location) out.push('LOCATION:' + icsFold(m.location));
+    out.push('DESCRIPTION:' + icsFold(mtgDescription(m)));
+    if(m.status === 'canceled') out.push('STATUS:CANCELLED');
+    else if(m.confirmed === false) out.push('STATUS:TENTATIVE');
+    else out.push('STATUS:CONFIRMED');
+    out.push('END:VEVENT');
+    return out;
+  }
+  // RFC 5545 says no content line may exceed 75 octets — fold the long ones (descriptions with
+  // several source URLs blow past that) so stricter calendar clients don't reject the file.
+  function icsFoldLine(line){
+    if(line.length <= 74) return line;
+    var out = line.slice(0,74), rest = line.slice(74);
+    while(rest.length){ out += '\r\n ' + rest.slice(0,73); rest = rest.slice(73); }
+    return out;
+  }
+  function downloadIcs(list, filename){
+    var lines = ['BEGIN:VCALENDAR','VERSION:2.0','PRODID:-//GovAgenda//Meetings//EN','CALSCALE:GREGORIAN','METHOD:PUBLISH']
+      .concat(VTIMEZONE);
+    list.forEach(function(m){ lines = lines.concat(icsEvent(m)); });
+    lines.push('END:VCALENDAR');
+    var blob = new Blob([lines.map(icsFoldLine).join('\r\n')], {type:'text/calendar;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = filename;
+    document.body.appendChild(a); a.click();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); a.remove(); }, 0);
+  }
+
+  /* ---- rendering -------------------------------------------------------- */
+  function renderMtgChips(){
+    var counts = {}, pool = allMeetings.filter(function(m){
+      return mtgMode === 'past' ? m.date < TODAY : m.date >= TODAY;
+    });
+    pool.forEach(function(m){ var s = bodySlug(m.body); counts[s] = (counts[s]||0) + 1; });
+    var chips = [{ id:'all', label:'All bodies', n:pool.length }];
+    mtgBodies.forEach(function(b){ if(counts[b.id]) chips.push({ id:b.id, label:b.name, n:counts[b.id] }); });
+    if(!chips.filter(function(c){ return c.id === mtgFilter; }).length) mtgFilter = 'all';
+    $('mtgChips').innerHTML = chips.map(function(c){
+      return '<button class="mchip' + (c.id===mtgFilter?' on':'') + '" data-body="' + esc(c.id) + '" type="button">'
+        + txt(c.label) + ' <span style="opacity:.7">' + c.n + '</span></button>';
+    }).join('');
+    $('mtgChips').querySelectorAll('.mchip').forEach(function(el){
+      el.addEventListener('click', function(){ mtgFilter = el.getAttribute('data-body'); mtgFocus = null; renderMeetings(); });
+    });
+  }
+
+  function renderCalendar(){
+    var host = $('cal');
+    var y = parseInt(calCursor.slice(0,4),10), mo = parseInt(calCursor.slice(5,7),10);
+    $('calMonth').textContent = MONTHS[mo-1] + ' ' + y;
+    var first = new Date(Date.UTC(y, mo-1, 1));
+    var startPad = first.getUTCDay();
+    var daysIn = new Date(Date.UTC(y, mo, 0)).getUTCDate();
+    var prevDays = new Date(Date.UTC(y, mo-1, 0)).getUTCDate();
+
+    var byDate = {};
+    visibleMeetings().forEach(function(m){ (byDate[m.date] = byDate[m.date] || []).push(m); });
+
+    var html = DOW.map(function(d){ return '<div class="cdow">' + d + '</div>'; }).join('');
+    function cell(iso, num, out){
+      var evs = byDate[iso] || [];
+      return '<div class="cday' + (out?' out':'') + (iso===TODAY?' today':'') + '">'
+        + '<div class="cnum">' + num + '</div>'
+        + evs.map(function(m){
+            return '<button class="cev ' + mtgClass(m) + (mtgFocus===m.id?' sel':'') + '" type="button" data-mtg="' + esc(m.id) + '" title="' + esc(m.title + (m.time ? ' — ' + fmtTime(m.time) : '')) + '">'
+              + (m.time ? '<span class="cevt">' + txt(fmtTime(m.time)) + '</span>' : '')
+              + txt(mtgShortLabel(m)) + '</button>';
+          }).join('')
+        + '</div>';
+    }
+    for(var i = startPad; i > 0; i--){
+      var d0 = new Date(Date.UTC(y, mo-1, 1 - i));
+      html += cell(d0.toISOString().slice(0,10), prevDays - i + 1, true);
+    }
+    for(var d = 1; d <= daysIn; d++){
+      var iso = y + '-' + (mo<10?'0':'') + mo + '-' + (d<10?'0':'') + d;
+      html += cell(iso, d, false);
+    }
+    var tail = (7 - ((startPad + daysIn) % 7)) % 7;
+    for(var k = 1; k <= tail; k++){
+      var d1 = new Date(Date.UTC(y, mo, k));
+      html += cell(d1.toISOString().slice(0,10), k, true);
+    }
+    host.innerHTML = html;
+    host.querySelectorAll('.cev').forEach(function(el){
+      el.addEventListener('click', function(){
+        mtgFocus = el.getAttribute('data-mtg');
+        var m = allMeetings.filter(function(x){ return x.id === mtgFocus; })[0];
+        // A calendar click should always land on the card, even if it lives in the other list.
+        if(m && ((mtgMode === 'upcoming' && m.date < TODAY) || (mtgMode === 'past' && m.date >= TODAY))){
+          mtgMode = (m.date < TODAY) ? 'past' : 'upcoming';
+        }
+        renderMeetings();
+        var card = document.querySelector('.mtg[data-id="' + mtgFocus + '"]');
+        if(card) card.scrollIntoView({behavior:'smooth', block:'center'});
+      });
+    });
+  }
+
+  function mtgCard(m){
+    var cls = mtgClass(m);
+    var acts = [];
+    if(m.agendaUrl) acts.push('<a class="aibtn" href="' + esc(m.agendaUrl) + '" target="_blank" rel="noopener">' + LINK_ICON + ' Agenda</a>');
+    if(m.packetUrl) acts.push('<a class="aibtn" href="' + esc(m.packetUrl) + '" target="_blank" rel="noopener">' + LINK_ICON + ' Agenda packet</a>');
+    if(m.minutesUrl) acts.push('<a class="aibtn" href="' + esc(m.minutesUrl) + '" target="_blank" rel="noopener">' + LINK_ICON + ' Minutes</a>');
+    if(m.videoUrl) acts.push('<a class="aibtn" href="' + esc(m.videoUrl) + '" target="_blank" rel="noopener">' + LINK_ICON + ' Video</a>');
+    if(m.date >= TODAY && m.status !== 'canceled' && m.status !== 'rescheduled'){
+      acts.push('<a class="calbtn" href="' + esc(googleUrl(m)) + '" target="_blank" rel="noopener">Add to Google Calendar</a>');
+      acts.push('<button class="aibtn" type="button" data-role="ics" data-id="' + esc(m.id) + '">&#8681; .ics file</button>');
+    }
+    if(!acts.length && m.calendarUrl) acts.push('<a class="aibtn" href="' + esc(m.calendarUrl) + '" target="_blank" rel="noopener">' + LINK_ICON + ' City calendar</a>');
+
+    var tps = (m.topicIds || []).map(function(id){
+      var t = topics.filter(function(x){ return x.id === id; })[0];
+      return t ? '<button class="mtopic" type="button" data-topic="' + esc(t.id) + '">' + txt(t.title) + '</button>' : '';
+    }).join('');
+
+    var when = txt(DOW[new Date(m.date + 'T00:00:00Z').getUTCDay()] + ', ' + fmtDate(m.date))
+      + (m.time ? ' · ' + txt(fmtTime(m.time)) + (m.timeConfirmed === false ? ' <span style="text-transform:none;font-weight:600;opacity:.75">(usual start time)</span>' : '')
+                : ' <span style="text-transform:none;font-weight:600;opacity:.75">(time not yet published)</span>');
+
+    var flag = '';
+    if(m.confirmed === false) flag = '<span class="mtgflag exp">Expected</span>';
+    else if(m.status === 'canceled') flag = '<span class="mtgflag chg">Canceled</span>';
+    else if(m.status === 'rescheduled') flag = '<span class="mtgflag chg">Rescheduled</span>';
+
+    return '<div class="mtg ' + cls + (mtgFocus===m.id?' hit':'') + '" data-id="' + esc(m.id) + '">'
+      + '<div class="mtgtop"><span class="mtgwhen">' + when + '</span>' + flag + '</div>'
+      + '<p class="mtgname">' + txt(m.title || m.body) + '</p>'
+      + '<p class="mtgmeta">' + txt(m.body) + (m.location ? ' · ' + txt(m.location) : '') + '</p>'
+      + (m.note ? '<p class="mtgnote">' + txt(m.note) + '</p>' : '')
+      + (tps ? '<div class="mtgtopics"><span class="lab">Tracked topics</span>' + tps + '</div>' : '')
+      + (acts.length ? '<div class="mtgacts">' + acts.join('') + '</div>' : '')
+    + '</div>';
+  }
+
+  function renderMeetings(){
+    var past = mtgMode === 'past';
+    var jur = (MEET.meta && MEET.meta.jurisdiction) || (DATA.meta && DATA.meta.jurisdiction) || '';
+    $('mtgTitle').textContent = past ? 'Past meetings' : 'Meetings';
+    $('mtgToggle').innerHTML = past ? '&larr; Upcoming meetings' : 'Past meetings &rarr;';
+    $('mtgIcsAll').style.display = past ? 'none' : '';
+
+    renderMtgChips();
+
+    var list = visibleMeetings().filter(function(m){ return past ? m.date < TODAY : m.date >= TODAY; });
+    list.sort(function(a,b){
+      if(a.date !== b.date) return past ? (a.date < b.date ? 1 : -1) : (a.date < b.date ? -1 : 1);
+      return String(a.time||'').localeCompare(String(b.time||''));
+    });
+
+    var confirmedN = list.filter(function(m){ return m.confirmed !== false; }).length;
+    $('mtgIntro').textContent = past
+      ? 'Every public meeting on record for ' + jur + ' — with the agenda, packet, minutes and video the city published for each. ' + list.length + ' on file.'
+      : 'What is coming up in ' + jur + '. Confirmed meetings come straight from the city\u2019s published calendar; the rest are projected from each body\u2019s regular schedule and are marked Expected — always confirm one of those before you go.';
+    $('mtgListHead').textContent = past ? list.length + ' past meeting' + (list.length===1?'':'s')
+      : list.length + ' upcoming (' + confirmedN + ' confirmed)';
+    $('mtgCalWrap').style.display = '';
+
+    $('mtgList').innerHTML = list.length
+      ? list.map(mtgCard).join('')
+      : '<p class="mtgempty">Nothing on file for this filter yet.</p>';
+
+    var clerk = (MEET.meta && MEET.meta.clerk) || {};
+    $('mtgFoot').innerHTML = 'Source: the City\u2019s official meeting calendar'
+      + (MEET.meta && MEET.meta.calendarUrl ? ' (<a href="' + esc(MEET.meta.calendarUrl) + '" target="_blank" rel="noopener">belleislefl.gov/meetings</a>)' : '')
+      + ', re-checked automatically. Agendas can change up to the meeting — confirm with the City Clerk'
+      + (clerk.email ? ', <a href="mailto:' + esc(clerk.email) + '">' + txt(clerk.email) + '</a>' : '')
+      + (clerk.phone ? ', ' + txt(clerk.phone) : '') + '.';
+
+    $('mtgList').querySelectorAll('[data-role="ics"]').forEach(function(el){
+      el.addEventListener('click', function(){
+        var m = allMeetings.filter(function(x){ return x.id === el.getAttribute('data-id'); })[0];
+        if(m) downloadIcs([m], 'govagenda-' + m.id + '.ics');
+      });
+    });
+    $('mtgList').querySelectorAll('.mtopic').forEach(function(el){
+      el.addEventListener('click', function(){
+        var id = el.getAttribute('data-topic');
+        open[id] = true;
+        showTab('topics');
+        $('search').value = ''; $('catFilter').value = '';
+        renderTopics();
+        var card = document.querySelector('.topic[data-id="' + id + '"]');
+        if(card) card.scrollIntoView({behavior:'smooth', block:'start'});
+      });
+    });
+
+    renderCalendar();
+  }
+
+  (function wireMeetings(){
+    $('mtgToggle').addEventListener('click', function(e){
+      e.preventDefault();
+      mtgMode = (mtgMode === 'past') ? 'upcoming' : 'past';
+      mtgFocus = null;
+      // Jump the calendar to where the reader is actually looking.
+      calCursor = (mtgMode === 'past')
+        ? (function(){ var d = new Date(TODAY + 'T00:00:00Z'); d.setUTCMonth(d.getUTCMonth()-1); return d.toISOString().slice(0,7); })()
+        : TODAY.slice(0,7);
+      renderMeetings();
+      window.scrollTo({ top:0, behavior:'smooth' });
+    });
+    $('mtgIcsAll').addEventListener('click', function(e){
+      e.preventDefault();
+      var up = visibleMeetings().filter(function(m){
+        return m.date >= TODAY && m.status !== 'canceled' && m.status !== 'rescheduled';
+      });
+      if(up.length) downloadIcs(up, 'govagenda-upcoming-meetings.ics');
+    });
+    function shiftMonth(n){
+      var d = new Date(calCursor + '-01T00:00:00Z');
+      d.setUTCMonth(d.getUTCMonth() + n);
+      calCursor = d.toISOString().slice(0,7);
+      renderCalendar();
+    }
+    $('calPrev').addEventListener('click', function(){ shiftMonth(-1); });
+    $('calNext').addEventListener('click', function(){ shiftMonth(1); });
+    $('calToday').addEventListener('click', function(){ calCursor = TODAY.slice(0,7); renderCalendar(); });
+  })();
+
   var onlyPinned = false;   // "Following" is the topics list, filtered to what you follow
 
   function showTab(which){
@@ -942,6 +1392,7 @@
     });
     if(which==='community'){ loadBoard(); renderCommunity(); }
     if(which==='admin'){ adminGate(); }
+    if(which==='meetings'){ renderMeetings(); }
   }
   $('search').addEventListener('input', renderTopics);
   $('catFilter').addEventListener('change', renderTopics);
