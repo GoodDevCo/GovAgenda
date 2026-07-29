@@ -1405,7 +1405,7 @@
     return '<div class="mtg ' + cls + (mtgFocus===m.id?' hit':'') + '" data-id="' + esc(m.id) + '">'
       + '<div class="mtgtop"><span class="mtgwhen">' + when + '</span>' + flag + '</div>'
       + '<p class="mtgname">' + txt(m.title || m.body) + '</p>'
-      + '<p class="mtgmeta">' + txt(m.body) + (m.location ? ' · ' + txt(m.location) : '') + '</p>'
+      + ((m.location || m.body) ? '<p class="mtgmeta">' + txt(m.location || m.body) + '</p>' : '')
       + (m.note ? '<p class="mtgnote">' + txt(m.note) + '</p>' : '')
       + (tps ? '<div class="mtgtopics"><span class="lab">Tracked topics</span>' + tps + '</div>' : '')
       + (acts.length ? '<div class="mtgacts">' + acts.join('') + '</div>' : '')
