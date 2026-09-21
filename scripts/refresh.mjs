@@ -461,7 +461,11 @@ async function main() {
     if (!bodyNames.has(mm.body)) { skipped++; log.push(`skip meeting ${mm.date}: unknown body "${mm.body}"`); continue; }
     if (mm.time != null && !/^\d{2}:\d{2}$/.test(mm.time)) { skipped++; log.push(`skip meeting ${mm.date}: bad time "${mm.time}"`); continue; }
     const kind = mm.kind || 'Regular';
-    const status = VALID_MEETING_STATUS.has(mm.status) ? mm.status : (mm.date < today ? 'held' : 'scheduled');
+    // A past date is NOT evidence a meeting happened. Defaulting past dates to "held" is how four
+    // canceled meetings and one rescheduled one ended up published as held on 2026-09-21. Only the
+    // city's calendar can assert "held"; absent that, leave an existing status alone and let a new
+    // record sit at "scheduled" until the city says otherwise.
+    const status = VALID_MEETING_STATUS.has(mm.status) ? mm.status : null;
     const docs = ['agendaUrl', 'packetUrl', 'minutesUrl', 'videoUrl']
       .reduce((acc, k) => { if (mm[k] && isOfficial(mm[k])) acc[k] = mm[k]; return acc; }, {});
 
@@ -475,7 +479,7 @@ async function main() {
         if (existing.time !== mm.time || existing.timeConfirmed !== true) touched = true;
         existing.time = mm.time; existing.timeConfirmed = true;
       }
-      if (status !== existing.status) { existing.status = status; touched = true; }
+      if (status && status !== existing.status) { existing.status = status; touched = true; }
       if (mm.note && mm.note.trim() && mm.note.trim() !== existing.note) { existing.note = mm.note.trim(); touched = true; }
       for (const [k, v] of Object.entries(docs)) if (!existing[k]) { existing[k] = v; touched = true; }
       if (touched) { meetingsChanged++; log.push(`~ meeting ${existing.id} updated`); }
@@ -487,7 +491,7 @@ async function main() {
     const rec = {
       id, date: mm.date, time: mm.time || null, timeConfirmed: !!mm.time,
       body: mm.body, kind, title: (mm.title || `${mm.body} Meeting`).trim(),
-      status, confirmed: true, source: 'official-calendar',
+      status: status || 'scheduled', confirmed: true, source: 'official-calendar',
       location: meetingsReg.meta.defaultLocation || null,
       agendaUrl: docs.agendaUrl || null, packetUrl: docs.packetUrl || null,
       minutesUrl: docs.minutesUrl || null, videoUrl: docs.videoUrl || null,
