@@ -21,6 +21,10 @@ on:
         type: boolean
         required: false
         default: false
+      window:
+        description: 'Backfill a closed date range, e.g. 2026-08-02..2026-08-09. Leave blank for a normal forward run.'
+        required: false
+        default: ''
 
 permissions:
   contents: write     # commit new entries
@@ -58,6 +62,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           REFRESH_MODEL: ${{ vars.REFRESH_MODEL }}
           REFRESH_MODE: ${{ steps.mode.outputs.mode }}
+          REFRESH_WINDOW: ${{ github.event.inputs.window }}
         run: |
           set -o pipefail
           node scripts/refresh.mjs ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }} 2>&1 | tee refresh.log
