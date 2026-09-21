@@ -3,8 +3,9 @@
     "title": "Belle Isle Local Government — Topic Archive",
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 2,
-    "lastUpdated": "2026-07-27",
-    "note": "Topic-centric historical record. Each topic is a thread with a chronological timeline of meeting events and recorded commissioner remarks. The Monday refresh appends new timeline entries to existing topics (matching by id) and creates new topics as they arise; it also appends a weekly-summary entry to 'weeks'. Prior entries are never edited. Commissioner remarks are summarized/quoted from official meeting minutes; verify against the linked source before relying on exact wording."
+    "lastUpdated": "2026-09-21",
+    "note": "Topic-centric historical record. Each topic is a thread with a chronological timeline of meeting events and recorded commissioner remarks. The Monday refresh appends new timeline entries to existing topics (matching by id) and creates new topics as they arise; it also appends a weekly-summary entry to 'weeks'. Prior entries are never edited. Commissioner remarks are summarized/quoted from official meeting minutes; verify against the linked source before relying on exact wording.",
+    "lastChecked": "2026-09-21"
   },
   "topics": [
     {
@@ -482,6 +483,27 @@
           "url": "https://www.belleislefl.gov/citycouncil"
         }
       ]
+    },
+    {
+      "weekOf": "2026-09-14",
+      "label": "Week of Sep 14–20, 2026",
+      "compiled": "2026-09-21",
+      "intro": "The City of Belle Isle is preparing for its second public budget hearing on September 23, where the final FY2026-27 millage rate and budget are expected to be adopted.",
+      "highlights": [
+        {
+          "topicId": "fy27-budget-millage",
+          "line": "Final TRIM hearing and budget adoption scheduled for September 23."
+        },
+        {
+          "topicId": "ord-26-03-lot-splits",
+          "line": "Second reading of the lot splits ordinance was scheduled for August 4 but no minutes have been posted yet."
+        }
+      ],
+      "notices": [
+        "Second Public Budget Hearing and City Council Meeting: Tuesday, September 23, 2026 at 6:30 PM",
+        "City Council Meeting: Monday, October 6, 2026 at 6:30 PM"
+      ],
+      "links": []
     }
   ]
 }
