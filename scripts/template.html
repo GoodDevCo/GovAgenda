@@ -121,6 +121,10 @@
   .wknotice .arrow{color:var(--muted); font-weight:700;}
   .wknotice .txt{font-size:14.5px; color:var(--muted);}
 
+  /* Shown only when the archive has not been refreshed in over 10 days. A silent stale
+     archive reads as "nothing is happening in Belle Isle," which is the opposite of true. */
+  .stalenote{margin:0 0 18px; padding:12px 14px; border:1px solid #d9a441; border-left-width:4px;
+    border-radius:6px; background:#fdf6e7; color:#6b4a06; font-size:14px; line-height:1.45;}
   footer.foot{margin-top:36px; padding-top:20px; border-top:1px solid var(--line); font-size:13px; color:var(--muted);}
   .pill-legend{display:inline-block;}
 
@@ -485,6 +489,7 @@
 
 <div class="wrap">
   <p class="sub" id="sub"></p>
+  <p class="stalenote" id="staleNote" hidden></p>
 
   <!-- TOPICS VIEW -->
   <div id="viewTopics">
@@ -723,6 +728,20 @@
 
   $('sub').textContent = topics.length + ' tracked topics · ' + (DATA.meta ? DATA.meta.jurisdiction : '');
   $('footdate').textContent = 'As of ' + fmtDate(DATA.meta ? DATA.meta.lastUpdated : TODAY) + '. ';
+
+  // Staleness is a fact about the data, so say it on the page rather than leaving readers to
+  // infer it from a quiet "As of" line in the footer.
+  (function(){
+    var last = DATA.meta && DATA.meta.lastUpdated;
+    if(!last) return;
+    var days = Math.floor((new Date(TODAY + 'T00:00:00Z') - new Date(last + 'T00:00:00Z')) / 86400000);
+    if(days < 11) return;
+    $('staleNote').innerHTML = '<strong>This archive has not been updated since ' + esc(fmtDate(last))
+      + '</strong> (' + days + ' days). The nightly refresh is not running. Meeting dates below still '
+      + 'come from the city calendar, but no new agenda items or commissioner remarks have been added. '
+      + 'Check the city directly at <a href="https://www.belleislefl.gov/meetings" target="_blank" rel="noopener">belleislefl.gov/meetings</a>.';
+    $('staleNote').hidden = false;
+  })();
 
   // category filter options
   var cats = [];
