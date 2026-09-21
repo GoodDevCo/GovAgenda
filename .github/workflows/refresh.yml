@@ -26,6 +26,7 @@ permissions:
   contents: write     # commit new entries
   pages: write        # deploy
   id-token: write
+  issues: write       # open a tracking issue when a run fails
 
 concurrency:
   group: pages        # shared with deploy.yml so Pages deploys never overlap
@@ -57,7 +58,9 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           REFRESH_MODEL: ${{ vars.REFRESH_MODEL }}
           REFRESH_MODE: ${{ steps.mode.outputs.mode }}
-        run: node scripts/refresh.mjs ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }}
+        run: |
+          set -o pipefail
+          node scripts/refresh.mjs ${{ github.event.inputs.dry_run == 'true' && '--dry-run' || '' }} 2>&1 | tee refresh.log
 
       - name: Commit if the archive or the meetings calendar changed
         id: commit
@@ -73,6 +76,72 @@ jobs:
             git push
             echo "changed=true" >> "$GITHUB_OUTPUT"
           fi
+
+      # A failed run used to be silent. Between 2026-08-02 and 2026-09-20 this workflow failed
+      # 50 nights running — the Anthropic key was out of credit — and nothing said so anywhere.
+      # One open issue per outage, a comment at most every 3 days, closed automatically on recovery.
+      - name: Report the failure as an issue
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            let log = '(no output captured)';
+            try {
+              log = fs.readFileSync('refresh.log', 'utf8').trim().split('\n').slice(-20).join('\n');
+            } catch (e) {}
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            const body = [
+              `The daily refresh failed on ${new Date().toISOString().slice(0, 10)}.`,
+              '',
+              `Run: ${runUrl}`,
+              '',
+              'Last lines of output:',
+              '```',
+              log,
+              '```',
+              '',
+              'While this is open, govagenda.org is serving a stale archive.',
+            ].join('\n');
+            const { data: existing } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: ['refresh-failure'],
+            });
+            if (existing.length === 0) {
+              await github.rest.issues.create({
+                owner: context.repo.owner, repo: context.repo.repo,
+                title: 'Auto-refresh is failing', body, labels: ['refresh-failure'],
+              });
+            } else {
+              const age = Date.now() - new Date(existing[0].updated_at).getTime();
+              if (age > 3 * 24 * 60 * 60 * 1000) {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner, repo: context.repo.repo,
+                  issue_number: existing[0].number, body: `Still failing.\n\n${body}`,
+                });
+              }
+            }
+
+      - name: Close the failure issue once a run succeeds
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: existing } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner, repo: context.repo.repo,
+              state: 'open', labels: ['refresh-failure'],
+            });
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            for (const issue of existing) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: issue.number, body: `Refresh succeeded again — ${runUrl}`,
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner, repo: context.repo.repo,
+                issue_number: issue.number, state: 'closed',
+              });
+            }
 
       # Build + deploy in-workflow (the default token won't trigger deploy.yml on its own push).
       - name: Build site
