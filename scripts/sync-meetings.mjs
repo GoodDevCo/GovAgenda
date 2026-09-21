@@ -128,8 +128,13 @@ for (const t of arch.topics || []) {
         body,
         kind,
         title: `${body}${kind === 'Regular' ? ' Meeting' : ` — ${kind}`}`,
-        status: e.date < today ? 'held' : 'scheduled',
-        confirmed: true,
+        // Derived from a topic mention, NOT from the city's calendar — so it is a projection and
+        // is marked as one. It used to be born confirmed:true and, once its date passed, "held":
+        // that is how a September hearing predicted in a July discussion came to be published as a
+        // hearing that had happened. A projection is replaced the moment a real calendar record
+        // for that date appears; until then the site says "Expected" and the .ics feed omits it.
+        status: 'scheduled',
+        confirmed: false,
         source: 'archive',
         location: reg.meta.defaultLocation || null,
         agendaUrl: null, packetUrl: null, minutesUrl: null, videoUrl: null,
