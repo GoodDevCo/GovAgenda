@@ -732,14 +732,17 @@
   // Staleness is a fact about the data, so say it on the page rather than leaving readers to
   // infer it from a quiet "As of" line in the footer.
   (function(){
-    var last = DATA.meta && DATA.meta.lastUpdated;
+    // Freshness is about the PIPELINE, not the news. Base it on lastChecked (every successful
+    // run) rather than lastUpdated (only when new material lands), or a quiet fortnight in a small
+    // city raises a false alarm — which is exactly what happened the first time this shipped.
+    var last = DATA.meta && (DATA.meta.lastChecked || DATA.meta.lastUpdated);
     if(!last) return;
     var days = Math.floor((new Date(TODAY + 'T00:00:00Z') - new Date(last + 'T00:00:00Z')) / 86400000);
-    if(days < 11) return;
-    $('staleNote').innerHTML = '<strong>This archive has not been updated since ' + esc(fmtDate(last))
-      + '</strong> (' + days + ' days). The nightly refresh is not running. Meeting dates below still '
-      + 'come from the city calendar, but no new agenda items or commissioner remarks have been added. '
-      + 'Check the city directly at <a href="https://www.belleislefl.gov/meetings" target="_blank" rel="noopener">belleislefl.gov/meetings</a>.';
+    if(days < 4) return;
+    $('staleNote').innerHTML = '<strong>The nightly refresh has not run since ' + esc(fmtDate(last))
+      + '</strong> (' + days + ' days). Nothing new has been collected in that time, so this page may be '
+      + 'missing recent agenda items and commissioner remarks. Meeting dates below still come from the '
+      + 'city calendar. Check the city directly at <a href="https://www.belleislefl.gov/meetings" target="_blank" rel="noopener">belleislefl.gov/meetings</a>.';
     $('staleNote').hidden = false;
   })();
 

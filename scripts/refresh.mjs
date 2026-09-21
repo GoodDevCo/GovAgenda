@@ -487,10 +487,13 @@ async function main() {
     meetingsReg.meta.lastUpdated = today;
     writeFileSync(MEETINGS_PATH, JSON.stringify(meetingsReg, null, 2) + '\n');
   }
-  if (added > 0) {
-    data.meta.lastUpdated = today;
-    writeFileSync(DATA_PATH, JSON.stringify(data, null, 2) + '\n');
-  }
+  // lastUpdated says when new material last landed. lastChecked says when the pipeline last ran.
+  // The site needs both: a genuinely quiet fortnight in Belle Isle is not the same thing as a dead
+  // refresh, and only lastChecked tells them apart. Writing it on every run also keeps the repo
+  // active, which stops GitHub auto-disabling this schedule after 60 idle days.
+  if (added > 0) data.meta.lastUpdated = today;
+  data.meta.lastChecked = today;
+  writeFileSync(DATA_PATH, JSON.stringify(data, null, 2) + '\n');
 
   // Always re-sync the registry, even on a quiet day: past meetings roll from "scheduled" to
   // "held", the projected-meeting window advances, and topic↔meeting links are re-derived from
