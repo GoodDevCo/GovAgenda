@@ -57,6 +57,18 @@ jobs:
             echo "mode=watch" >> "$GITHUB_OUTPUT"
           fi
 
+      # Weekly-only. Deterministic — no model call — checks the registry against the
+      # city's own calendar page and opens/updates/closes a `calendar-mismatch` issue.
+      # Separate from refresh-failure: a data mismatch isn't a broken pipeline, and
+      # merging those two signals is how the false "held" statuses stayed invisible
+      # for seven weeks. Runs regardless of whether the research step below succeeds —
+      # it checks what's already published. Always exits 0; never fails this job.
+      - name: Weekly reconcile against the city calendar
+        if: steps.mode.outputs.mode == 'weekly'
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: node scripts/reconcile.mjs
+
       - name: Research + merge (append-only)
         env:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
