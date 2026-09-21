@@ -14,7 +14,11 @@
 //                                    without editing code.
 //   REFRESH_MODE       (optional)  — "watch" (default) or "weekly". Weekly also writes a
 //                                    week roll-up entry into `weeks`. The workflow sets this.
-//   REFRESH_MAX_SEARCHES (optional)— cap on web searches per run (cost guardrail). Default 8.
+//   REFRESH_MAX_SEARCHES (optional)— cap on web searches per run (cost guardrail). Default 8 (20 in
+//                                    backfill).
+//   REFRESH_WINDOW     (optional)  — "YYYY-MM-DD..YYYY-MM-DD". Backfill a closed date range instead
+//                                    of researching forward. Use after an outage; run it one week at
+//                                    a time. Forces weekEntry off so it cannot fake a roll-up.
 
 import { readFileSync, writeFileSync } from 'node:fs';
 import { execFileSync } from 'node:child_process';
@@ -23,7 +27,21 @@ const DATA_PATH = 'data/topic-archive.json';
 const MEETINGS_PATH = 'data/meetings.json';
 const MODEL = process.env.REFRESH_MODEL || 'claude-sonnet-4-5';
 const MODE = (process.env.REFRESH_MODE || 'watch').toLowerCase();
-const MAX_SEARCHES = parseInt(process.env.REFRESH_MAX_SEARCHES || '8', 10);
+// REFRESH_WINDOW — "YYYY-MM-DD..YYYY-MM-DD". When set, the run stops asking "what is new?" and
+// instead sweeps that closed date range. This is how you recover from an outage: the archive is
+// append-only and nothing backfills itself, so a gap stays a gap until someone sweeps it. Backfill
+// gets a bigger search budget by default because it is a wider question than "what happened today".
+const WINDOW_RAW = (process.env.REFRESH_WINDOW || '').trim();
+const WINDOW = /^\d{4}-\d{2}-\d{2}\.\.\d{4}-\d{2}-\d{2}$/.test(WINDOW_RAW) ? WINDOW_RAW.split('..') : null;
+if (WINDOW_RAW && !WINDOW) {
+  console.error(`ERROR: REFRESH_WINDOW must look like 2026-08-02..2026-09-13 (got "${WINDOW_RAW}").`);
+  process.exit(1);
+}
+if (WINDOW && WINDOW[0] > WINDOW[1]) {
+  console.error(`ERROR: REFRESH_WINDOW start ${WINDOW[0]} is after end ${WINDOW[1]}.`);
+  process.exit(1);
+}
+const MAX_SEARCHES = parseInt(process.env.REFRESH_MAX_SEARCHES || (WINDOW ? '20' : '8'), 10);
 const API_KEY = process.env.ANTHROPIC_API_KEY;
 // --dry-run (or REFRESH_DRY_RUN=1): research + report the merge, but never write the file.
 const DRY_RUN = process.argv.includes('--dry-run') || process.env.REFRESH_DRY_RUN === '1';
@@ -182,7 +200,7 @@ const schemaSpec = `Return ONLY a single JSON object (no prose, no markdown fenc
       "note":"only when the city's listing says something extra, e.g. 'Rescheduled to August 20.'",
       "agendaUrl":null, "packetUrl":null, "minutesUrl":null, "videoUrl":null }
   ],
-  "weekEntry": ${MODE === 'weekly'
+  "weekEntry": ${MODE === 'weekly' && !WINDOW
     ? `{ "weekOf":"YYYY-MM-DD (Monday of the week just ended)","label":"Week of Mon D–D, YYYY","compiled":"${today}","intro":"1-2 sentence neutral overview","highlights":[{"topicId":"...","line":"one plain sentence"}],"notices":["optional plain-text lines for upcoming meeting dates, reschedules, deadlines"],"links":[{"label":"Jul 21 agenda →","url":"https://official..."}] }`
     : 'null'}
 }
@@ -190,9 +208,9 @@ Every newTopic and every newTimelineEntry.entry MUST contain at least one links[
 official source. Every newTopic MUST also include a "whatThisMeans" paragraph per the rules above.
 statusUpdates and topicSummaryUpdates must each correspond to a topic that also received a sourced
 newTimelineEntry (or is itself a newTopic) in this same run — never update either for a topic with no
-accompanying sourced material. If there is nothing new, return empty arrays and weekEntry ${MODE === 'weekly' ? 'as your best roll-up of the snapshot' : 'null'}.`;
+accompanying sourced material. If there is nothing new, return empty arrays and weekEntry ${MODE === 'weekly' && !WINDOW ? 'as your best roll-up of the snapshot' : 'null'}.`;
 
-const userMsg = `Today is ${today}. Mode: ${MODE}.
+const userMsg = `Today is ${today}. Mode: ${WINDOW ? `backfill ${WINDOW[0]}..${WINDOW[1]}` : MODE}.
 Here is the snapshot of what GovAgenda already has on file (do not repeat any of it):
 
 ${JSON.stringify(snapshot, null, 0)}
@@ -202,9 +220,16 @@ whose time, status, or published documents have changed):
 
 ${JSON.stringify(meetingSnapshot, null, 0)}
 
-Research the City of Belle Isle, FL for anything new since these records — newly posted agendas,
+${WINDOW ? `BACKFILL RUN. Do not research forward. Sweep the closed date range ${WINDOW[0]} to ${WINDOW[1]}
+inclusive and return only material whose EVENT DATE falls inside it. This range was missed while the
+refresh was down, so treat "already on file" as the only reason to skip something — recency is not a
+filter here, and material from this range is wanted even though it is weeks old.
+Work meeting by meeting: for every City of Belle Isle meeting held in that range, open the agenda,
+packet and minutes the city has published and record what actually happened. Set each timeline
+entry's date to the date of the meeting or document, never today. Return "weekEntry": null.` :
+`Research the City of Belle Isle, FL for anything new since these records — newly posted agendas,
 minutes, packets, adopted ordinances/resolutions, budget/millage actions, public notices, and
-upcoming meetings. Start from the city's official meeting calendar (https://www.belleislefl.gov/meetings)
+upcoming meetings.`} Start from the city's official meeting calendar (https://www.belleislefl.gov/meetings)
 and site. Then return the JSON.
 
 ${schemaSpec}`;
