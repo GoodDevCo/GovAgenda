@@ -1355,13 +1355,13 @@
     {
       "id": "2026-09-01-city-council-trim",
       "date": "2026-09-01",
-      "time": null,
+      "time": "18:30",
       "body": "City Council",
-      "kind": "Public hearing",
-      "title": "TRIM public hearing — FY2026-27 millage & budget adoption",
-      "status": "held",
+      "kind": "Regular",
+      "title": "City Council Meeting",
+      "status": "rescheduled",
       "confirmed": true,
-      "source": "archive",
+      "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
       "agendaUrl": null,
       "packetUrl": null,
@@ -1370,9 +1370,9 @@
       "topicIds": [
         "fy27-budget-millage"
       ],
-      "note": "Date recorded from the July budget discussion; the city has not yet published this meeting on its calendar. Start time not yet announced.",
+      "note": "Rescheduled to September 9, which the city published as the First Public Budget Hearing and City Council Meeting. This record previously read \"TRIM public hearing — FY2026-27 millage & budget adoption\" with status \"held\"; that was a projected date promoted to fact, corrected 2026-09-21 against the city calendar. The id is kept so existing links resolve.",
       "calendarUrl": "https://www.belleislefl.gov/meetings",
-      "timeConfirmed": false,
+      "timeConfirmed": true,
       "dateLabel": "September 1, 2026"
     },
     {
