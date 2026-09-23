@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-09-21"
+    "lastSynced": "2026-09-23"
   },
   "meetings": [
     {
@@ -2171,6 +2171,27 @@
       "videoUrl": null,
       "topicIds": [],
       "note": "Expected from the regular schedule (1st & 3rd Tuesday, 6:30 PM). Not yet posted on the city’s calendar — confirm before attending.",
+      "calendarUrl": "https://www.belleislefl.gov/meetings"
+    },
+    {
+      "id": "2027-03-23-planning-zoning-expected",
+      "date": "2027-03-23",
+      "dateLabel": "March 23, 2027",
+      "time": "18:30",
+      "timeConfirmed": false,
+      "body": "Planning & Zoning Board",
+      "kind": "Regular",
+      "title": "Planning & Zoning Board Meeting",
+      "status": "scheduled",
+      "confirmed": false,
+      "source": "projected",
+      "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
+      "agendaUrl": null,
+      "packetUrl": null,
+      "minutesUrl": null,
+      "videoUrl": null,
+      "topicIds": [],
+      "note": "Expected from the regular schedule (4th Tuesday, 6:30 PM). Not yet posted on the city’s calendar — confirm before attending.",
       "calendarUrl": "https://www.belleislefl.gov/meetings"
     }
   ]
