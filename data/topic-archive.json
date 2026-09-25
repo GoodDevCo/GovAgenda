@@ -5,7 +5,7 @@
     "schemaVersion": 2,
     "lastUpdated": "2026-09-21",
     "note": "Topic-centric historical record. Each topic is a thread with a chronological timeline of meeting events and recorded commissioner remarks. The Monday refresh appends new timeline entries to existing topics (matching by id) and creates new topics as they arise; it also appends a weekly-summary entry to 'weeks'. Prior entries are never edited. Commissioner remarks are summarized/quoted from official meeting minutes; verify against the linked source before relying on exact wording.",
-    "lastChecked": "2026-09-24"
+    "lastChecked": "2026-09-25"
   },
   "topics": [
     {
