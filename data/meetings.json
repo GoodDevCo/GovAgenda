@@ -2,7 +2,7 @@
   "meta": {
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 1,
-    "lastUpdated": "2026-09-21",
+    "lastUpdated": "2026-09-28",
     "calendarUrl": "https://www.belleislefl.gov/meetings",
     "clerk": {
       "email": "cityclerk@belleislefl.gov",
@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-09-24"
+    "lastSynced": "2026-09-28"
   },
   "meetings": [
     {
@@ -1387,11 +1387,13 @@
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-      "agendaUrl": null,
-      "packetUrl": null,
+      "agendaUrl": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-ebd6e2710edd4201a7435b95041ce3f1.pdf",
+      "packetUrl": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-ebd6e2710edd4201a7435b95041ce3f1.pdf",
       "minutesUrl": null,
       "videoUrl": null,
-      "topicIds": [],
+      "topicIds": [
+        "fy27-budget-millage"
+      ],
       "note": "",
       "calendarUrl": "https://www.belleislefl.gov/meetings",
       "dateLabel": "September 9, 2026"
@@ -1513,7 +1515,7 @@
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-      "agendaUrl": null,
+      "agendaUrl": "https://www.belleislefl.gov/citycouncil/page/second-public-budget-hearing-and-city-council-meeting",
       "packetUrl": null,
       "minutesUrl": null,
       "videoUrl": null,

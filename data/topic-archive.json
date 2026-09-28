@@ -3,9 +3,9 @@
     "title": "Belle Isle Local Government — Topic Archive",
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 2,
-    "lastUpdated": "2026-09-21",
+    "lastUpdated": "2026-09-28",
     "note": "Topic-centric historical record. Each topic is a thread with a chronological timeline of meeting events and recorded commissioner remarks. The Monday refresh appends new timeline entries to existing topics (matching by id) and creates new topics as they arise; it also appends a weekly-summary entry to 'weeks'. Prior entries are never edited. Commissioner remarks are summarized/quoted from official meeting minutes; verify against the linked source before relying on exact wording.",
-    "lastChecked": "2026-09-27"
+    "lastChecked": "2026-09-28"
   },
   "topics": [
     {
@@ -15,9 +15,9 @@
       "status": "In progress",
       "statusClass": "s-amber",
       "pinned": false,
-      "updated": "2026-07-21",
+      "updated": "2026-09-09",
       "summary": "The annual budget and property-tax rate. Started the spring with no millage set and a compensation study driving costs up; by July a draft proposed raising the rate from 4.7845 to 5.0000 mills, set for a maximum-rate vote July 21 and final hearings in September.",
-      "whatThisMeans": "This is Belle Isle's annual budget and property-tax rate for the year starting October 2026. The draft proposes raising the rate from 4.7845 to 5.0000 mills — about an 8% increase in property-tax revenue — driven largely by a citywide pay study. The Council took up the maximum rate at its July 21 meeting; that ceiling can be lowered but not raised before final adoption. Two more public hearings in September will set the actual rate and adopt the budget, so nothing is final yet. If the maximum rate holds, most homeowners would see a modest property-tax increase, but the final number could still come in lower.",
+      "whatThisMeans": "Belle Isle's City Council has advanced the budget for fiscal year 2026-27, which begins October 1, 2026. At the first public hearing on September 9, the council tentatively set the property tax rate (millage) at 4.9999 mills—an increase from the current 4.7845 mills. This means the owner of a $300,000 home (after homestead exemption) would pay about $1,500 in city property taxes, roughly $65 more than this year. The tentative budget was also approved. A second public hearing was scheduled for September 23 to finalize these numbers, but minutes from that meeting confirming final adoption have not yet been posted. Until the second hearing minutes are published, the final millage rate and budget remain unofficial.",
       "timeline": [
         {
           "date": "2026-03-09",
@@ -94,6 +94,20 @@
           "detail": "Two statutory public hearings in September set the final millage and adopt the budget. Watch this thread for the adopted rate and any changes from the 5.0000 ceiling.",
           "remarks": [],
           "links": []
+        },
+        {
+          "date": "2026-09-09",
+          "dateLabel": "Tue 9, 2026",
+          "meeting": "City Council (First Budget Hearing)",
+          "event": "Council adopts tentative millage of 4.9999 mills and tentative FY27 budget",
+          "detail": "The City Council held the first public budget hearing for fiscal year 2026-2027. The proposed budget includes a millage rate increase from 4.7845 to 4.9999 mills. Council adopted Resolution 26-09 setting the tentative millage rate and Resolution 26-10 adopting the tentative budget. The final millage and budget were scheduled for adoption at the second public hearing on September 23, 2026.",
+          "remarks": [],
+          "links": [
+            {
+              "label": "Sep 9 agenda packet →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-ebd6e2710edd4201a7435b95041ce3f1.pdf"
+            }
+          ]
         }
       ]
     },
@@ -504,6 +518,32 @@
         "City Council Meeting: Monday, October 6, 2026 at 6:30 PM"
       ],
       "links": []
+    },
+    {
+      "weekOf": "2026-09-21",
+      "label": "Week of Mon 21–27, 2026",
+      "compiled": "2026-09-28",
+      "intro": "Belle Isle held its second budget hearing on September 23 to finalize the FY 2026-27 millage and budget, though official minutes have not yet been posted.",
+      "highlights": [
+        {
+          "topicId": "fy27-budget-millage",
+          "line": "Council tentatively approved a millage increase to 4.9999 mills for fiscal year 2026-27 at the September 9 first budget hearing."
+        }
+      ],
+      "notices": [
+        "The next regular City Council meeting is Monday, October 6 at 6:30 PM.",
+        "Minutes from the September 23 second budget hearing have not yet been published; check belleislefl.gov for updates."
+      ],
+      "links": [
+        {
+          "label": "Sep 9 first budget hearing agenda →",
+          "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-ebd6e2710edd4201a7435b95041ce3f1.pdf"
+        },
+        {
+          "label": "City meeting calendar →",
+          "url": "https://www.belleislefl.gov/meetings"
+        }
+      ]
     }
   ]
 }
