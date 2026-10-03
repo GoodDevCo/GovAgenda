@@ -2,7 +2,7 @@
   "meta": {
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 1,
-    "lastUpdated": "2026-09-30",
+    "lastUpdated": "2026-10-03",
     "calendarUrl": "https://www.belleislefl.gov/meetings",
     "clerk": {
       "email": "cityclerk@belleislefl.gov",
@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-10-01"
+    "lastSynced": "2026-10-03"
   },
   "meetings": [
     {
@@ -1607,6 +1607,27 @@
       "note": "",
       "calendarUrl": "https://www.belleislefl.gov/meetings",
       "dateLabel": "October 12, 2026"
+    },
+    {
+      "id": "2026-10-15-tree-advisory",
+      "date": "2026-10-15",
+      "time": "18:30",
+      "timeConfirmed": true,
+      "body": "Tree Advisory Board",
+      "kind": "Regular",
+      "title": "Tree Advisory Board Meeting",
+      "status": "scheduled",
+      "confirmed": true,
+      "source": "official-calendar",
+      "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
+      "agendaUrl": null,
+      "packetUrl": null,
+      "minutesUrl": null,
+      "videoUrl": null,
+      "topicIds": [],
+      "note": "",
+      "calendarUrl": "https://www.belleislefl.gov/meetings",
+      "dateLabel": "October 15, 2026"
     },
     {
       "id": "2026-10-20-city-council-expected",
