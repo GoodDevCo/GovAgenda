@@ -2,7 +2,7 @@
   "meta": {
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 1,
-    "lastUpdated": "2026-10-03",
+    "lastUpdated": "2026-10-04",
     "calendarUrl": "https://www.belleislefl.gov/meetings",
     "clerk": {
       "email": "cityclerk@belleislefl.gov",
@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-10-03"
+    "lastSynced": "2026-10-04"
   },
   "meetings": [
     {
@@ -1516,10 +1516,12 @@
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
       "agendaUrl": "https://www.belleislefl.gov/citycouncil/page/second-public-budget-hearing-and-city-council-meeting",
-      "packetUrl": null,
+      "packetUrl": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-1f92f9b8ebbf44fa835941fcf3e7b98e.pdf",
       "minutesUrl": null,
       "videoUrl": null,
-      "topicIds": [],
+      "topicIds": [
+        "fy27-budget-millage"
+      ],
       "note": "",
       "calendarUrl": "https://www.belleislefl.gov/meetings",
       "dateLabel": "September 23, 2026"
@@ -1557,8 +1559,8 @@
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-      "agendaUrl": null,
-      "packetUrl": null,
+      "agendaUrl": "https://www.belleislefl.gov/meetings",
+      "packetUrl": "https://www.belleislefl.gov/meetings",
       "minutesUrl": null,
       "videoUrl": null,
       "topicIds": [],
@@ -1630,25 +1632,25 @@
       "dateLabel": "October 15, 2026"
     },
     {
-      "id": "2026-10-20-city-council-expected",
+      "id": "2026-10-20-city-council",
       "date": "2026-10-20",
-      "dateLabel": "October 20, 2026",
       "time": "18:30",
-      "timeConfirmed": false,
+      "timeConfirmed": true,
       "body": "City Council",
       "kind": "Regular",
       "title": "City Council Meeting",
       "status": "scheduled",
-      "confirmed": false,
-      "source": "projected",
+      "confirmed": true,
+      "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
       "agendaUrl": null,
       "packetUrl": null,
       "minutesUrl": null,
       "videoUrl": null,
       "topicIds": [],
-      "note": "Expected from the regular schedule (1st & 3rd Tuesday, 6:30 PM). Not yet posted on the city’s calendar — confirm before attending.",
-      "calendarUrl": "https://www.belleislefl.gov/meetings"
+      "note": "",
+      "calendarUrl": "https://www.belleislefl.gov/meetings",
+      "dateLabel": "October 20, 2026"
     },
     {
       "id": "2026-10-21-special-events",

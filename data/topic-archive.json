@@ -3,21 +3,21 @@
     "title": "Belle Isle Local Government — Topic Archive",
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 2,
-    "lastUpdated": "2026-09-28",
+    "lastUpdated": "2026-10-04",
     "note": "Topic-centric historical record. Each topic is a thread with a chronological timeline of meeting events and recorded commissioner remarks. The Monday refresh appends new timeline entries to existing topics (matching by id) and creates new topics as they arise; it also appends a weekly-summary entry to 'weeks'. Prior entries are never edited. Commissioner remarks are summarized/quoted from official meeting minutes; verify against the linked source before relying on exact wording.",
-    "lastChecked": "2026-10-03"
+    "lastChecked": "2026-10-04"
   },
   "topics": [
     {
       "id": "fy27-budget-millage",
       "title": "FY2026-27 Budget & Millage",
       "category": "Budget",
-      "status": "In progress",
-      "statusClass": "s-amber",
+      "status": "Adopted",
+      "statusClass": "s-teal",
       "pinned": false,
-      "updated": "2026-09-09",
+      "updated": "2026-09-23",
       "summary": "The annual budget and property-tax rate. Started the spring with no millage set and a compensation study driving costs up; by July a draft proposed raising the rate from 4.7845 to 5.0000 mills, set for a maximum-rate vote July 21 and final hearings in September.",
-      "whatThisMeans": "Belle Isle's City Council has advanced the budget for fiscal year 2026-27, which begins October 1, 2026. At the first public hearing on September 9, the council tentatively set the property tax rate (millage) at 4.9999 mills—an increase from the current 4.7845 mills. This means the owner of a $300,000 home (after homestead exemption) would pay about $1,500 in city property taxes, roughly $65 more than this year. The tentative budget was also approved. A second public hearing was scheduled for September 23 to finalize these numbers, but minutes from that meeting confirming final adoption have not yet been posted. Until the second hearing minutes are published, the final millage rate and budget remain unofficial.",
+      "whatThisMeans": "The city has finalized its budget and tax rate for the fiscal year that began October 1, 2026. Property owners will pay a millage rate of 4.9999 mills—just under the 5.0 mill cap—which represents a slight increase from last year's 4.7845 mills. The certified taxable value for Belle Isle rose to approximately $1.21 billion, up from $1.17 billion the prior year. The council also approved a five-year capital plan covering projects through 2031, though the plan itself does not appropriate funds; individual projects will be budgeted and approved as funding becomes available.",
       "timeline": [
         {
           "date": "2026-03-09",
@@ -106,6 +106,20 @@
             {
               "label": "Sep 9 agenda packet →",
               "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-ebd6e2710edd4201a7435b95041ce3f1.pdf"
+            }
+          ]
+        },
+        {
+          "date": "2026-09-23",
+          "dateLabel": "Sep 23, 2026",
+          "meeting": "City Council (Second Budget Hearing)",
+          "event": "Final millage and FY27 budget adopted",
+          "detail": "Council adopted Resolution 26-13 setting the final millage rate at 4.9999 mills for FY 2026-27, Resolution 26-14 adopting the final budget, and Resolution 26-15 adopting the five-year capital improvements program for October 1, 2026 through September 30, 2031.",
+          "remarks": [],
+          "links": [
+            {
+              "label": "Sep 23 agenda & packet →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-1f92f9b8ebbf44fa835941fcf3e7b98e.pdf"
             }
           ]
         }
