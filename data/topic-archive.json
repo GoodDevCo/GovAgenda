@@ -3,9 +3,9 @@
     "title": "Belle Isle Local Government — Topic Archive",
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 2,
-    "lastUpdated": "2026-10-04",
+    "lastUpdated": "2026-10-06",
     "note": "Topic-centric historical record. Each topic is a thread with a chronological timeline of meeting events and recorded commissioner remarks. The Monday refresh appends new timeline entries to existing topics (matching by id) and creates new topics as they arise; it also appends a weekly-summary entry to 'weeks'. Prior entries are never edited. Commissioner remarks are summarized/quoted from official meeting minutes; verify against the linked source before relying on exact wording.",
-    "lastChecked": "2026-10-04"
+    "lastChecked": "2026-10-06"
   },
   "topics": [
     {
@@ -17,7 +17,7 @@
       "pinned": false,
       "updated": "2026-09-23",
       "summary": "The annual budget and property-tax rate. Started the spring with no millage set and a compensation study driving costs up; by July a draft proposed raising the rate from 4.7845 to 5.0000 mills, set for a maximum-rate vote July 21 and final hearings in September.",
-      "whatThisMeans": "The city has finalized its budget and tax rate for the fiscal year that began October 1, 2026. Property owners will pay a millage rate of 4.9999 mills—just under the 5.0 mill cap—which represents a slight increase from last year's 4.7845 mills. The certified taxable value for Belle Isle rose to approximately $1.21 billion, up from $1.17 billion the prior year. The council also approved a five-year capital plan covering projects through 2031, though the plan itself does not appropriate funds; individual projects will be budgeted and approved as funding becomes available.",
+      "whatThisMeans": "Belle Isle's fiscal year 2027 budget and property tax rate are now final. The city council lowered the millage from the tentative rate of 4.9999 mills proposed in early September to a final rate of 4.7845 mills—still an increase of 3.01% over the revenue-neutral \"rolled-back\" rate, but smaller than initially planned. For the owner of a $300,000 home with a $50,000 homestead exemption, this final rate means a city property tax bill of approximately $1,196 for the year. The new budget and millage took effect October 1, 2026, and will fund city operations through September 30, 2027.",
       "timeline": [
         {
           "date": "2026-03-09",
@@ -119,6 +119,20 @@
           "links": [
             {
               "label": "Sep 23 agenda & packet →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-1f92f9b8ebbf44fa835941fcf3e7b98e.pdf"
+            }
+          ]
+        },
+        {
+          "date": "2026-09-23",
+          "dateLabel": "Sep 23, 2026",
+          "meeting": "City Council (Second Budget Hearing)",
+          "event": "Final millage of 4.7845 mills and FY27 budget adopted",
+          "detail": "Council adopted the final millage rate at 4.7845 mills (Resolution 26-13), lower than the tentative 4.9999 mills set on September 9. The final rate is 3.01% above the rolled-back rate of 4.6449 mills. Council also adopted the final FY27 budget (Resolution 26-14), the five-year capital improvement program (Resolution 26-15), and the FY27 fee schedule.",
+          "remarks": [],
+          "links": [
+            {
+              "label": "Sep 23 agenda packet →",
               "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-1f92f9b8ebbf44fa835941fcf3e7b98e.pdf"
             }
           ]

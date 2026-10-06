@@ -2,7 +2,7 @@
   "meta": {
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 1,
-    "lastUpdated": "2026-10-04",
+    "lastUpdated": "2026-10-06",
     "calendarUrl": "https://www.belleislefl.gov/meetings",
     "clerk": {
       "email": "cityclerk@belleislefl.gov",
@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-10-04"
+    "lastSynced": "2026-10-06"
   },
   "meetings": [
     {
@@ -1695,6 +1695,27 @@
       "dateLabel": "October 27, 2026"
     },
     {
+      "id": "2026-10-28-city-notices-event",
+      "date": "2026-10-28",
+      "time": "17:00",
+      "timeConfirmed": true,
+      "body": "City Notices",
+      "kind": "Event",
+      "title": "Boo-gie on the Bridge!",
+      "status": "scheduled",
+      "confirmed": true,
+      "source": "official-calendar",
+      "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
+      "agendaUrl": null,
+      "packetUrl": null,
+      "minutesUrl": null,
+      "videoUrl": null,
+      "topicIds": [],
+      "note": "",
+      "calendarUrl": "https://www.belleislefl.gov/meetings",
+      "dateLabel": "October 28, 2026"
+    },
+    {
       "id": "2026-11-03-city-council-expected",
       "date": "2026-11-03",
       "dateLabel": "November 3, 2026",
@@ -2238,6 +2259,27 @@
       "videoUrl": null,
       "topicIds": [],
       "note": "Expected from the regular schedule (4th Tuesday, 6:30 PM). Not yet posted on the city’s calendar — confirm before attending.",
+      "calendarUrl": "https://www.belleislefl.gov/meetings"
+    },
+    {
+      "id": "2027-04-06-city-council-expected",
+      "date": "2027-04-06",
+      "dateLabel": "April 6, 2027",
+      "time": "18:30",
+      "timeConfirmed": false,
+      "body": "City Council",
+      "kind": "Regular",
+      "title": "City Council Meeting",
+      "status": "scheduled",
+      "confirmed": false,
+      "source": "projected",
+      "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
+      "agendaUrl": null,
+      "packetUrl": null,
+      "minutesUrl": null,
+      "videoUrl": null,
+      "topicIds": [],
+      "note": "Expected from the regular schedule (1st & 3rd Tuesday, 6:30 PM). Not yet posted on the city’s calendar — confirm before attending.",
       "calendarUrl": "https://www.belleislefl.gov/meetings"
     }
   ]
