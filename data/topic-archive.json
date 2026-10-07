@@ -3,9 +3,9 @@
     "title": "Belle Isle Local Government — Topic Archive",
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 2,
-    "lastUpdated": "2026-10-06",
+    "lastUpdated": "2026-10-07",
     "note": "Topic-centric historical record. Each topic is a thread with a chronological timeline of meeting events and recorded commissioner remarks. The Monday refresh appends new timeline entries to existing topics (matching by id) and creates new topics as they arise; it also appends a weekly-summary entry to 'weeks'. Prior entries are never edited. Commissioner remarks are summarized/quoted from official meeting minutes; verify against the linked source before relying on exact wording.",
-    "lastChecked": "2026-10-06"
+    "lastChecked": "2026-10-07"
   },
   "topics": [
     {
@@ -460,6 +460,33 @@
             {
               "label": "Jul 13 packet →",
               "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-4a303a1798024691825a560fc40c1097.pdf#page=17"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "pine-castle-es-site",
+      "title": "Pine Castle Elementary School Site — Purchase Consideration",
+      "category": "Governance",
+      "status": "On agenda",
+      "statusClass": "s-amber",
+      "pinned": false,
+      "updated": "2026-10-06",
+      "summary": "The City Council has an item on the October 6, 2026 agenda titled 'Pine Castle ES Site - Purchase Consideration.' No additional details are available in the published agenda packet.",
+      "whatThisMeans": "The city council is scheduled to discuss a potential purchase related to the Pine Castle Elementary School site at the October 6 meeting. The agenda does not specify whether this involves acquiring land, a building, or other property, nor does it confirm whether any purchase has been agreed to. Residents interested in learning more will need to review the meeting minutes once they are published or attend future council meetings where this topic may be discussed further.",
+      "timeline": [
+        {
+          "date": "2026-10-06",
+          "dateLabel": "Oct 6, 2026",
+          "meeting": "City Council",
+          "event": "Purchase consideration on the agenda",
+          "detail": "The October 6 City Council agenda includes an item titled 'Pine Castle ES Site - Purchase Consideration' under New Business. No backup materials or additional details were published with the agenda packet.",
+          "remarks": [],
+          "links": [
+            {
+              "label": "Oct 6 agenda packet →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-1f92f9b8ebbf44fa835941fcf3e7b98e.pdf"
             }
           ]
         }
