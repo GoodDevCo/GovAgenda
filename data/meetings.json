@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-10-07"
+    "lastSynced": "2026-10-08"
   },
   "meetings": [
     {
@@ -2303,6 +2303,27 @@
       "videoUrl": null,
       "topicIds": [],
       "note": "Expected from the regular schedule (1st & 3rd Tuesday, 6:30 PM). Not yet posted on the city’s calendar — confirm before attending.",
+      "calendarUrl": "https://www.belleislefl.gov/meetings"
+    },
+    {
+      "id": "2027-04-08-code-enforcement-expected",
+      "date": "2027-04-08",
+      "dateLabel": "April 8, 2027",
+      "time": "12:00",
+      "timeConfirmed": false,
+      "body": "Code Enforcement",
+      "kind": "Hearing",
+      "title": "Code Enforcement Hearing",
+      "status": "scheduled",
+      "confirmed": false,
+      "source": "projected",
+      "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
+      "agendaUrl": null,
+      "packetUrl": null,
+      "minutesUrl": null,
+      "videoUrl": null,
+      "topicIds": [],
+      "note": "Expected from the regular schedule (2nd Thursday, 12:00 PM). Not yet posted on the city’s calendar — confirm before attending.",
       "calendarUrl": "https://www.belleislefl.gov/meetings"
     }
   ]
