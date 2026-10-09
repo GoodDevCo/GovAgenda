@@ -2,7 +2,7 @@
   "meta": {
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 1,
-    "lastUpdated": "2026-10-07",
+    "lastUpdated": "2026-10-09",
     "calendarUrl": "https://www.belleislefl.gov/meetings",
     "clerk": {
       "email": "cityclerk@belleislefl.gov",
@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-10-08"
+    "lastSynced": "2026-10-09"
   },
   "meetings": [
     {
@@ -1406,7 +1406,7 @@
       "body": "Code Enforcement",
       "kind": "Hearing",
       "title": "Code Enforcement Hearing",
-      "status": "held",
+      "status": "canceled",
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
@@ -1599,7 +1599,7 @@
       "body": "Code Enforcement",
       "kind": "Hearing",
       "title": "Code Enforcement Hearing",
-      "status": "scheduled",
+      "status": "held",
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
