@@ -3,9 +3,9 @@
     "title": "Belle Isle Local Government — Topic Archive",
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 2,
-    "lastUpdated": "2026-10-11",
+    "lastUpdated": "2026-10-12",
     "note": "Topic-centric historical record. Each topic is a thread with a chronological timeline of meeting events and recorded commissioner remarks. The Monday refresh appends new timeline entries to existing topics (matching by id) and creates new topics as they arise; it also appends a weekly-summary entry to 'weeks'. Prior entries are never edited. Commissioner remarks are summarized/quoted from official meeting minutes; verify against the linked source before relying on exact wording.",
-    "lastChecked": "2026-10-11"
+    "lastChecked": "2026-10-12"
   },
   "topics": [
     {
@@ -614,6 +614,25 @@
         },
         {
           "label": "City meeting calendar →",
+          "url": "https://www.belleislefl.gov/meetings"
+        }
+      ]
+    },
+    {
+      "weekOf": "2026-10-06",
+      "label": "Week of Oct 6–12, 2026",
+      "compiled": "2026-10-12",
+      "intro": "The October 6 City Council meeting took place with agenda and packet posted, but minutes have not yet been published. The Budget Committee meets later today.",
+      "highlights": [],
+      "notices": [
+        "October 6 City Council meeting minutes not yet available.",
+        "Budget Committee meeting scheduled for today, October 12 at 3:00 PM.",
+        "October 20 City Council meeting upcoming.",
+        "Boo-gie on the Bridge community event scheduled for October 28 at 5:00 PM."
+      ],
+      "links": [
+        {
+          "label": "City meetings calendar →",
           "url": "https://www.belleislefl.gov/meetings"
         }
       ]
