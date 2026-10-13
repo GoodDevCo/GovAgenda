@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-10-12"
+    "lastSynced": "2026-10-13"
   },
   "meetings": [
     {
@@ -1620,7 +1620,7 @@
       "body": "Budget Committee",
       "kind": "Regular",
       "title": "Budget Committee Meeting",
-      "status": "scheduled",
+      "status": "held",
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
