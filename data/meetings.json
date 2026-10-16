@@ -2,7 +2,7 @@
   "meta": {
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 1,
-    "lastUpdated": "2026-10-11",
+    "lastUpdated": "2026-10-16",
     "calendarUrl": "https://www.belleislefl.gov/meetings",
     "clerk": {
       "email": "cityclerk@belleislefl.gov",
@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-10-13"
+    "lastSynced": "2026-10-16"
   },
   "meetings": [
     {
@@ -1585,6 +1585,9 @@
       "minutesUrl": null,
       "videoUrl": null,
       "topicIds": [
+        "ord-26-03-lot-splits",
+        "ord-26-04-artificial-turf",
+        "ord-26-05-fire-assessment",
         "pine-castle-es-site"
       ],
       "note": "",
@@ -1641,7 +1644,7 @@
       "body": "Tree Advisory Board",
       "kind": "Regular",
       "title": "Tree Advisory Board Meeting",
-      "status": "scheduled",
+      "status": "held",
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
@@ -1905,6 +1908,27 @@
       "note": "",
       "calendarUrl": "https://www.belleislefl.gov/meetings",
       "dateLabel": "December 1, 2026"
+    },
+    {
+      "id": "2026-12-02-city-notices-event",
+      "date": "2026-12-02",
+      "time": "17:00",
+      "timeConfirmed": true,
+      "body": "City Notices",
+      "kind": "Event",
+      "title": "Light the Way",
+      "status": "scheduled",
+      "confirmed": true,
+      "source": "official-calendar",
+      "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
+      "agendaUrl": null,
+      "packetUrl": null,
+      "minutesUrl": null,
+      "videoUrl": null,
+      "topicIds": [],
+      "note": "",
+      "calendarUrl": "https://www.belleislefl.gov/meetings",
+      "dateLabel": "December 2, 2026"
     },
     {
       "id": "2026-12-10-code-enforcement",

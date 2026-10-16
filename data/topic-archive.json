@@ -3,9 +3,9 @@
     "title": "Belle Isle Local Government — Topic Archive",
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 2,
-    "lastUpdated": "2026-10-12",
+    "lastUpdated": "2026-10-16",
     "note": "Topic-centric historical record. Each topic is a thread with a chronological timeline of meeting events and recorded commissioner remarks. The Monday refresh appends new timeline entries to existing topics (matching by id) and creates new topics as they arise; it also appends a weekly-summary entry to 'weeks'. Prior entries are never edited. Commissioner remarks are summarized/quoted from official meeting minutes; verify against the linked source before relying on exact wording.",
-    "lastChecked": "2026-10-15"
+    "lastChecked": "2026-10-16"
   },
   "topics": [
     {
@@ -145,12 +145,12 @@
       "docType": "Ordinance",
       "docNum": "26-03",
       "category": "Land Use / Zoning",
-      "status": "Pending 2nd reading",
-      "statusClass": "s-amber",
+      "status": "Adopted",
+      "statusClass": "s-teal",
       "pinned": false,
-      "updated": "2026-07-07",
+      "updated": "2026-10-06",
       "summary": "Amends Ch. 50 & 54 to define flag-shaped lots, restrict lot splits involving non-conforming uses, and require deed restrictions when flag-shaped lots are created.",
-      "whatThisMeans": "This ordinance would change how properties in Belle Isle can be subdivided — it defines 'flag-shaped' lots (a narrow driveway leading back to a lot behind another property), restricts splitting lots that already have non-conforming uses, and would require deed restrictions when a flag lot is created. It passed a first reading on July 7 and was continued to August 4 for further consideration. Belle Isle ordinances need two readings to become law, so this is not yet in effect and the August 4 outcome is still pending.",
+      "whatThisMeans": "The city has adopted new rules governing how land can be subdivided and how 'flag lots' (lots accessed by a narrow strip of land) are handled. The ordinance was developed by city staff and the attorney in response to issues that have arisen with lot splits. It amends the administrative review process while preserving the City Council's ability to vote on major subdivision applications and impose conditions when waivers are required. The ordinance is now law.",
       "timeline": [
         {
           "date": "2026-07-07",
@@ -178,6 +178,20 @@
           "detail": "Scheduled to return August 4 for continued consideration / possible second reading.",
           "remarks": [],
           "links": []
+        },
+        {
+          "date": "2026-10-06",
+          "dateLabel": "Oct 6, 2026",
+          "meeting": "City Council",
+          "event": "Second reading and adoption",
+          "detail": "Council adopted Ordinance 26-03 on second reading, amending subdivisions, lot splits, and flag lot provisions in the city code.",
+          "remarks": [],
+          "links": [
+            {
+              "label": "Oct 6 agenda packet →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-1f92f9b8ebbf44fa835941fcf3e7b98e.pdf"
+            }
+          ]
         }
       ]
     },
@@ -187,12 +201,12 @@
       "docType": "Ordinance",
       "docNum": "26-05",
       "category": "Public Safety",
-      "status": "First reading",
-      "statusClass": "s-amber",
+      "status": "Adopted",
+      "statusClass": "s-teal",
       "pinned": false,
-      "updated": "2026-07-21",
+      "updated": "2026-10-06",
       "summary": "Would establish the authority and procedures for a special assessment to fund fire-rescue service.",
-      "whatThisMeans": "This ordinance would give the city legal authority and a process to charge property owners a special assessment specifically to help fund fire-rescue service — separate from the regular property tax. It had its first reading on July 21. It is not yet law; a second reading and vote are still needed, and no specific dollar amount or fee structure has been confirmed in the record yet.",
+      "whatThisMeans": "The council has adopted an ordinance that creates the legal framework for the city to impose a fire-rescue special assessment in the future. This ordinance does not actually impose or collect any assessment — it simply authorizes the city to do so. If the city decides to implement a fire-rescue assessment, that would require separate action by the council, including a determination of the assessment amount and another public process. Special assessments are charges that appear on property tax bills but are tied to a specific service, in this case fire and rescue services.",
       "timeline": [
         {
           "date": "2026-07-21",
@@ -205,6 +219,20 @@
             {
               "label": "Jul 21 agenda →",
               "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Agenda-bbe2b928258446cf8db312222e9c76e7.pdf#page=2"
+            }
+          ]
+        },
+        {
+          "date": "2026-10-06",
+          "dateLabel": "Oct 6, 2026",
+          "meeting": "City Council",
+          "event": "Second reading and adoption",
+          "detail": "Council adopted Ordinance 26-05 on second reading, establishing the framework to authorize future annual fire-rescue special assessments.",
+          "remarks": [],
+          "links": [
+            {
+              "label": "Oct 6 agenda packet →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-1f92f9b8ebbf44fa835941fcf3e7b98e.pdf"
             }
           ]
         }
@@ -504,6 +532,35 @@
             },
             {
               "label": "Oct 6 packet (PDF) →",
+              "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-1f92f9b8ebbf44fa835941fcf3e7b98e.pdf"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "ord-26-04-artificial-turf",
+      "title": "Artificial Turf Regulations — PFAS Standards",
+      "docType": "Ordinance",
+      "docNum": "26-04",
+      "category": "Governance",
+      "status": "Pending 2nd reading",
+      "statusClass": "s-amber",
+      "pinned": false,
+      "updated": "2026-10-09",
+      "summary": "First reading of an ordinance to align Belle Isle's artificial turf code with new state law and FDEP rules. The draft adds a 50 ppm PFAS threshold to define 'intentionally added' PFAS in turf products where state rules are silent. Second reading scheduled for August 20.",
+      "whatThisMeans": "The city is updating its rules for artificial turf installations on residential and commercial properties to comply with new Florida state law. State law now limits what cities can regulate about artificial turf, but leaves open how to define when harmful PFAS chemicals (often called 'forever chemicals') have been intentionally added to turf products. The proposed ordinance sets a 50-parts-per-million threshold — turf products with PFAS above that level would be considered to have PFAS intentionally added. This is a first reading only; the ordinance has not been adopted and will return to council on August 20 for a second vote. Until then, the city's current artificial turf rules remain in place.",
+      "timeline": [
+        {
+          "date": "2026-10-06",
+          "dateLabel": "Oct 6, 2026",
+          "meeting": "City Council",
+          "event": "First reading held",
+          "detail": "Council held first reading of Ordinance 26-04 to update artificial turf regulations in response to state preemption and to add a 50 ppm PFAS threshold defining 'intentionally added' PFAS where state rules are silent. The ordinance is scheduled for second reading on August 20.",
+          "remarks": [],
+          "links": [
+            {
+              "label": "Oct 6 agenda packet →",
               "url": "https://mccmeetings.blob.core.usgovcloudapi.net/bifl-pubu/MEET-Packet-1f92f9b8ebbf44fa835941fcf3e7b98e.pdf"
             }
           ]
