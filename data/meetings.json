@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-10-20"
+    "lastSynced": "2026-10-21"
   },
   "meetings": [
     {
@@ -1665,7 +1665,7 @@
       "body": "City Council",
       "kind": "Regular",
       "title": "City Council Meeting",
-      "status": "scheduled",
+      "status": "held",
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
