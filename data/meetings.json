@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-10-21"
+    "lastSynced": "2026-10-22"
   },
   "meetings": [
     {
@@ -1686,7 +1686,7 @@
       "body": "Special Events Committee",
       "kind": "Regular",
       "title": "Special Events Committee Meeting",
-      "status": "scheduled",
+      "status": "held",
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
