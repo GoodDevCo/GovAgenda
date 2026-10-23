@@ -2,7 +2,7 @@
   "meta": {
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 1,
-    "lastUpdated": "2026-10-16",
+    "lastUpdated": "2026-10-23",
     "calendarUrl": "https://www.belleislefl.gov/meetings",
     "clerk": {
       "email": "cityclerk@belleislefl.gov",
@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-10-22"
+    "lastSynced": "2026-10-23"
   },
   "meetings": [
     {
@@ -1992,6 +1992,27 @@
       "note": "",
       "calendarUrl": "https://www.belleislefl.gov/meetings",
       "dateLabel": "December 15, 2026"
+    },
+    {
+      "id": "2026-12-17-tree-advisory",
+      "date": "2026-12-17",
+      "time": "18:30",
+      "timeConfirmed": true,
+      "body": "Tree Advisory Board",
+      "kind": "Regular",
+      "title": "Tree Advisory Board Meeting",
+      "status": "scheduled",
+      "confirmed": true,
+      "source": "official-calendar",
+      "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
+      "agendaUrl": null,
+      "packetUrl": null,
+      "minutesUrl": null,
+      "videoUrl": null,
+      "topicIds": [],
+      "note": "",
+      "calendarUrl": "https://www.belleislefl.gov/meetings",
+      "dateLabel": "December 17, 2026"
     },
     {
       "id": "2026-12-22-planning-zoning-expected",
