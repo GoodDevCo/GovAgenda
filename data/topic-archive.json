@@ -3,9 +3,9 @@
     "title": "Belle Isle Local Government — Topic Archive",
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 2,
-    "lastUpdated": "2026-10-19",
+    "lastUpdated": "2026-10-26",
     "note": "Topic-centric historical record. Each topic is a thread with a chronological timeline of meeting events and recorded commissioner remarks. The Monday refresh appends new timeline entries to existing topics (matching by id) and creates new topics as they arise; it also appends a weekly-summary entry to 'weeks'. Prior entries are never edited. Commissioner remarks are summarized/quoted from official meeting minutes; verify against the linked source before relying on exact wording.",
-    "lastChecked": "2026-10-25"
+    "lastChecked": "2026-10-26"
   },
   "topics": [
     {
@@ -705,6 +705,25 @@
         "Special Events Committee meeting: Wednesday, October 21, 2026 at 6:00 PM",
         "Planning & Zoning Board meeting: Monday, October 27, 2026 at 6:30 PM",
         "Community event: Boo-gie on the Bridge, Tuesday, October 28, 2026 at 5:00 PM"
+      ],
+      "links": [
+        {
+          "label": "City meetings calendar →",
+          "url": "https://www.belleislefl.gov/meetings"
+        }
+      ]
+    },
+    {
+      "weekOf": "2026-10-19",
+      "label": "Week of Oct 19–25, 2026",
+      "compiled": "2026-10-26",
+      "intro": "No new official documents were published by the City of Belle Isle this week. The October 20 City Council meeting was held but agenda and minutes have not yet been posted.",
+      "highlights": [],
+      "notices": [
+        "The City Council met on October 20, but no agenda or minutes have been posted yet.",
+        "Planning & Zoning Board meets October 27 at 6:30 PM.",
+        "Boo-gie on the Bridge community event is October 28 at 5:00 PM.",
+        "Minutes from the September 23 final budget hearing and the October 6 City Council meeting have not been published yet."
       ],
       "links": [
         {
