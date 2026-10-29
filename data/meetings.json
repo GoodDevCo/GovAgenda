@@ -2,7 +2,7 @@
   "meta": {
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 1,
-    "lastUpdated": "2026-10-23",
+    "lastUpdated": "2026-10-29",
     "calendarUrl": "https://www.belleislefl.gov/meetings",
     "clerk": {
       "email": "cityclerk@belleislefl.gov",
@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-10-28"
+    "lastSynced": "2026-10-29"
   },
   "meetings": [
     {
@@ -1728,7 +1728,7 @@
       "body": "City Notices",
       "kind": "Event",
       "title": "Boo-gie on the Bridge!",
-      "status": "scheduled",
+      "status": "held",
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
@@ -1740,6 +1740,27 @@
       "note": "",
       "calendarUrl": "https://www.belleislefl.gov/meetings",
       "dateLabel": "October 28, 2026"
+    },
+    {
+      "id": "2026-11-03-city-notices-event",
+      "date": "2026-11-03",
+      "time": "00:00",
+      "timeConfirmed": true,
+      "body": "City Notices",
+      "kind": "Event",
+      "title": "General Election - Voting Day",
+      "status": "scheduled",
+      "confirmed": true,
+      "source": "official-calendar",
+      "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
+      "agendaUrl": null,
+      "packetUrl": null,
+      "minutesUrl": null,
+      "videoUrl": null,
+      "topicIds": [],
+      "note": "",
+      "calendarUrl": "https://www.belleislefl.gov/meetings",
+      "dateLabel": "November 3, 2026"
     },
     {
       "id": "2026-11-03-city-council",
@@ -1761,6 +1782,27 @@
       "note": "",
       "calendarUrl": "https://www.belleislefl.gov/meetings",
       "dateLabel": "November 3, 2026"
+    },
+    {
+      "id": "2026-11-05-city-council",
+      "date": "2026-11-05",
+      "time": "18:30",
+      "timeConfirmed": true,
+      "body": "City Council",
+      "kind": "Regular",
+      "title": "City Council Meeting",
+      "status": "scheduled",
+      "confirmed": true,
+      "source": "official-calendar",
+      "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
+      "agendaUrl": null,
+      "packetUrl": null,
+      "minutesUrl": null,
+      "videoUrl": null,
+      "topicIds": [],
+      "note": "Rescheduled from November 3, 2026",
+      "calendarUrl": "https://www.belleislefl.gov/meetings",
+      "dateLabel": "November 5, 2026"
     },
     {
       "id": "2026-11-09-budget-committee",
