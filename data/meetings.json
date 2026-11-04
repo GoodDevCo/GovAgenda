@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-10-31"
+    "lastSynced": "2026-11-04"
   },
   "meetings": [
     {
@@ -1791,7 +1791,7 @@
       "body": "City Notices",
       "kind": "Event",
       "title": "General Election - Voting Day",
-      "status": "scheduled",
+      "status": "held",
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
@@ -2537,6 +2537,27 @@
       "videoUrl": null,
       "topicIds": [],
       "note": "Expected from the regular schedule (4th Tuesday, 6:30 PM). Not yet posted on the city’s calendar — confirm before attending.",
+      "calendarUrl": "https://www.belleislefl.gov/meetings"
+    },
+    {
+      "id": "2027-05-04-city-council-expected",
+      "date": "2027-05-04",
+      "dateLabel": "May 4, 2027",
+      "time": "18:30",
+      "timeConfirmed": false,
+      "body": "City Council",
+      "kind": "Regular",
+      "title": "City Council Meeting",
+      "status": "scheduled",
+      "confirmed": false,
+      "source": "projected",
+      "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
+      "agendaUrl": null,
+      "packetUrl": null,
+      "minutesUrl": null,
+      "videoUrl": null,
+      "topicIds": [],
+      "note": "Expected from the regular schedule (1st & 3rd Tuesday, 6:30 PM). Not yet posted on the city’s calendar — confirm before attending.",
       "calendarUrl": "https://www.belleislefl.gov/meetings"
     }
   ]
