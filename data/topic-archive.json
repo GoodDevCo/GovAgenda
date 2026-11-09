@@ -3,9 +3,9 @@
     "title": "Belle Isle Local Government — Topic Archive",
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 2,
-    "lastUpdated": "2026-11-02",
+    "lastUpdated": "2026-11-09",
     "note": "Topic-centric historical record. Each topic is a thread with a chronological timeline of meeting events and recorded commissioner remarks. The Monday refresh appends new timeline entries to existing topics (matching by id) and creates new topics as they arise; it also appends a weekly-summary entry to 'weeks'. Prior entries are never edited. Commissioner remarks are summarized/quoted from official meeting minutes; verify against the linked source before relying on exact wording.",
-    "lastChecked": "2026-11-08"
+    "lastChecked": "2026-11-09"
   },
   "topics": [
     {
@@ -744,6 +744,24 @@
         "City Council meets November 17 at 6:30 p.m."
       ],
       "links": []
+    },
+    {
+      "weekOf": "2026-11-02",
+      "label": "Week of Nov 2–8, 2026",
+      "compiled": "2026-11-09",
+      "intro": "A quiet week in Belle Isle city government with no new agendas, minutes, or documents published.",
+      "highlights": [],
+      "notices": [
+        "City Council meeting scheduled for November 17, 2026 at 6:30 p.m.",
+        "Budget Committee meeting scheduled for today, November 9, 2026 at 3:00 p.m.",
+        "Qualifying period for District 5 and District 6 city council seats: November 9–10, 2026"
+      ],
+      "links": [
+        {
+          "label": "City meetings calendar →",
+          "url": "https://www.belleislefl.gov/meetings"
+        }
+      ]
     }
   ]
 }
