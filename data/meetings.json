@@ -2,7 +2,7 @@
   "meta": {
     "jurisdiction": "City of Belle Isle, FL",
     "schemaVersion": 1,
-    "lastUpdated": "2026-11-12",
+    "lastUpdated": "2026-11-13",
     "calendarUrl": "https://www.belleislefl.gov/meetings",
     "clerk": {
       "email": "cityclerk@belleislefl.gov",
@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-11-11"
+    "lastSynced": "2026-11-13"
   },
   "meetings": [
     {
@@ -2015,6 +2015,48 @@
       "dateLabel": "November 24, 2026"
     },
     {
+      "id": "2026-11-26-city-notices-closure",
+      "date": "2026-11-26",
+      "time": null,
+      "timeConfirmed": false,
+      "body": "City Notices",
+      "kind": "Closure",
+      "title": "City Hall Closed",
+      "status": "scheduled",
+      "confirmed": true,
+      "source": "official-calendar",
+      "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
+      "agendaUrl": null,
+      "packetUrl": null,
+      "minutesUrl": null,
+      "videoUrl": null,
+      "topicIds": [],
+      "note": "",
+      "calendarUrl": "https://www.belleislefl.gov/meetings",
+      "dateLabel": "November 26, 2026"
+    },
+    {
+      "id": "2026-11-27-city-notices-closure",
+      "date": "2026-11-27",
+      "time": null,
+      "timeConfirmed": false,
+      "body": "City Notices",
+      "kind": "Closure",
+      "title": "City Hall Closed",
+      "status": "scheduled",
+      "confirmed": true,
+      "source": "official-calendar",
+      "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
+      "agendaUrl": null,
+      "packetUrl": null,
+      "minutesUrl": null,
+      "videoUrl": null,
+      "topicIds": [],
+      "note": "",
+      "calendarUrl": "https://www.belleislefl.gov/meetings",
+      "dateLabel": "November 27, 2026"
+    },
+    {
       "id": "2026-12-01-city-council",
       "date": "2026-12-01",
       "time": "18:30",
@@ -2621,6 +2663,27 @@
       "videoUrl": null,
       "topicIds": [],
       "note": "Expected from the regular schedule (2nd Monday, 3:00 PM). Not yet posted on the city’s calendar — confirm before attending.",
+      "calendarUrl": "https://www.belleislefl.gov/meetings"
+    },
+    {
+      "id": "2027-05-13-code-enforcement-expected",
+      "date": "2027-05-13",
+      "dateLabel": "May 13, 2027",
+      "time": "12:00",
+      "timeConfirmed": false,
+      "body": "Code Enforcement",
+      "kind": "Hearing",
+      "title": "Code Enforcement Hearing",
+      "status": "scheduled",
+      "confirmed": false,
+      "source": "projected",
+      "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
+      "agendaUrl": null,
+      "packetUrl": null,
+      "minutesUrl": null,
+      "videoUrl": null,
+      "topicIds": [],
+      "note": "Expected from the regular schedule (2nd Thursday, 12:00 PM). Not yet posted on the city’s calendar — confirm before attending.",
       "calendarUrl": "https://www.belleislefl.gov/meetings"
     }
   ]
