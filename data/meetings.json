@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-11-13"
+    "lastSynced": "2026-11-24"
   },
   "meetings": [
     {
@@ -1917,7 +1917,7 @@
       "body": "City Council",
       "kind": "Regular",
       "title": "City Council Meeting",
-      "status": "scheduled",
+      "status": "held",
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
@@ -1938,7 +1938,7 @@
       "body": "Special Events Committee",
       "kind": "Regular",
       "title": "Special Events Committee Meeting",
-      "status": "scheduled",
+      "status": "held",
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
@@ -1959,7 +1959,7 @@
       "body": "Planning & Zoning Board",
       "kind": "Regular",
       "title": "Planning & Zoning Board Meeting",
-      "status": "scheduled",
+      "status": "held",
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
@@ -1980,7 +1980,7 @@
       "body": "Tree Advisory Board",
       "kind": "Regular",
       "title": "Tree Advisory Board Meeting",
-      "status": "scheduled",
+      "status": "held",
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
@@ -2684,6 +2684,27 @@
       "videoUrl": null,
       "topicIds": [],
       "note": "Expected from the regular schedule (2nd Thursday, 12:00 PM). Not yet posted on the city’s calendar — confirm before attending.",
+      "calendarUrl": "https://www.belleislefl.gov/meetings"
+    },
+    {
+      "id": "2027-05-18-city-council-expected",
+      "date": "2027-05-18",
+      "dateLabel": "May 18, 2027",
+      "time": "18:30",
+      "timeConfirmed": false,
+      "body": "City Council",
+      "kind": "Regular",
+      "title": "City Council Meeting",
+      "status": "scheduled",
+      "confirmed": false,
+      "source": "projected",
+      "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
+      "agendaUrl": null,
+      "packetUrl": null,
+      "minutesUrl": null,
+      "videoUrl": null,
+      "topicIds": [],
+      "note": "Expected from the regular schedule (1st & 3rd Tuesday, 6:30 PM). Not yet posted on the city’s calendar — confirm before attending.",
       "calendarUrl": "https://www.belleislefl.gov/meetings"
     }
   ]
