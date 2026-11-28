@@ -108,7 +108,7 @@
       }
     ],
     "defaultLocation": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
-    "lastSynced": "2026-11-27"
+    "lastSynced": "2026-11-28"
   },
   "meetings": [
     {
@@ -2044,7 +2044,7 @@
       "body": "City Notices",
       "kind": "Closure",
       "title": "City Hall Closed",
-      "status": "scheduled",
+      "status": "held",
       "confirmed": true,
       "source": "official-calendar",
       "location": "Belle Isle City Hall Chambers, 1600 Nela Ave, Belle Isle, FL 32809",
